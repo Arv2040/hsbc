@@ -1,6 +1,7 @@
 import openai
 import os
 
+# we can add a brief overview of what each agent does for this particular agent.
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
