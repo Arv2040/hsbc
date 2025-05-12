@@ -1,10 +1,10 @@
 import openai
 import os
-import time
+
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def summarize_action_for_audit(agent_name: str, input_text: str, output_text: str, user_email: str) -> str:
+def summarize_action_for_audit(agent_name: str, input_text: str, output_text):
     prompt = f"""
 You are an audit assistant.
 Summarize the action taken by the '{agent_name}' agent below.
@@ -21,8 +21,6 @@ Input:
 
 Output:
 \"\"\"{output_text}\"\"\"
-
-User: {user_email}
 """
 
     response = openai.ChatCompletion.create(
