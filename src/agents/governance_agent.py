@@ -1,9 +1,10 @@
 import openai
 import os
-
+from dotenv import load_dotenv
+load_dotenv()
 # we can add a brief overview of what each agent does for this particular agent.
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY_LOCAL"))
 
 def summarize_action_for_audit(agent_name: str, input_text: str, output_text):
     prompt = f"""
@@ -24,10 +25,10 @@ Output:
 \"\"\"{output_text}\"\"\"
 """
 
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.3
+        temperature=0.2
     )
 
     return response['choices'][0]['message']['content']
