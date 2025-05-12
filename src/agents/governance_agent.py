@@ -6,11 +6,15 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY_LOCAL"))
+client = openai.AzureOpenAI(
+    api_key=os.getenv("OPENAI_API_KEY_LOCAL"),
+    api_version=os.getenv("OPENAI_API_VERSION_LOCAL"),
+    azure_endpoint=os.getenv("OPENAI_API_BASE_LOCAL")
+)
 
 AUDIT_LOG_FILE = "agent_audit_logs.json"
 
-def summarize_action_for_audit(agent_name: str, input_text: str, output_text: str):
+def gov_agent(agent_name: str, input_text: str, output_text: str):
    
     prompt = f"""
 You are an audit assistant.
@@ -31,7 +35,7 @@ Output:
 """
     
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2
     )

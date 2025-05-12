@@ -2,7 +2,11 @@ import openai
 import os
 from dotenv import load_dotenv
 load_dotenv()
-client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY_LOCAL"))
+client = openai.AzureOpenAI(
+    api_key=os.getenv("OPENAI_API_KEY_LOCAL"),
+    api_version=os.getenv("OPENAI_API_VERSION_LOCAL"),
+    azure_endpoint=os.getenv("OPENAI_API_BASE_LOCAL")
+)
 
 def check_requirement_compliance(requirement_text):
     prompt = f"""
@@ -21,9 +25,10 @@ Respond in this format:
 """
 
     response = client.chat.completions.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.2
     )
 
     return response.choices[0].message.content
+
