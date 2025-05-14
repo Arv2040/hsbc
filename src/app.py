@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, HTTPException
 from preprocessing import preprocess_text
 from typing import Dict
 from fastapi.responses import JSONResponse
@@ -9,6 +9,8 @@ import os
 import json
 from dotenv import load_dotenv
 from validation_agent import log_feedback, summarize_feedback, Feedback
+from summarization_agent import summarize_content
+from requirement_generation_agent import generate_requirements
 
 app = FastAPI()
 
@@ -20,6 +22,30 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class ContentInput(BaseModel):
+    document_id: str
+    reviewer: str
+    content: str
+    approved: bool
+
+# Endpoint 1: Summarization Agent
+@app.post("/summarize-content")
+async def summarize_endpoint(input_data: ContentInput):
+    try:
+        summary = summarize_content(input_data.content)
+        return {"summary": summary}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Endpoint 2: Requirement Generation Agent
+@app.get("/generate-requirements")
+async def requirement_endpoint():
+    try:
+        requirements = generate_requirements()
+        return {"requirements": requirements}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/preprocess/")
 async def preprocess_file(file: UploadFile = File(...)) -> Dict:
