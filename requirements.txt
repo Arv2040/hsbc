@@ -1,3 +1,6 @@
 PyPDF2
 openai
 dotenv
+python-dotenv
+azure-identity
+fastapi
