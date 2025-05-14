@@ -1,5 +1,5 @@
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from preprocessing import preprocess_text
+from fastapi import FastAPI, UploadFile, File, HTTPException,Request
+from agents.preprocessing import preprocess_text
 from typing import Dict
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,9 +8,12 @@ from typing import Optional
 import os
 import json
 from dotenv import load_dotenv
-from validation_agent import log_feedback, summarize_feedback, Feedback
-from summarization_agent import summarize_content
-from requirement_generation_agent import generate_requirements
+from agents.validation_agent import log_feedback, summarize_feedback, Feedback
+from agents.summarization_agent import summarize_content
+from agents.requirement_generation_agent import generate_requirements
+from agents.compliance_agent import check_requirement_compliance
+from agents.governance_agent import gov_agent
+
 
 app = FastAPI()
 
@@ -81,5 +84,30 @@ async def ai_summarize_feedback(feedback: Feedback):
     try:
         summary = summarize_feedback(feedback)
         return JSONResponse(content={"summary": summary})
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+    
+
+    
+
+@app.post("/check-compliance")
+async def check_compliance_api(request: Request):
+    try:
+        data = await request.json()
+        requirement_text = data.get("requirement_text", "")
+        result = check_requirement_compliance(requirement_text)
+        return JSONResponse(content={"result": result})
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@app.post("/governance-audit")
+async def governance_audit_api(request: Request):
+    try:
+        data = await request.json()
+        agent_name = data.get("agent_name", "")
+        input_text = data.get("input_text", "")
+        output_text = data.get("output_text", "")
+        result = gov_agent(agent_name, input_text, output_text)
+        return JSONResponse(content={"result": result})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
