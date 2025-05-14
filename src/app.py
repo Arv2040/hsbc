@@ -13,7 +13,16 @@ from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
 from agents.compliance_agent import check_requirement_compliance
 from agents.governance_agent import gov_agent
-
+#--------- after dependencies ------
+# from ingestion import fetch_emails, transcribe_audio, parse_pdf, ocr_image, extract_metadata
+# from integration import (
+#     create_jira_ticket,
+#     push_to_sharepoint,
+#     notify_slack,
+#     generate_summary_from_openai
+# )
+# from pydantic import BaseModel
+# import logging
 
 app = FastAPI()
 
@@ -25,7 +34,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# --------------------- Reuires Azure dependencies -----------------------
+
+class ContentInput(BaseModel):
+    document_id: str
+    reviewer: str
+    content: str
+    approved: bool
+    
+# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
+
+# class IntegrationPayload(BaseModel):
+#     title: str
+#     description: str
+#     summary: str
+# -------------------------- requires Azure speech ------------------------
+
 # @app.get("/emails")
 # async def get_emails():
 #     try:
@@ -69,14 +92,7 @@ app.add_middleware(
 #         return {"text": text, "metadata": extract_metadata("image")}
 #     except Exception as e:
 #         return JSONResponse(content={"error": str(e)}, status_code=500)
-# ------------------------------------------------------------------------------------------------------
-
-# --------------------------------Requires Several external APIS like Jira, Sharepoint , Slack -------------------------------
-# class IntegrationPayload(BaseModel):
-#     title: str
-#     description: str
-#     summary: str
-
+#---------------------------------------- requires api keys -----------------------------------------
 # @app.post("/sync/jira")
 # async def sync_jira(payload: IntegrationPayload):
 #     try:
@@ -112,13 +128,6 @@ app.add_middleware(
 #     except Exception as e:
 #         logging.error(f"OpenAI summary generation failed: {e}")
 #         raise HTTPException(status_code=500, detail=str(e))
-
-
-class ContentInput(BaseModel):
-    document_id: str
-    reviewer: str
-    content: str
-    approved: bool
 
 # Endpoint 1: Summarization Agent
 @app.post("/summarize-content")
