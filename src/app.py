@@ -13,7 +13,16 @@ from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
 from agents.compliance_agent import check_requirement_compliance
 from agents.governance_agent import gov_agent
-
+#--------- after dependencies ------
+# from ingestion import fetch_emails, transcribe_audio, parse_pdf, ocr_image, extract_metadata
+# from integration import (
+#     create_jira_ticket,
+#     push_to_sharepoint,
+#     notify_slack,
+#     generate_summary_from_openai
+# )
+# from pydantic import BaseModel
+# import logging
 
 app = FastAPI()
 
@@ -31,6 +40,94 @@ class ContentInput(BaseModel):
     reviewer: str
     content: str
     approved: bool
+    
+# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
+
+# class IntegrationPayload(BaseModel):
+#     title: str
+#     description: str
+#     summary: str
+# -------------------------- requires Azure speech ------------------------
+
+# @app.get("/emails")
+# async def get_emails():
+#     try:
+#         emails = fetch_emails()
+#         return {"emails": emails}
+#     except Exception as e:
+#         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+# @app.post("/transcribe-audio")
+# async def transcribe(file: UploadFile = File(...)):
+#     try:
+#         with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename[-4:]) as tmp:
+#             shutil.copyfileobj(file.file, tmp)
+#             tmp_path = tmp.name
+#         transcript = transcribe_audio(tmp_path)
+#         os.remove(tmp_path)
+#         return {"transcript": transcript, "metadata": extract_metadata("audio")}
+#     except Exception as e:
+#         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+# @app.post("/parse-pdf")
+# async def parse(file: UploadFile = File(...)):
+#     try:
+#         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+#             shutil.copyfileobj(file.file, tmp)
+#             tmp_path = tmp.name
+#         text = parse_pdf(tmp_path)
+#         os.remove(tmp_path)
+#         return {"text": text, "metadata": extract_metadata("pdf")}
+#     except Exception as e:
+#         return JSONResponse(content={"error": str(e)}, status_code=500)
+
+# @app.post("/ocr-image")
+# async def ocr(file: UploadFile = File(...)):
+#     try:
+#         with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename[-4:]) as tmp:
+#             shutil.copyfileobj(file.file, tmp)
+#             tmp_path = tmp.name
+#         text = ocr_image(tmp_path)
+#         os.remove(tmp_path)
+#         return {"text": text, "metadata": extract_metadata("image")}
+#     except Exception as e:
+#         return JSONResponse(content={"error": str(e)}, status_code=500)
+#---------------------------------------- requires api keys -----------------------------------------
+# @app.post("/sync/jira")
+# async def sync_jira(payload: IntegrationPayload):
+#     try:
+#         response = create_jira_ticket(payload.title, payload.description)
+#         return {"status": "success", "ticket": response}
+#     except Exception as e:
+#         logging.error(f"Jira sync failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+
+# @app.post("/sync/sharepoint")
+# async def sync_sharepoint(payload: IntegrationPayload):
+#     try:
+#         result = push_to_sharepoint(payload.title, payload.description)
+#         return {"status": "success", "result": result}
+#     except Exception as e:
+#         logging.error(f"SharePoint sync failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+
+# @app.post("/notify/slack")
+# async def notify(payload: IntegrationPayload):
+#     try:
+#         result = notify_slack(payload.summary)
+#         return {"status": "notified", "result": result}
+#     except Exception as e:
+#         logging.error(f"Slack notification failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+
+# @app.post("/generate/summary")
+# async def generate_summary(payload: IntegrationPayload):
+#     try:
+#         result = generate_summary_from_openai(payload.description)
+#         return {"summary": result}
+#     except Exception as e:
+#         logging.error(f"OpenAI summary generation failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
 # Endpoint 1: Summarization Agent
 @app.post("/summarize-content")
