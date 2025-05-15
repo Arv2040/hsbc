@@ -2,7 +2,7 @@
 import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from summarization_agent import latest_summary  # Import shared summary
+from agents.summarization_agent import latest_summary  # Import shared summary
 
 load_dotenv()
 

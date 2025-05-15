@@ -91,11 +91,10 @@ async def ai_summarize_feedback(feedback: Feedback):
     
 
 @app.post("/check-compliance")
-async def check_compliance_api(request: Request):
+async def check_compliance_api(feedback:Feedback):
     try:
-        data = await request.json()
-        requirement_text = data.get("requirement_text", "")
-        result = check_requirement_compliance(requirement_text)
+        
+        result = check_requirement_compliance(feedback)
         return JSONResponse(content={"result": result})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)

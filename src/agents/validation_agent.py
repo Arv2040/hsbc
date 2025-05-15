@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 
-load_dotenv(dotenv_path=".env")
+load_dotenv()
 
 # Feedback data model
 class Feedback(BaseModel):
