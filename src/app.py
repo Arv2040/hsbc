@@ -86,9 +86,10 @@ async def requirement_endpoint():
 @app.post("/check-compliance")
 async def check_compliance_api(feedback:Feedback):
     try:
-        d = json.dumps(feedback)
+        
         result = check_requirement_compliance(feedback)
-        gov_agent("compliance",d,result)
+        input_str = json.dumps(feedback.model_dump(), indent=2)
+        gov_agent("compliance",input_str,result)
         return JSONResponse(content={"result": result})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
@@ -123,8 +124,8 @@ async def get_feedback_log():
 async def ai_summarize_feedback(feedback: Feedback):
     try:
         summary = summarize_feedback(feedback)
-        d = json.dumps(feedback)
-        gov_agent("summarize",d,summary)
+        input_str = json.dumps(feedback.model_dump(), indent=2)
+        gov_agent("summarize",input_str,summary)
         return JSONResponse(content={"summary": summary})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
