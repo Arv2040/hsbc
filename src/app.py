@@ -13,6 +13,7 @@ from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
 from agents.compliance_agent import check_requirement_compliance
 from agents.governance_agent import gov_agent
+
 #--------- after dependencies ------
 # from ingestion import fetch_emails, transcribe_audio, parse_pdf, ocr_image, extract_metadata
 # from integration import (
@@ -47,89 +48,21 @@ class ContentInput(BaseModel):
 #     title: str
 #     description: str
 #     summary: str
-# -------------------------- requires Azure speech ------------------------
 
-# @app.get("/emails")
-# async def get_emails():
-#     try:
-#         emails = fetch_emails()
-#         return {"emails": emails}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# @app.post("/transcribe-audio")
-# async def transcribe(file: UploadFile = File(...)):
-#     try:
-#         with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename[-4:]) as tmp:
-#             shutil.copyfileobj(file.file, tmp)
-#             tmp_path = tmp.name
-#         transcript = transcribe_audio(tmp_path)
-#         os.remove(tmp_path)
-#         return {"transcript": transcript, "metadata": extract_metadata("audio")}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
+# Endpoint 1: Ingestion Agent
 
-# @app.post("/parse-pdf")
-# async def parse(file: UploadFile = File(...)):
-#     try:
-#         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-#             shutil.copyfileobj(file.file, tmp)
-#             tmp_path = tmp.name
-#         text = parse_pdf(tmp_path)
-#         os.remove(tmp_path)
-#         return {"text": text, "metadata": extract_metadata("pdf")}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# @app.post("/ocr-image")
-# async def ocr(file: UploadFile = File(...)):
-#     try:
-#         with tempfile.NamedTemporaryFile(delete=False, suffix=file.filename[-4:]) as tmp:
-#             shutil.copyfileobj(file.file, tmp)
-#             tmp_path = tmp.name
-#         text = ocr_image(tmp_path)
-#         os.remove(tmp_path)
-#         return {"text": text, "metadata": extract_metadata("image")}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
-#---------------------------------------- requires api keys -----------------------------------------
-# @app.post("/sync/jira")
-# async def sync_jira(payload: IntegrationPayload):
-#     try:
-#         response = create_jira_ticket(payload.title, payload.description)
-#         return {"status": "success", "ticket": response}
-#     except Exception as e:
-#         logging.error(f"Jira sync failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
 
-# @app.post("/sync/sharepoint")
-# async def sync_sharepoint(payload: IntegrationPayload):
-#     try:
-#         result = push_to_sharepoint(payload.title, payload.description)
-#         return {"status": "success", "result": result}
-#     except Exception as e:
-#         logging.error(f"SharePoint sync failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
+# Endpoint 2: Preprocessing Agent
+@app.post("/preprocess/")
+async def preprocess_file(file: UploadFile = File(...)) -> Dict:
+    text = await file.read()
+    processed_output = preprocess_text(text.decode("utf-8"))
+    gov_agent("preprocess",text,processed_output)
+    return processed_output
 
-# @app.post("/notify/slack")
-# async def notify(payload: IntegrationPayload):
-#     try:
-#         result = notify_slack(payload.summary)
-#         return {"status": "notified", "result": result}
-#     except Exception as e:
-#         logging.error(f"Slack notification failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
-
-# @app.post("/generate/summary")
-# async def generate_summary(payload: IntegrationPayload):
-#     try:
-#         result = generate_summary_from_openai(payload.description)
-#         return {"summary": result}
-#     except Exception as e:
-#         logging.error(f"OpenAI summary generation failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
-
-# Endpoint 1: Summarization Agent
+# Endpoint 3: summarization Agent
 @app.post("/summarize-content")
 async def summarize_endpoint(input_data: ContentInput):
     try:
@@ -139,7 +72,7 @@ async def summarize_endpoint(input_data: ContentInput):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Endpoint 2: Requirement Generation Agent
+# Endpoint 4: Requirement Generation Agent
 @app.get("/generate-requirements")
 async def requirement_endpoint():
     try:
@@ -149,14 +82,18 @@ async def requirement_endpoint():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/preprocess/")
-async def preprocess_file(file: UploadFile = File(...)) -> Dict:
-    text = await file.read()
-    processed_output = preprocess_text(text.decode("utf-8"))
-    gov_agent("preprocess",text,processed_output)
-    return processed_output
+# Endpoint 5: Compliance Mapping Agent
+@app.post("/check-compliance")
+async def check_compliance_api(feedback:Feedback):
+    try:
+        d = json.dumps(feedback)
+        result = check_requirement_compliance(feedback)
+        gov_agent("compliance",d,result)
+        return JSONResponse(content={"result": result})
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# Submit SME feedback
+# Endpoint 6: Validation Agent
 @app.post("/submit-feedback")
 async def submit_feedback(feedback: Feedback):
     try:
@@ -192,17 +129,46 @@ async def ai_summarize_feedback(feedback: Feedback):
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
     
+# Endpoint 7: Integration Agent
 
-    
-
-@app.post("/check-compliance")
-async def check_compliance_api(feedback:Feedback):
+#requires api keys
+'''
+@app.post("/sync/jira")
+async def sync_jira(payload: IntegrationPayload):
     try:
-        d = json.dumps(feedback)
-        result = check_requirement_compliance(feedback)
-        gov_agent("compliance",d,result)
-        return JSONResponse(content={"result": result})
+        response = create_jira_ticket(payload.title, payload.description)
+        return {"status": "success", "ticket": response}
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+        logging.error(f"Jira sync failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/sync/sharepoint")
+async def sync_sharepoint(payload: IntegrationPayload):
+    try:
+        result = push_to_sharepoint(payload.title, payload.description)
+        return {"status": "success", "result": result}
+    except Exception as e:
+        logging.error(f"SharePoint sync failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/notify/slack")
+async def notify(payload: IntegrationPayload):
+    try:
+        result = notify_slack(payload.summary)
+        return {"status": "notified", "result": result}
+    except Exception as e:
+        logging.error(f"Slack notification failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/generate/summary")
+async def generate_summary(payload: IntegrationPayload):
+    try:
+        result = generate_summary_from_openai(payload.description)
+        return {"summary": result}
+    except Exception as e:
+        logging.error(f"OpenAI summary generation failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+'''
+
 
 
