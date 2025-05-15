@@ -134,6 +134,7 @@ class ContentInput(BaseModel):
 async def summarize_endpoint(input_data: ContentInput):
     try:
         summary = summarize_content(input_data.content)
+        gov_agent("summarize",input_data,summary)
         return {"summary": summary}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -143,6 +144,7 @@ async def summarize_endpoint(input_data: ContentInput):
 async def requirement_endpoint():
     try:
         requirements = generate_requirements()
+        gov_agent("requirement","N/A",requirements)
         return {"requirements": requirements}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -151,6 +153,7 @@ async def requirement_endpoint():
 async def preprocess_file(file: UploadFile = File(...)) -> Dict:
     text = await file.read()
     processed_output = preprocess_text(text.decode("utf-8"))
+    gov_agent("preprocess",text,processed_output)
     return processed_output
 
 # Submit SME feedback
@@ -171,8 +174,11 @@ async def get_feedback_log():
     with open(feedback_log_path, "r") as f:
         try:
             data = json.load(f)
+            d = json.dumps(data)
+            gov_agent("feedback","N/A",d)
         except json.JSONDecodeError:
             data = []
+        
     return JSONResponse(content={"log": data})
 
 # Get AI summary of SME feedback
@@ -180,6 +186,8 @@ async def get_feedback_log():
 async def ai_summarize_feedback(feedback: Feedback):
     try:
         summary = summarize_feedback(feedback)
+        d = json.dumps(feedback)
+        gov_agent("summarize",d,summary)
         return JSONResponse(content={"summary": summary})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
@@ -190,20 +198,11 @@ async def ai_summarize_feedback(feedback: Feedback):
 @app.post("/check-compliance")
 async def check_compliance_api(feedback:Feedback):
     try:
-        
+        d = json.dumps(feedback)
         result = check_requirement_compliance(feedback)
+        gov_agent("compliance",d,result)
         return JSONResponse(content={"result": result})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-@app.post("/governance-audit")
-async def governance_audit_api(request: Request):
-    try:
-        data = await request.json()
-        agent_name = data.get("agent_name", "")
-        input_text = data.get("input_text", "")
-        output_text = data.get("output_text", "")
-        result = gov_agent(agent_name, input_text, output_text)
-        return JSONResponse(content={"result": result})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+
