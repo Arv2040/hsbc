@@ -36,11 +36,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class ContentInput(BaseModel):
-    document_id: str
-    reviewer: str
-    content: str
-    approved: bool
     
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -64,9 +59,9 @@ async def preprocess_file(file: UploadFile = File(...)) -> Dict:
 
 # Endpoint 3: summarization Agent
 @app.post("/summarize-content")
-async def summarize_endpoint(input_data: ContentInput):
+async def summarize_endpoint(input_data):
     try:
-        summary = summarize_content(input_data.content)
+        summary = summarize_content(input_data)
         gov_agent("summarize",input_data,summary)
         return {"summary": summary}
     except Exception as e:
