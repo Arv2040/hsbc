@@ -9,6 +9,7 @@ import os
 import json
 import streamlit as st
 from dotenv import load_dotenv
+from agents.ingestion import fetch_emails, parse_pdf, ocr_image, extract_metadata, transcribe_mp3_to_txt
 from agents.validation_agent import log_feedback, summarize_feedback, Feedback
 from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
@@ -60,99 +61,36 @@ uploaded_file = st.file_uploader("Upload a file", type=["txt", "csv", "pdf", "pn
 # )
 
 # Endpoint 1: Ingestion Agent
-# @app.get("/emails")
-# async def get_emails():
-#     try:
-#         emails = fetch_emails()
-#         return {"emails": emails}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
+@app.get("/emails")
+async def get_emails():
+    try:
+        emails = fetch_emails()
+        return {"emails": emails}
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+@app.post("/parse-pdf")
+async def parse(file: UploadFile = File(...)):
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = tmp.name
+        text = parse_pdf(tmp_path)
+        os.remove(tmp_path)
+        return {"text": text, "metadata": extract_metadata("pdf")}
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
-
-# @app.post("/transcript/", response_model=Dict[str, str])
-# async def transcript(audio: UploadFile = File(...)) -> Dict[str, str]:
-#     if audio.content_type not in ["audio/wav", "audio/x-wav", "audio/mpeg"]:
-#         raise HTTPException(status_code=400, detail="Only .wav or .mp3 audio files are supported.")
-
-#     temp_input_path = "temp_input_audio"
-#     audio_ext = ".wav" if "wav" in audio.content_type else ".mp3"
-#     input_file_path = temp_input_path + audio_ext
-#     output_wav_path = "converted_audio.wav"
-
-#     try:
-#         # Save uploaded file
-#         with open(input_file_path, "wb") as buffer:
-#             shutil.copyfileobj(audio.file, buffer)
-
-#         # ⚠️ Explicitly close the uploaded file before processing
-#         audio.file.close()
-
-#         # Convert mp3 to wav if needed
-#         if audio_ext == ".mp3":
-#             sound = AudioSegment.from_file(input_file_path, format="mp3")
-#             sound.export(output_wav_path, format="wav")
-#             audio_path = output_wav_path
-#         else:
-#             audio_path = input_file_path
-
-#         # Transcribe
-#         recognizer = sr.Recognizer()
-#         with sr.AudioFile(audio_path) as source:
-#             recognizer.adjust_for_ambient_noise(source, duration=0.5)
-#             audio_data = recognizer.record(source, duration=10)
-
-#         transcript_text = recognizer.recognize_google(audio_data, language='en-IN')
-#         full_question = "bank " + transcript_text
-
-#         solution = main_chat(full_question, False)
-
-#         return {
-#             "Question": transcript_text,
-#             "Solution": solution,
-#             "Name": "Rohit Kumar",
-#             "Email": "Rohit.Kumar3435@in.ey.com",
-#             "Rating": "5"
-#         }
-
-#     except sr.UnknownValueError:
-#         raise HTTPException(status_code=400, detail="Could not understand the audio.")
-#     except sr.RequestError as e:
-#         raise HTTPException(status_code=503, detail=f"Speech recognition service error: {e}")
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Unexpected error: {str(e)}")
-#     finally:
-#         # Clean up files
-#         for path in [input_file_path, output_wav_path]:
-#             if os.path.exists(path):
-#                 try:
-#                     os.remove(path)
-#                 except PermissionError:
-#                     pass  # Silently ignore if still locked
-
-# @app.post("/parse-pdf")
-# async def parse(file: UploadFile = File(...)):
-#     try:
-#         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-#             shutil.copyfileobj(file.file, tmp)
-#             tmp_path = tmp.name
-#         text = parse_pdf(tmp_path)
-#         os.remove(tmp_path)
-#         return {"text": text, "metadata": extract_metadata("pdf")}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
-
-# @app.post("/ocr-image")
-# async def ocr(file: UploadFile = File(...)):
-#     try:
-#         with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[-1]) as tmp:
-#             shutil.copyfileobj(file.file, tmp)
-#             tmp_path = tmp.name
-#         text = ocr_image(tmp_path)
-#         os.remove(tmp_path)
-#         return {"text": text, "metadata": extract_metadata("image")}
-#     except Exception as e:
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
-
+@app.post("/ocr-image")
+async def ocr(file: UploadFile = File(...)):
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[-1]) as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = tmp.name
+        text = ocr_image(tmp_path)
+        os.remove(tmp_path)
+        return {"text": text, "metadata": extract_metadata("image")}
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 
 # Endpoint 2: Preprocessing Agent
