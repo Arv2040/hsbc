@@ -1,3 +1,4 @@
+import tempfile
 from fastapi import FastAPI, UploadFile, File, HTTPException,Request
 from agents.preprocessing import preprocess_text
 from typing import Dict
@@ -7,9 +8,9 @@ from pydantic import BaseModel
 from typing import Optional
 import os
 import json
-import streamlit as st
+import shutil
 from dotenv import load_dotenv
-from agents.ingestion import fetch_emails, parse_pdf, ocr_image, extract_metadata, transcribe_mp3_to_txt
+from agents.ingestion import fetch_emails, parse_pdf, ocr_image, extract_metadata
 from agents.validation_agent import log_feedback, summarize_feedback, Feedback
 from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
@@ -42,10 +43,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-#streamlit
-st.title("HSBC DATA PROCESSING")
-uploaded_file = st.file_uploader("Upload a file", type=["txt", "csv", "pdf", "png", "jpg"])
 
     
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")

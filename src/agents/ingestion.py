@@ -1,16 +1,14 @@
-import os
+import os 
 import email
 import imaplib
 import pytesseract
-import fitz  # PyMuPDF
 import tempfile
-from azure.cognitiveservices.speech import SpeechConfig, SpeechRecognizer, AudioConfig
 from dotenv import load_dotenv
 import httpx
 import speech_recognition as sr
 from pydub import AudioSegment
-import whisper
 import uuid
+import PyPDF2  # ✅ Use PyPDF2 instead of fitz
 
 
 load_dotenv(dotenv_path=".env")
@@ -20,12 +18,6 @@ OPENAI_API_TYPE_LOCAL = os.getenv("OPENAI_API_TYPE_LOCAL")
 OPENAI_API_BASE_LOCAL = os.getenv("OPENAI_API_BASE_LOCAL")
 OPENAI_API_VERSION_LOCAL = os.getenv("OPENAI_API_VERSION_LOCAL")
 OPENAI_API_KEY_LOCAL = os.getenv("OPENAI_API_KEY_LOCAL")
-
-# Azure Speech config
-speech_config = SpeechConfig(
-    subscription=os.getenv("AZURE_SPEECH_KEY"),
-    region=os.getenv("AZURE_SPEECH_REGION")
-)
 
 
 def fetch_emails():
@@ -53,42 +45,13 @@ def fetch_emails():
     return emails
 
 
-# transcriber.py
-
-
-def transcribe_mp3_to_txt(mp3_path, output_txt_path=None):
-    # Generate unique output path if not provided
-    if not output_txt_path:
-        output_txt_path = mp3_path.replace(".mp3", ".txt")
-    
-    # Convert MP3 to WAV
-    audio = AudioSegment.from_mp3(mp3_path)
-    wav_path = mp3_path.replace(".mp3", f"_{uuid.uuid4()}.wav")
-    audio.export(wav_path, format="wav")
-
-    # Load Whisper model
-    model = whisper.load_model("base")
-
-    # Transcribe audio
-    result = model.transcribe(wav_path)
-
-    # Write to TXT
-    with open(output_txt_path, "w", encoding="utf-8") as f:
-        f.write(result["text"])
-
-    # Cleanup
-    os.remove(wav_path)
-
-    return output_txt_path
-
-
-
-
+# ✅ Updated parse_pdf function using PyPDF2
 def parse_pdf(file_path):
-    doc = fitz.open(file_path)
     full_text = ""
-    for page in doc:
-        full_text += page.get_text()
+    with open(file_path, "rb") as f:
+        reader = PyPDF2.PdfReader(f)
+        for page in reader.pages:
+            full_text += page.extract_text() or ""
     return full_text
 
 

@@ -1,0 +1,9 @@
+[
+    {
+        "document_id": "POLICY_2025_001",
+        "reviewer": "alice.sme@example.com",
+        "comments": "Summary missed the section on compliance clauses.",
+        "edits": "Add bullet points on section 3.1.2 and 3.1.4.",
+        "approved": false
+    }
+]
