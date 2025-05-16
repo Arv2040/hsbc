@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import Optional
 import os
 import json
+import streamlit as st
 from dotenv import load_dotenv
 from agents.validation_agent import log_feedback, summarize_feedback, Feedback
 from agents.summarization_agent import summarize_content
@@ -40,6 +41,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+#streamlit
+st.title("HSBC DATA PROCESSING")
+uploaded_file = st.file_uploader("Upload a file", type=["txt", "csv", "pdf", "png", "jpg"])
 
     
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
@@ -229,43 +234,43 @@ async def ai_summarize_feedback(feedback: Feedback):
 # Endpoint 7: Integration Agent
 
 #requires api keys
-'''
-@app.post("/sync/jira")
-async def sync_jira(payload: IntegrationPayload):
-    try:
-        response = create_jira_ticket(payload.title, payload.description)
-        return {"status": "success", "ticket": response}
-    except Exception as e:
-        logging.error(f"Jira sync failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# '''
+# @app.post("/sync/jira")
+# async def sync_jira(payload: IntegrationPayload):
+#     try:
+#         response = create_jira_ticket(payload.title, payload.description)
+#         return {"status": "success", "ticket": response}
+#     except Exception as e:
+#         logging.error(f"Jira sync failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/sync/sharepoint")
-async def sync_sharepoint(payload: IntegrationPayload):
-    try:
-        result = push_to_sharepoint(payload.title, payload.description)
-        return {"status": "success", "result": result}
-    except Exception as e:
-        logging.error(f"SharePoint sync failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/sync/sharepoint")
+# async def sync_sharepoint(payload: IntegrationPayload):
+#     try:
+#         result = push_to_sharepoint(payload.title, payload.description)
+#         return {"status": "success", "result": result}
+#     except Exception as e:
+#         logging.error(f"SharePoint sync failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/notify/slack")
-async def notify(payload: IntegrationPayload):
-    try:
-        result = notify_slack(payload.summary)
-        return {"status": "notified", "result": result}
-    except Exception as e:
-        logging.error(f"Slack notification failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# @app.post("/notify/slack")
+# async def notify(payload: IntegrationPayload):
+#     try:
+#         result = notify_slack(payload.summary)
+#         return {"status": "notified", "result": result}
+#     except Exception as e:
+#         logging.error(f"Slack notification failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/generate/summary")
-async def generate_summary(payload: IntegrationPayload):
-    try:
-        result = generate_summary_from_openai(payload.description)
-        return {"summary": result}
-    except Exception as e:
-        logging.error(f"OpenAI summary generation failed: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-'''
+# @app.post("/generate/summary")
+# async def generate_summary(payload: IntegrationPayload):
+#     try:
+#         result = generate_summary_from_openai(payload.description)
+#         return {"summary": result}
+#     except Exception as e:
+#         logging.error(f"OpenAI summary generation failed: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+# '''
 
 
 
