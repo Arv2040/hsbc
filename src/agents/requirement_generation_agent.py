@@ -1,12 +1,11 @@
-#
 import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
-from agents.summarization_agent import latest_summary  # Import shared summary
+from agents.summarization_agent import latest_summary  
 
 load_dotenv()
 
-# Initialize Azure OpenAI client
+
 client = AzureOpenAI(
     api_key=os.getenv("OPENAI_API_KEY_LOCAL"),
     api_version=os.getenv("OPENAI_API_VERSION_LOCAL"),
