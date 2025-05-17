@@ -6,7 +6,7 @@ from openai import AzureOpenAI
 
 load_dotenv()
 
-# Feedback data model
+
 class Feedback(BaseModel):
     document_id: str
     reviewer: str
@@ -14,10 +14,10 @@ class Feedback(BaseModel):
     edits: str
     approved: bool
 
-# Load log file path from environment
+
 FEEDBACK_LOG_PATH = os.getenv("FEEDBACK_LOG", "feedback_logs.json")
 
-# Initialize Azure OpenAI client
+
 client = AzureOpenAI(
     api_key=os.getenv("OPENAI_API_KEY_LOCAL"),
     api_version=os.getenv("OPENAI_API_VERSION_LOCAL"),
