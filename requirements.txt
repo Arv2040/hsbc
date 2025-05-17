@@ -15,3 +15,8 @@ streamlit
 langchain
 pinecone
 langchain-community
+SpeechRecognition
+pyaudio
+pytesseract
+fitz
+streamlit

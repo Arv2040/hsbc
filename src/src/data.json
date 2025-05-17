@@ -1,0 +1,180 @@
+{
+    "text": "Agentic AI for Automated Requirement Gathering\nProject Title:\nAgentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\nObjective:\nTo automate the requirement gathering, documentation, and validation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture:\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack:\n1. Input Layer\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. Agents\n   - IngestorAgent: Extracts text from source files\nPage 1Agentic AI for Automated Requirement Gathering\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs\n   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. Memory & Reasoning\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. Orchestration Framework\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\nPage 2Agentic AI for Automated Requirement Gathering\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance:\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environments\nBenefits:\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals:\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nPage 3",
+    "preprocessed": {
+        "clean_text": "Agentic AI for Automated Requirement Gathering\nProject Title:\nAgentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\nObjective:\nTo automate the requirement gathering, documentation, and validation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\n[ArcComponents & Tech Stack:\n1. Input Layer\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. Agents\n   - IngestorAgent: Extracts text from source files\nPage 1Agentic AI for Automated Requirement Gathering\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs\n   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. Memory & Reasoning\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. Orchestration Framework\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\nPage 2Agentic AI for Automated Requirement Gathering\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance:\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environments\nBenefits:\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals:\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nPage 3",
+        "segments": [
+            "Agentic AI for Automated Requirement Gathering\nProject Title:\nAgentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\nObjective:\nTo automate the requirement gathering, documentation, and validation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)",
+            "[ArcComponents & Tech Stack:\n1.",
+            "Input Layer\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2.",
+            "Agents\n   - IngestorAgent: Extracts text from source files\nPage 1Agentic AI for Automated Requirement Gathering\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs\n   - ValidationAgent:",
+            "Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3.",
+            "Memory & Reasoning\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4.",
+            "Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5.",
+            "Orchestration Framework\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1.",
+            "Upload policy PDF\n2.",
+            "IngestorAgent extracts text\n3.",
+            "ContextAgent identifies context elements\n4.",
+            "RequirementAgent generates structured requirements\n5.",
+            "ComplianceAgent validates alignment with policies\nPage 2Agentic AI for Automated Requirement Gathering\n6.",
+            "TraceAgent logs all steps\n7.",
+            "Result pushed to Jira\nSecurity & Compliance:\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environments\nBenefits:\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals:\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nPage 3"
+        ],
+        "entities": [
+            {
+                "text": "Agentic AI",
+                "label": "LOC"
+            },
+            {
+                "text": "Jira",
+                "label": "PERSON"
+            },
+            {
+                "text": "ArcComponents & Tech Stack",
+                "label": "ORG"
+            },
+            {
+                "text": "1",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Input Layer",
+                "label": "PERSON"
+            },
+            {
+                "text": "2",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Page 1Agentic AI",
+                "label": "FAC"
+            },
+            {
+                "text": "docs",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "3",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Memory & Reasoning",
+                "label": "ORG"
+            },
+            {
+                "text": "Vector DB",
+                "label": "PERSON"
+            },
+            {
+                "text": "RAG",
+                "label": "ORG"
+            },
+            {
+                "text": "4",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude",
+                "label": "ORG"
+            },
+            {
+                "text": "5",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Sample Flow",
+                "label": "PERSON"
+            },
+            {
+                "text": "PDF",
+                "label": "ORG"
+            },
+            {
+                "text": "Jira\n1",
+                "label": "PERSON"
+            },
+            {
+                "text": "PDF",
+                "label": "ORG"
+            },
+            {
+                "text": "2",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "IngestorAgent",
+                "label": "ORG"
+            },
+            {
+                "text": "3",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "4",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "5",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Page 2Agentic AI",
+                "label": "WORK_OF_ART"
+            },
+            {
+                "text": "6",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "7",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Jira\nSecurity & Compliance",
+                "label": "ORG"
+            },
+            {
+                "text": "DB",
+                "label": "GPE"
+            },
+            {
+                "text": "Role",
+                "label": "GPE"
+            },
+            {
+                "text": "SME",
+                "label": "ORG"
+            },
+            {
+                "text": "SME",
+                "label": "ORG"
+            },
+            {
+                "text": "70%+",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "MVP Goals",
+                "label": "ORG"
+            },
+            {
+                "text": "PDF",
+                "label": "ORG"
+            },
+            {
+                "text": "3",
+                "label": "CARDINAL"
+            },
+            {
+                "text": "Jira\n- Store",
+                "label": "PERSON"
+            },
+            {
+                "text": "3",
+                "label": "CARDINAL"
+            }
+        ]
+    },
+    "summary": "Key Points:\n1. The objective is to automate the requirement gathering, documentation, and validation process in financial institutions using LLM-powered agents. This will ingest and interpret unstructured data (e.g. meetings, emails, PDFs), generate formal requirements/user stories, ensure compliance, and integrate outputs into enterprise tools such as Jira.\n2. The tech stack involved includes Input Layer for text extraction, several agents performing tasks including filtering content, extracting context, generating requirements, compliance check, output routing and transformation logging. \n3. It utilizes tools and APIs such as OpenAI GPT-4 / Anthropic Claude, Jira API, and email integrations.\n4. Secure deployment is assured through Personal Identifiable Information (PII) redaction, storage of audit logs in append-only database, and a role-based validation loop.\n5. Benefits include acceleration in requirement capturing, consistent formatting, compliance, maintenance of traceability and audit readiness, and 70%+ reduction in manual SME effort.\n6. Goals for the Minimal Viable Product (MVP) include auto-generating 3 user stories with acceptance criteria from uploaded PDFs/email transcripts and pushing them to Jira.\n\nActions:\n1. Implement the different components mentioned in the technical blueprint that include Input Layer, multiple agents, memory and reasoning components, Tools & APIs, and the Orchestration Framework.\n2. Work on the MVP goals, this includes the functionality to upload a PDF/email transcript, and auto-generate 3 user stories + acceptance criteria which can be pushed to Jira.\n3. Implement secure measures for deployment including PII redaction and anonymization, audit logs storage, and SME validation loop.\n\nBlockers:\nNo blockers have been mentioned in the document. However, potential challenges could involve ensuring data security and compliance when dealing with sensitive financial information and integration issues with enterprise tools.",
+    "requirements": "Business Requirements:\n\n1. As a system engineer, I want to implement an Input Layer that ingests and interprets unstructured data sources (such as meetings, emails, PDFs), so that the system can begin to process requirement generation.\n   - Acceptance Criteria: The system should be able to accept various forms of unstructured data and extract the relevant text.\n   - Roles: System Engineer\n   - Expected Behavior: The system should handle various data formats and successfully extract text without data loss.\n\n2. As a software developer, I want to program multiple LLM-powered agents capable of filtering content, extracting context, generating requirements, checking compliance, routing outputs and logging transformations, so that the entire requirements generation process is automated.\n   - Acceptance Criteria: Each agent should perform its designed task effectively and in coordination with other agents.\n   - Roles: Software Developer\n   - Expected Behavior: Agents should work seamlessly with each other to deliver accurate results in a timely manner.\n\n3. As an API integrator, I want to create integrations with OpenAI GPT-4 / Anthropic Claude, Jira API, and email platforms, so that our system can utilize these tools for requirement generation and management.\n   - Acceptance Criteria: The system should communicate accurately with the external APIs without any data leakage or security threats.\n   - Roles: API Integrator\n   - Expected Behavior: Smooth and secure data exchange between our system and the external tools.\n\n4. As a compliance officer, I want to ensure PII redaction, secure audit log storage, and role-based validation is implemented, so that the system is secure and compliant.\n   - Acceptance Criteria: The system must meet all security and compliance standards mandated for financial institutions.\n   - Roles: Compliance Officer\n   - Expected Behavior: The system should consistently redact sensitive information, store logs securely and follow a role-based validation process.\n\n5. As a product manager, I want the MVP to auto-generate 3 user stories with acceptance criteria from uploaded files (PDFs, email transcripts), and push these to Jira, so that the product offers a significant reduction in manual effort associated with requirements gathering.\n   - Acceptance Criteria: The MVP must successfully create user stories and push them to Jira without manual intervention.\n   - Roles: Product Manager\n   - Expected Behavior: The MVP should operate efficiently, accurately creating user stories and pushing them to Jira.",
+    "compliance_result": "- Compliance Status: Non-Compliant\n- Matched Policies: \n  - Rule 1: PII redaction and anonymization before processing.\n  - Rule 2: Logging of process steps, transformations, and decisions for auditing purposes.\n  - Rule 4: Deployment in a secure environment.\n  - Rule 5: Role-based access and validation loop for SMEs.\n  - Rule 6: Storage of audit logs in an append-only database or JSON format.\n  - Rule 7: Pushing results to Jira.\n  - Rule 8: Auto-generation of user stories + acceptance criteria from uploaded files.\n  \n- Missing Elements:\n  - Rule 3: Validation of alignment with internal policies and regulatory requirements.\n  - Rule 9: Use of LangChain or CrewAI to manage agent workflows.\n  - Rule 10: Reduction of manual SME effort by 70%+.\n\n- Suggested Clauses:\n  - Add a clause to ensure the system validates alignment with internal policies and regulatory requirements, addressing Rule 3.\n  - Include a requirement for using LangChain or CrewAI to manage agent workflows, addressing Rule 9.\n  - Specify a target for reducing manual SME effort by 70% or more, addressing Rule 10."
+}

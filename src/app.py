@@ -6,11 +6,12 @@ from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
+from agents.brd import generate_brd_from_text
 import os
 import json
 import shutil
 from dotenv import load_dotenv
-from agents.ingestion import fetch_emails, parse_pdf, ocr_image, extract_metadata
+from agents.ingestion import parse_pdf
 from agents.validation_agent import log_feedback, summarize_feedback, Feedback
 from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
@@ -58,14 +59,8 @@ app.add_middleware(
 # )
 
 # Endpoint 1: Ingestion Agent
-@app.get("/emails")
-async def get_emails():
-    try:
-        emails = fetch_emails()
-        return {"emails": emails}
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
-@app.post("/parse-pdf")
+
+@app.post("/ingestion")
 async def parse(file: UploadFile = File(...)):
     try:
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
@@ -73,42 +68,122 @@ async def parse(file: UploadFile = File(...)):
             tmp_path = tmp.name
         text = parse_pdf(tmp_path)
         os.remove(tmp_path)
-        return {"text": text, "metadata": extract_metadata("pdf")}
+        return {"text":text}
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+    
+ 
 
-@app.post("/ocr-image")
-async def ocr(file: UploadFile = File(...)):
+
+
+@app.post("/generate-brd-and-rules")
+async def generate_brd_and_rules(file: UploadFile = File(...)):
     try:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=os.path.splitext(file.filename)[-1]) as tmp:
-            shutil.copyfileobj(file.file, tmp)
-            tmp_path = tmp.name
-        text = ocr_image(tmp_path)
-        os.remove(tmp_path)
-        return {"text": text, "metadata": extract_metadata("image")}
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
-
-
-# Endpoint 2: Preprocessing Agent
-@app.post("/preprocess/")
-async def preprocess_file(file: UploadFile = File(...)) -> Dict:
-    text = await file.read()
-    processed_output = preprocess_text(text.decode("utf-8"))
-    gov_agent("preprocess",text,processed_output)
-    return processed_output
-
-# Endpoint 3: summarization Agent
-@app.post("/summarize-content")
-async def summarize_endpoint(input_data):
-    try:
-        summary = summarize_content(input_data)
-        gov_agent("summarize",input_data,summary)
-        return {"summary": summary}
+       
+        temp_dir = tempfile.mkdtemp()
+        
+        
+        input_pdf_path = os.path.join(temp_dir, "input.pdf")
+        with open(input_pdf_path, "wb") as f:
+            shutil.copyfileobj(file.file, f)
+        
+        extracted_text = parse_pdf(input_pdf_path)
+        
+      
+        rules_content = generate_brd_from_text(extracted_text)
+        
+       
+        
+        rules_filename = f"compliance_rules.json"
+        rules_path = os.path.join("compliance_rules", rules_filename)
+        
+        
+        os.makedirs("compliance_rules", exist_ok=True)
+        
+       
+        with open(rules_path, "w") as f:
+            json.dump({"rules": rules_content}, f, indent=2)
+        
+       
+        return {
+            "status": "success",
+            "rules": rules_content,
+            "rules_file": rules_filename,
+            "rules_path": rules_path,
+            "message": "BRD processing complete and compliance rules generated"
+        }
+        
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+       
+        if 'temp_dir' in locals():
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
-# Endpoint 4: Requirement Generation Agent
+
+
+
+
+
+@app.post("/preprocess/")
+async def preprocess_file(file: UploadFile = File(...)) -> Dict:
+    try:
+        # Save the uploaded PDF to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = tmp.name
+        
+        # Parse the PDF to extract text
+        text = parse_pdf(tmp_path)
+        
+        # Preprocess the extracted text
+        processed_output = preprocess_text(text)
+        
+        # Clean up the temporary file
+        os.remove(tmp_path)
+        
+        # Log with governance agent
+        gov_agent("preprocess", text, processed_output)
+        
+        return processed_output
+        
+    except Exception as e:
+        # Clean up temp file if it exists
+        if 'tmp_path' in locals() and os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+
+@app.post("/summarize-content")
+async def summarize_endpoint(file: UploadFile = File(...)):
+    try:
+        # Save the uploaded file to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = tmp.name
+        
+        # Parse the PDF to extract text
+        text = parse_pdf(tmp_path)
+        
+        # Summarize the extracted text
+        summary = summarize_content(text)
+        
+        # Clean up the temporary file
+        os.remove(tmp_path)
+        
+        # Log with governance agent
+        gov_agent("summarize", text, summary)
+        
+        return {"summary": summary}
+        
+    except Exception as e:
+        # Clean up temp file if it exists
+        if 'tmp_path' in locals() and os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/generate-requirements")
 async def requirement_endpoint():
     try:
@@ -118,19 +193,40 @@ async def requirement_endpoint():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# Endpoint 5: Compliance Mapping Agent
 @app.post("/check-compliance")
-async def check_compliance_api(feedback:Feedback):
+async def check_compliance_api(requirements_file: UploadFile = File(...)):
     try:
+     
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as req_tmp:
+            shutil.copyfileobj(requirements_file.file, req_tmp)
+            req_path = req_tmp.name
+        requirements_text = parse_pdf(req_path)
+
+       
+        # Check compliance
+        result = check_requirement_compliance(requirements_text)
         
-        result = check_requirement_compliance(feedback)
-        input_str = json.dumps(feedback.model_dump(), indent=2)
-        gov_agent("compliance",input_str,result)
+      
+        input_str = json.dumps({
+            "requirements": requirements_text,
+           
+        }, indent=2)
+        
+        # Log with governance agent
+        gov_agent("compliance", input_str, result)
+        
+        
+        os.remove(req_path)
+        
         return JSONResponse(content={"result": result})
+        
     except Exception as e:
+      
+        if 'req_path' in locals() and os.path.exists(req_path):
+            os.remove(req_path)
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# Endpoint 6: Validation Agent
+
 @app.post("/submit-feedback")
 async def submit_feedback(feedback: Feedback):
     try:
@@ -139,7 +235,7 @@ async def submit_feedback(feedback: Feedback):
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-# Get full feedback log
+
 @app.get("/feedback-log")
 async def get_feedback_log():
     feedback_log_path = os.getenv("FEEDBACK_LOG", "feedback_logs.json")
@@ -155,7 +251,7 @@ async def get_feedback_log():
         
     return JSONResponse(content={"log": data})
 
-# Get AI summary of SME feedback
+
 @app.post("/ai-summarize")
 async def ai_summarize_feedback(feedback: Feedback):
     try:
@@ -209,3 +305,47 @@ async def ai_summarize_feedback(feedback: Feedback):
 
 
 
+# '''
+
+
+@app.post("/run-full-pipeline")
+async def run_full_pipeline(file: UploadFile = File(...)):
+    try:
+        # Step 1: Ingestion
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_path = tmp.name
+        text = parse_pdf(tmp_path)
+        os.remove(tmp_path)
+        data = {"text": text}
+        gov_agent("ingestion", "raw-pdf", text)
+
+        # Step 2: Preprocessing
+        processed = preprocess_text(text)
+        data["preprocessed"] = processed
+        gov_agent("preprocess", text, processed)
+
+        # Step 3: Summarization
+        summary = summarize_content(processed)
+        data["summary"] = summary
+        gov_agent("summarize", processed, summary)
+
+        # Step 4: Requirement Generation
+        requirements = generate_requirements()
+        data["requirements"] = requirements
+        gov_agent("requirement", "N/A", requirements)
+
+        # Step 5: Compliance Checking
+        compliance = check_requirement_compliance(requirements)
+        data["compliance_result"] = compliance
+        gov_agent("compliance", requirements, compliance)
+
+        # Write to file
+        os.makedirs("src", exist_ok=True)
+        with open("src/data.json", "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+        return data
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
