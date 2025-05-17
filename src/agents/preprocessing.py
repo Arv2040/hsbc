@@ -8,7 +8,7 @@ load_dotenv(dotenv_path=".env")
 nlp = spacy.load("en_core_web_sm")
 
 def remove_noise(text: str) -> str:
-    # Remove signatures and greetings heuristically
+    
     text = re.sub(r"(Regards|Thanks|Sincerely|Best|Cheers)[\s\S]+", "", text, flags=re.I)
     text = re.sub(r"(Hi|Hello|Dear)[^,\n]*[,:\n]", "", text, flags=re.I)
     text = re.sub(r"\n{2,}", "\n", text)
