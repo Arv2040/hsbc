@@ -69,6 +69,27 @@ with col3:
 st.markdown("---")
 
 # Rules Matching Mode
+# if st.session_state.mode == 'rules_matching':
+#     st.markdown("### Rules Matching Pipeline")
+
+#     rules_file = st.file_uploader("Upload a PDF file for rules matching", type=["pdf"], key="rules_match_file")
+
+#     if st.button("Run Rules Matching"):
+#         if rules_file:
+#             with st.spinner("Running rules matching..."):
+#                 response = requests.post(f"{API_URL}/full-compliance-pipeline", files={"file": rules_file})
+#                 if response.status_code == 200:
+#                     result = response.json()
+#                     st.session_state.output = {
+#                         "generated_rules": result.get("generated_rules", "N/A"),
+#                         "compliance_result": result.get("compliance_result", "N/A"),
+#                         "match_result": result.get("match_result", "N/A")
+#                     }
+#                     st.success("Rules matched successfully!")
+#                 else:
+#                     st.error(f"Error: {response.text}")
+#         else:
+#             st.warning("Please upload a PDF file first.")
 if st.session_state.mode == 'rules_matching':
     st.markdown("### Rules Matching Pipeline")
 
@@ -80,16 +101,43 @@ if st.session_state.mode == 'rules_matching':
                 response = requests.post(f"{API_URL}/full-compliance-pipeline", files={"file": rules_file})
                 if response.status_code == 200:
                     result = response.json()
+                    
+                    # Define variables only after checking for 200 OK
+                    match_result = result.get("match_result", "N/A")
+                    generated_rules = result.get("generated_rules", "N/A")
+                    compliance_result = result.get("compliance_result", "N/A")
+
                     st.session_state.output = {
-                        "generated_rules": result.get("generated_rules", "N/A"),
-                        "compliance_result": result.get("compliance_result", "N/A"),
-                        "match_result": result.get("match_result", "N/A")
+                        "generated_rules": generated_rules,
+                        "compliance_result": compliance_result,
+                        "match_result": match_result
                     }
                     st.success("Rules matched successfully!")
+
+                    # --- Display Match Result ---
+                    st.markdown("#### 🔍 Match Result (Tabular View)")
+                    try:
+                        if isinstance(match_result, list) and all(isinstance(item, dict) for item in match_result):
+                            st.dataframe(match_result)
+                        else:
+                            st.code(json.dumps(match_result, indent=2), language="json")
+                    except Exception as e:
+                        st.error(f"Error displaying match result: {e}")
+
+                    # --- Display Generated Rules ---
+                    st.markdown("#### 📜 Generated Rules")
+                    st.code(json.dumps(generated_rules, indent=2) if isinstance(generated_rules, (dict, list)) else str(generated_rules), language="json")
+
+                    # --- Display Compliance Result ---
+                    st.markdown("#### ✅ Compliance Result")
+                    st.code(json.dumps(compliance_result, indent=2) if isinstance(compliance_result, (dict, list)) else str(compliance_result), language="json")
+
                 else:
                     st.error(f"Error: {response.text}")
         else:
             st.warning("Please upload a PDF file first.")
+
+
 # Manual Mode
 if st.session_state.mode == 'manual':
     st.markdown("### Manual Processing Steps")

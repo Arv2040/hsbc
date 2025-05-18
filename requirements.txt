@@ -20,3 +20,4 @@ pyaudio
 pytesseract
 fitz
 streamlit
+openpyxl

@@ -217,38 +217,6 @@ async def requirement_endpoint():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# @app.post("/check-compliance")
-# async def check_compliance_api(requirements_file: UploadFile = File(...)):
-#     try:
-     
-#         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as req_tmp:
-#             shutil.copyfileobj(requirements_file.file, req_tmp)
-#             req_path = req_tmp.name
-#         requirements_text = parse_pdf(req_path)
-
-       
-#         # Check compliance
-#         result = check_requirement_compliance(requirements_text)
-        
-      
-#         input_str = json.dumps({
-#             "requirements": requirements_text,
-           
-#         }, indent=2)
-        
-#         # Log with governance agent
-#         gov_agent("compliance", input_str, result)
-        
-        
-#         os.remove(req_path)
-        
-#         return JSONResponse(content={"result": result})
-        
-#     except Exception as e:
-      
-#         if 'req_path' in locals() and os.path.exists(req_path):
-#             os.remove(req_path)
-#         return JSONResponse(content={"error": str(e)}, status_code=500)
 @app.post("/check-compliance")
 async def check_compliance_api(requirements_file: UploadFile = File(...)):
     result, error = run_compliance_check(requirements_file)
