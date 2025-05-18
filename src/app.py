@@ -10,6 +10,7 @@ from agents.brd import generate_brd_from_text
 import os
 import json
 import shutil
+import tempfile
 from dotenv import load_dotenv
 from agents.ingestion import parse_pdf
 from agents.validation_agent import log_feedback, summarize_feedback, Feedback
@@ -17,7 +18,9 @@ from agents.summarization_agent import summarize_content
 from agents.requirement_generation_agent import generate_requirements
 from agents.compliance_agent import check_requirement_compliance
 from agents.governance_agent import gov_agent
-
+from agents.ingestion import parse_pdf
+from agents.compliance_agent import check_requirement_compliance
+from agents.match_compliance_rules import match_with_presaved_rules
 #--------- after dependencies ------
 #import speech_recognition as sr
 # from dotenv import load_dotenv
@@ -44,7 +47,28 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+def run_compliance(text: str):
+    try:
+        result = check_requirement_compliance(text)
+        return result, None
+    except Exception as e:
+        return None, str(e)
+def run_compliance_check(requirements_file: UploadFile):
+    try:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            shutil.copyfileobj(requirements_file.file, tmp)
+            tmp_path = tmp.name
 
+        extracted_text = parse_pdf(tmp_path)
+        os.remove(tmp_path)
+
+        result = check_requirement_compliance(extracted_text)
+        return result, None
+
+    except Exception as e:
+        if 'tmp_path' in locals() and os.path.exists(tmp_path):
+            os.remove(tmp_path)
+        return None, str(e)
     
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -193,38 +217,52 @@ async def requirement_endpoint():
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/check-compliance")
-async def check_compliance_api(requirements_file: UploadFile = File(...)):
-    try:
+# @app.post("/check-compliance")
+# async def check_compliance_api(requirements_file: UploadFile = File(...)):
+#     try:
      
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as req_tmp:
-            shutil.copyfileobj(requirements_file.file, req_tmp)
-            req_path = req_tmp.name
-        requirements_text = parse_pdf(req_path)
+#         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as req_tmp:
+#             shutil.copyfileobj(requirements_file.file, req_tmp)
+#             req_path = req_tmp.name
+#         requirements_text = parse_pdf(req_path)
 
        
-        # Check compliance
-        result = check_requirement_compliance(requirements_text)
+#         # Check compliance
+#         result = check_requirement_compliance(requirements_text)
         
       
-        input_str = json.dumps({
-            "requirements": requirements_text,
+#         input_str = json.dumps({
+#             "requirements": requirements_text,
            
-        }, indent=2)
+#         }, indent=2)
         
-        # Log with governance agent
-        gov_agent("compliance", input_str, result)
+#         # Log with governance agent
+#         gov_agent("compliance", input_str, result)
         
         
-        os.remove(req_path)
+#         os.remove(req_path)
         
-        return JSONResponse(content={"result": result})
+#         return JSONResponse(content={"result": result})
         
-    except Exception as e:
+#     except Exception as e:
       
-        if 'req_path' in locals() and os.path.exists(req_path):
-            os.remove(req_path)
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+#         if 'req_path' in locals() and os.path.exists(req_path):
+#             os.remove(req_path)
+#         return JSONResponse(content={"error": str(e)}, status_code=500)
+@app.post("/check-compliance")
+async def check_compliance_api(requirements_file: UploadFile = File(...)):
+    result, error = run_compliance_check(requirements_file)
+    if error:
+        return JSONResponse(content={"error": error}, status_code=500)
+    return JSONResponse(content={"result": result})
+@app.post("/match-compliance-rules")
+async def match_compliance_rules_api(requirements_file: UploadFile = File(...)):
+    result, error = run_compliance_check(requirements_file)
+    if error:
+        return JSONResponse(content={"error": error}, status_code=500)
+
+    match_result = match_with_presaved_rules(result)
+    return JSONResponse(content=match_result)
 
 
 @app.post("/submit-feedback")
@@ -349,3 +387,46 @@ async def run_full_pipeline(file: UploadFile = File(...)):
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+#---------second part of the code --------
+@app.post("/full-compliance-pipeline")
+async def full_compliance_pipeline(file: UploadFile = File(...)):
+    try:
+        # Step 1: Save uploaded file temporarily
+        temp_dir = tempfile.mkdtemp()
+        input_pdf_path = os.path.join(temp_dir, "input.pdf")
+        with open(input_pdf_path, "wb") as f:
+            shutil.copyfileobj(file.file, f)
+
+        # Step 2: Extract text from PDF
+        extracted_text = parse_pdf(input_pdf_path)
+
+        # Step 3: Generate BRD-based rules
+        rules_content = generate_brd_from_text(extracted_text)
+        rules_path = os.path.join("compliance_rules", "compliance_rules.json")
+        os.makedirs("compliance_rules", exist_ok=True)
+        with open(rules_path, "w") as f:
+            json.dump({"rules": rules_content}, f, indent=2)
+
+        # Step 4: Run Compliance Check
+        compliance_result, error = run_compliance(extracted_text)
+        if error:
+            raise Exception(f"Compliance Check Failed: {error}")
+
+        # Step 5: Match with Presaved Rules
+        match_result = match_with_presaved_rules(compliance_result)
+
+        # Final Response
+        return JSONResponse(content={
+            "status": "✅ Full pipeline completed",
+            "extracted_text": extracted_text,
+            "generated_rules": rules_content,
+            "compliance_result": compliance_result,
+            "match_result": match_result
+        })
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+    finally:
+        if 'temp_dir' in locals():
+            shutil.rmtree(temp_dir, ignore_errors=True)
