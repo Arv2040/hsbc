@@ -46,6 +46,7 @@ Instructions:
   }},
   ...
 ]
+Show the output in a proper tabular format.
 """
 
     response = client.chat.completions.create(
