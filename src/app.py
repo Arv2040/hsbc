@@ -20,7 +20,7 @@ from agents.compliance_agent import check_requirement_compliance
 from agents.governance_agent import gov_agent
 from agents.ingestion import parse_pdf
 from agents.compliance_agent import check_requirement_compliance
-from agents.match_compliance_rules import match_with_presaved_rules
+from agents.match_compliance_rules import extract_and_match_vs_excel
 #--------- after dependencies ------
 #import speech_recognition as sr
 # from dotenv import load_dotenv
@@ -69,6 +69,8 @@ def run_compliance_check(requirements_file: UploadFile):
         if 'tmp_path' in locals() and os.path.exists(tmp_path):
             os.remove(tmp_path)
         return None, str(e)
+class MatchRequest(BaseModel):
+    gpt_response_text: str
     
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
@@ -219,25 +221,41 @@ async def requirement_endpoint():
 
 @app.post("/check-compliance")
 async def check_compliance_api(requirements_file: UploadFile = File(...)):
-    result, error = run_compliance_check(requirements_file)
-    if error:
-        return JSONResponse(content={"error": error}, status_code=500)
-    return JSONResponse(content={"result": result})
-@app.post("/match-compliance-rules")
-async def match_compliance_rules_api(requirements_file: UploadFile = File(...)):
-    result, error = run_compliance_check(requirements_file)
-    if error:
-        return JSONResponse(content={"error": error}, status_code=500)
-
-    match_result = match_with_presaved_rules(result)
-    return JSONResponse(content=match_result)
-
-
-@app.post("/submit-feedback")
-async def submit_feedback(feedback: Feedback):
     try:
-        log_feedback(feedback)
-        return JSONResponse(content={"message": "Feedback submitted successfully."})
+        # Save uploaded file to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            tmp.write(await requirements_file.read())
+            tmp_path = tmp.name
+
+        requirement_text = parse_pdf(tmp_path)  # Pass file path to parse_pdf
+        response = check_requirement_compliance(requirement_text)
+        return JSONResponse(content={"result": response})
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
+@app.post("/compliance-gap-analysis")
+async def compliance_gap_analysis(requirements_file: UploadFile = File(...)):
+    try:
+        # Step 1: Save uploaded PDF to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            tmp.write(await requirements_file.read())
+            tmp_path = tmp.name
+
+        # Step 2: Extract raw text from PDF
+        requirement_text = parse_pdf(tmp_path)
+
+        # Step 3: Use GPT to generate compliance response
+        gpt_compliance_output = check_requirement_compliance(requirement_text)
+
+        # Step 4: Extract and match rules using GPT semantic comparison
+        comparison_result = extract_and_match_vs_excel(gpt_compliance_output)
+
+        # Return results
+        return JSONResponse(content={
+            "compliance_analysis": gpt_compliance_output,
+            "semantic_gap_analysis": comparison_result
+        })
+
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
@@ -317,36 +335,51 @@ async def ai_summarize_feedback(feedback: Feedback):
 @app.post("/run-full-pipeline")
 async def run_full_pipeline(file: UploadFile = File(...)):
     try:
-        # Step 1: Ingestion
+        # Step 1: Save uploaded PDF to temp file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             shutil.copyfileobj(file.file, tmp)
             tmp_path = tmp.name
-        text = parse_pdf(tmp_path)
+
+        # Step 2: Ingestion
+        extracted_text = parse_pdf(tmp_path)
         os.remove(tmp_path)
-        data = {"text": text}
-        gov_agent("ingestion", "raw-pdf", text)
+        data = {"text": extracted_text}
+        gov_agent("ingestion", "raw-pdf", extracted_text)
 
-        # Step 2: Preprocessing
-        processed = preprocess_text(text)
+        # Step 3: Preprocessing
+        processed = preprocess_text(extracted_text)
         data["preprocessed"] = processed
-        gov_agent("preprocess", text, processed)
+        gov_agent("preprocess", extracted_text, processed)
 
-        # Step 3: Summarization
+        # Step 4: Summarization
         summary = summarize_content(processed)
         data["summary"] = summary
         gov_agent("summarize", processed, summary)
 
-        # Step 4: Requirement Generation
+        # Step 5: Requirement Generation
         requirements = generate_requirements()
         data["requirements"] = requirements
         gov_agent("requirement", "N/A", requirements)
 
-        # Step 5: Compliance Checking
+        # Step 6: Compliance Checking
         compliance = check_requirement_compliance(requirements)
         data["compliance_result"] = compliance
         gov_agent("compliance", requirements, compliance)
 
-        # Write to file
+        # ✅ Step 7: BRD and Rules Generation
+        rules_content = generate_brd_from_text(extracted_text)  # <-- HIGHLIGHTED FIX
+        rules_filename = "compliance_rules.json"                # <-- HIGHLIGHTED FIX
+        rules_path = os.path.join("compliance_rules", rules_filename)  # <-- HIGHLIGHTED FIX
+        os.makedirs("compliance_rules", exist_ok=True)          # <-- HIGHLIGHTED FIX
+        with open(rules_path, "w", encoding="utf-8") as f:  # ✅ Fix applied here
+            json.dump({"rules": rules_content}, f, ensure_ascii=False, indent=2)
+        # Add to response
+        data["rules"] = rules_content                           # <-- HIGHLIGHTED FIX
+        data["rules_file"] = rules_filename                     # <-- HIGHLIGHTED FIX
+        data["rules_path"] = rules_path                         # <-- HIGHLIGHTED FIX
+        data["message"] = "Full pipeline and BRD rules processing complete"
+
+        # Save full data to file
         os.makedirs("src", exist_ok=True)
         with open("src/data.json", "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
@@ -355,6 +388,7 @@ async def run_full_pipeline(file: UploadFile = File(...)):
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+
 #---------second part of the code --------
 @app.post("/full-compliance-pipeline")
 async def full_compliance_pipeline(file: UploadFile = File(...)):
@@ -372,24 +406,21 @@ async def full_compliance_pipeline(file: UploadFile = File(...)):
         rules_content = generate_brd_from_text(extracted_text)
         rules_path = os.path.join("compliance_rules", "compliance_rules.json")
         os.makedirs("compliance_rules", exist_ok=True)
-        with open(rules_path, "w") as f:
-            json.dump({"rules": rules_content}, f, indent=2)
+        with open(rules_path, "w", encoding="utf-8") as f:  # ✅ Fix applied here
+            json.dump({"rules": rules_content}, f, ensure_ascii=False, indent=2)
+        # Step 4: Run Compliance Check using GPT
+        compliance_result = check_requirement_compliance(extracted_text)
 
-        # Step 4: Run Compliance Check
-        compliance_result, error = run_compliance(extracted_text)
-        if error:
-            raise Exception(f"Compliance Check Failed: {error}")
+        # Step 5: LLM-Based Semantic Rule Extraction + Matching Against Excel
+        match_result = extract_and_match_vs_excel(compliance_result)
 
-        # Step 5: Match with Presaved Rules
-        match_result = match_with_presaved_rules(compliance_result)
-
-        # Final Response
+        # Final JSON Response
         return JSONResponse(content={
             "status": "✅ Full pipeline completed",
             "extracted_text": extracted_text,
             "generated_rules": rules_content,
             "compliance_result": compliance_result,
-            "match_result": match_result
+            "semantic_gap_analysis": match_result
         })
 
     except Exception as e:

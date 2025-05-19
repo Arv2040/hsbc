@@ -18,6 +18,6 @@ langchain-community
 SpeechRecognition
 pyaudio
 pytesseract
-fitz
 streamlit
 openpyxl
+fpdf

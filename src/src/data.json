@@ -1,107 +1,78 @@
 {
-    "text": "Agentic AI for Automated Requirement Gathering\nProject Title:\nAgentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\nObjective:\nTo automate the requirement gathering, documentation, and validation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture:\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack:\n1. Input Layer\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. Agents\n   - IngestorAgent: Extracts text from source files\nPage 1Agentic AI for Automated Requirement Gathering\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs\n   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. Memory & Reasoning\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. Orchestration Framework\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\nPage 2Agentic AI for Automated Requirement Gathering\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance:\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environments\nBenefits:\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals:\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nPage 3",
+    "text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n Online loan application form with Aadhaar/PAN-based preﬁll. \n Integration with credit bureau (CIBIL) to fetch credit score. \n AI-based eligibility and risk assessment module. \n Real-time KYC document veriﬁcation (OCR + face match). \n Loan sanction and e-agreement signing via OTP-based authentication. \n Integration with core banking for disbursement. \n \nOut of Scope: \n Home loan, car loan, and business loan modules. \n Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n Product Manager: Rahul Sharma \n Business Head – Retail Lending: Priya Iyer  IT Manager: Rakesh Sinha \n Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n Responsive web app for self-service journey \n Aadhaar/PAN card OCR and veriﬁcation \n Credit score fetching from Experian or CIBIL \n Eligibility rules based on income, credit history, and existing liabilities \n Risk scoring using internal AI model \n E-sign integration using DigiLocker + Aadhaar eKYC \n Dashboard for customer to track loan status \n \nAssumptions: \n Customer must have Aadhaar-linked mobile number \n System must support English and Hindi \n Loan disbursement only through veriﬁed bank accounts \n \nRisks: \n Delay in API access to credit bureau \n Resistance from customers not comfortable with digital onboarding \n Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n Requirements Finalization: 15 March 2025 \n Development Kicko Ư: 1 April 2025  \n UAT: 1 June 2025 \n Go-Live: 1 July 2025 \n Success Metrics: \n Reduce TAT from 5 days to 2 hours \n 80% reduction in manual data entry \n 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n Executive Summary \n Business Objectives \n Functional Requirements \n Non-functional Requirements \n Compliance and Regulatory Needs \n Assumptions, Constraints, Risks \n Appendices \n ",
     "preprocessed": {
-        "clean_text": "Agentic AI for Automated Requirement Gathering\nProject Title:\nAgentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\nObjective:\nTo automate the requirement gathering, documentation, and validation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\n[ArcComponents & Tech Stack:\n1. Input Layer\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. Agents\n   - IngestorAgent: Extracts text from source files\nPage 1Agentic AI for Automated Requirement Gathering\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs\n   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. Memory & Reasoning\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. Orchestration Framework\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\nPage 2Agentic AI for Automated Requirement Gathering\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance:\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environments\nBenefits:\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals:\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nPage 3",
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n Online loan application form with Aadhaar/PAN-based preﬁll. \n Integration with credit bureau (CIBIL) to fetch credit score. \n AI-based eligibility and risk assessment module. \n Real-time KYC document veriﬁcation (OCR + face match). \n Loan sanction and e-agreement signing via OTP-based authentication. \n Integration with core banking for disbursement. \n \nOut of Scope: \n Home loan, car loan, and business loan modules. \n Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n Product Manager: Rahul Sharma \n Business Head – Retail Lending: Priya Iyer  IT Manager: Rakesh Sinha \n Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n Responsive web app for self-service journey \n Aadhaar/PAN card OCR and veriﬁcation \n Credit score fetc Eligibility rules based on income, credit  and existing liabilities \n Risk scoring using internal AI model \n E-sign integration using DigiLocker + Aadhaar eKYC \n Dashboard for customer to track loan status \n \nAssumptions: \n Customer must have Aadhaar-linked mobile number \n System must support English and  Loan disbursement only through veriﬁed bank accounts \n \nRisks: \n Delay in API access to credit bureau \n Resistance from customers not comfortable with digital onboarding \n Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n Requirements Finalization: 15 March 2025 \n Development Kicko Ư: 1 April 2025  \n UAT: 1 June 2025 \n Go-Live: 1 July 2025 \n Success Metrics: \n Reduce TAT from 5 days to 2 hours \n 80% reduction in manual data entry \n 90% accuracy in eligibility checks \n \nT wwill structure t Executive Summary \n Business Objectives \n Functional Requirements \n Non-functional Requirements \n Compliance and Regulatory Needs \n Assumptions, Constraints, Risks \n Appendices",
         "segments": [
-            "Agentic AI for Automated Requirement Gathering\nProject Title:\nAgentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\nObjective:\nTo automate the requirement gathering, documentation, and validation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)",
-            "[ArcComponents & Tech Stack:\n1.",
-            "Input Layer\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2.",
-            "Agents\n   - IngestorAgent: Extracts text from source files\nPage 1Agentic AI for Automated Requirement Gathering\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs\n   - ValidationAgent:",
-            "Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3.",
-            "Memory & Reasoning\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4.",
-            "Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5.",
-            "Orchestration Framework\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1.",
-            "Upload policy PDF\n2.",
-            "IngestorAgent extracts text\n3.",
-            "ContextAgent identifies context elements\n4.",
-            "RequirementAgent generates structured requirements\n5.",
-            "ComplianceAgent validates alignment with policies\nPage 2Agentic AI for Automated Requirement Gathering\n6.",
-            "TraceAgent logs all steps\n7.",
-            "Result pushed to Jira\nSecurity & Compliance:\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environments\nBenefits:\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals:\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nPage 3"
+            "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+            "Ttime (TAT), frequent errors, and poor customer experience.",
+            "Management wants to \ndigitize the entire loan origination process for personal loans.",
+            "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+            "Scope: \n",
+            "Online loan application form with Aadhaar/PAN-based preﬁll.",
+            " Integration with credit bureau (CIBIL) to fetch credit score.",
+            " AI-based eligibility and risk assessment module.",
+            " Real-time KYC document veriﬁcation (OCR + face match).",
+            " Loan sanction and e-agreement signing via OTP-based authentication.",
+            " Integration with core banking for disbursement.",
+            "Out of Scope: \n Home loan, car loan, and business loan modules.",
+            " Agent-assisted journeys for Tier 3 regions.",
+            "Stakeholders: \n",
+            "Product Manager: Rahul Sharma \n Business Head – Retail Lending: Priya Iyer ",
+            "IT Manager: Rakesh Sinha \n",
+            "Compliance Lead:",
+            "Anjali Mehta \n \nKey Features / Requirements: \n",
+            "Responsive web app for self-service journey \n Aadhaar/PAN card OCR and veriﬁcation \n",
+            "Credit score fetc Eligibility rules based on income, credit  and existing liabilities \n",
+            "Risk scoring using internal AI model \n E-sign integration using DigiLocker + Aadhaar eKYC \n",
+            "Dashboard for customer to track loan status \n \nAssumptions:",
+            " Customer must have Aadhaar-linked mobile number \n",
+            "System must support English and  Loan disbursement only through veriﬁed bank accounts \n \nRisks: \n Delay in API access to credit bureau \n Resistance from customers not comfortable with digital onboarding \n",
+            "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n Requirements Finalization: 15 March 2025 \n",
+            "Development Kicko Ư: 1 April 2025  \n UAT: 1 June 2025 \n Go-Live: 1 July 2025 \n Success Metrics: \n Reduce TAT from 5 days to 2 hours \n 80% reduction in manual data entry \n 90% accuracy in eligibility checks \n \nT wwill structure t Executive Summary \n Business Objectives \n Functional Requirements \n Non-functional Requirements \n Compliance and Regulatory Needs \n Assumptions, Constraints, Risks \n Appendices"
         ],
         "entities": [
             {
-                "text": "Agentic AI",
-                "label": "LOC"
-            },
-            {
-                "text": "Jira",
-                "label": "PERSON"
-            },
-            {
-                "text": "ArcComponents & Tech Stack",
+                "text": "Digital Loan Application",
                 "label": "ORG"
             },
             {
-                "text": "1",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Input Layer",
-                "label": "PERSON"
-            },
-            {
-                "text": "2",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Page 1Agentic AI",
-                "label": "FAC"
-            },
-            {
-                "text": "docs",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "3",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Memory & Reasoning",
+                "text": "XYZ Bank",
                 "label": "ORG"
             },
             {
-                "text": "Vector DB",
-                "label": "PERSON"
-            },
-            {
-                "text": "RAG",
+                "text": "TAT",
                 "label": "ORG"
             },
             {
-                "text": "4",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Tools & APIs\n   - OpenAI GPT-4 / Anthropic Claude",
+                "text": "KYC",
                 "label": "ORG"
             },
             {
-                "text": "5",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Sample Flow",
-                "label": "PERSON"
-            },
-            {
-                "text": "PDF",
+                "text": "Aadhaar",
                 "label": "ORG"
             },
             {
-                "text": "Jira\n1",
-                "label": "PERSON"
-            },
-            {
-                "text": "PDF",
+                "text": "PAN",
                 "label": "ORG"
             },
             {
-                "text": "2",
-                "label": "CARDINAL"
+                "text": "CIBIL",
+                "label": "ORG"
             },
             {
-                "text": "IngestorAgent",
+                "text": "AI",
+                "label": "ORG"
+            },
+            {
+                "text": "Loan",
+                "label": "ORG"
+            },
+            {
+                "text": "OTP",
+                "label": "ORG"
+            },
+            {
+                "text": "Home",
                 "label": "ORG"
             },
             {
@@ -109,72 +80,139 @@
                 "label": "CARDINAL"
             },
             {
-                "text": "4",
-                "label": "CARDINAL"
+                "text": "Rahul Sharma",
+                "label": "PERSON"
             },
             {
-                "text": "5",
-                "label": "CARDINAL"
+                "text": "Priya Iyer",
+                "label": "PERSON"
             },
             {
-                "text": "Page 2Agentic AI",
+                "text": "Anjali Mehta",
+                "label": "PERSON"
+            },
+            {
+                "text": "Aadhaar",
+                "label": "ORG"
+            },
+            {
+                "text": "PAN",
+                "label": "ORG"
+            },
+            {
+                "text": "OCR",
+                "label": "ORG"
+            },
+            {
+                "text": "Credit",
+                "label": "ORG"
+            },
+            {
+                "text": "fetc Eligibility",
+                "label": "ORG"
+            },
+            {
+                "text": "AI",
+                "label": "ORG"
+            },
+            {
+                "text": "DigiLocker",
+                "label": "ORG"
+            },
+            {
+                "text": "Dashboard",
+                "label": "PERSON"
+            },
+            {
+                "text": "Aadhaar",
+                "label": "ORG"
+            },
+            {
+                "text": "English",
+                "label": "LANGUAGE"
+            },
+            {
+                "text": "Loan",
+                "label": "ORG"
+            },
+            {
+                "text": "Delay",
+                "label": "PERSON"
+            },
+            {
+                "text": "API",
+                "label": "ORG"
+            },
+            {
+                "text": "RBI",
+                "label": "ORG"
+            },
+            {
+                "text": "15 March 2025",
+                "label": "DATE"
+            },
+            {
+                "text": "1 April 2025",
+                "label": "DATE"
+            },
+            {
+                "text": "UAT",
+                "label": "ORG"
+            },
+            {
+                "text": "1 June 2025",
+                "label": "DATE"
+            },
+            {
+                "text": "1 July 2025",
+                "label": "DATE"
+            },
+            {
+                "text": "5 days",
+                "label": "DATE"
+            },
+            {
+                "text": "2 hours",
+                "label": "TIME"
+            },
+            {
+                "text": "80%",
+                "label": "PERCENT"
+            },
+            {
+                "text": "90%",
+                "label": "PERCENT"
+            },
+            {
+                "text": "Business Objectives",
+                "label": "ORG"
+            },
+            {
+                "text": "Functional Requirements",
+                "label": "ORG"
+            },
+            {
+                "text": "Requirements",
+                "label": "PRODUCT"
+            },
+            {
+                "text": "Compliance and Regulatory Needs",
                 "label": "WORK_OF_ART"
             },
             {
-                "text": "6",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "7",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Jira\nSecurity & Compliance",
+                "text": "Assumptions, Constraints, Risks",
                 "label": "ORG"
-            },
-            {
-                "text": "DB",
-                "label": "GPE"
-            },
-            {
-                "text": "Role",
-                "label": "GPE"
-            },
-            {
-                "text": "SME",
-                "label": "ORG"
-            },
-            {
-                "text": "SME",
-                "label": "ORG"
-            },
-            {
-                "text": "70%+",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "MVP Goals",
-                "label": "ORG"
-            },
-            {
-                "text": "PDF",
-                "label": "ORG"
-            },
-            {
-                "text": "3",
-                "label": "CARDINAL"
-            },
-            {
-                "text": "Jira\n- Store",
-                "label": "PERSON"
-            },
-            {
-                "text": "3",
-                "label": "CARDINAL"
             }
         ]
     },
-    "summary": "Key Points:\n- The project \"Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\" aims to automate requirement gathering, documentation, and validation using LLM-powered agents.\n- These agents will ingest unstructured data from meetings, emails, and PDFs, interpret context, extract relevant information and generate formal requirements/user stories/specifications.\n- They will also ensure regulatory compliance, traceability, and integrate outputs into enterprise tools like Jira.\n- The tech stack includes Meeting transcripts (audio-text conversion), Emails (.eml parsing), PDFs/DOCX (via PyPDF2, python-docx), Web scraping for regulatory documents, a host of agents for different tasks, a memory and reasoning layer, API integrations and a framework for orchestration,\n- In terms of security and compliance, there will be redaction and anonymization of personally identifiable information as a pre-step, audit logs stored in an append-only database or JSON, a role-based SME validation loop, and secure deployment options.\n- The benefits include acceleration in capturing requirements, ensuring consistent formatting and compliance, maintaining traceability and audit readiness, and reducing manual SME effort by around 70%.\n- The MVP Goals are to upload PDF or email transcripts, auto-generate 3 user stories with acceptance criteria, push these to Jira, and store logs in a dashboard.\n\nActions:\n- Develop the structure and design for \"Agentic AI for Automated Requirement Gathering\".\n- Ensure the created automated system can ingest, interpret, and extract relevant information from various data sources.\n- Develop a suite of agents for targeted tasks such as text extraction, content filtering, context extraction, requirement generation, compliance validation, feedback routing and audit tracking.\n- Integrate the solution with APIs and enterprise tools.\n- Incorporate necessary security and compliance measures.\n- Test the system to confirm a reduction in manual SME effort by about 70%.\n- Achieve the MVP Goals in the development of the system.\n\nBlockers:\n- No explicit blockers were discussed in the meeting content.",
-    "requirements": "Business Requirements:\n\n1. As a developer, I want to create the structure and design for \"Agentic AI for Automated Requirement Gathering\", so that it will serve as the foundation for all future functionality. \nAcceptance Criteria: Establishment of an operational structure and design for the AI system that can be built upon with additional features and functionalities.\n\n2. As an AI agent, I want to ingest, interpret, and extract relevant information from various data sources such as meeting transcripts, emails, and PDFs so that the normalized data can be further processed for information extraction. \nAcceptance Criteria: Successful extraction of data from specified file types is verified through unit tests.\n\n3. As a user, I want a suite of agents developed for targeted tasks such as text extraction, content filtering, context extraction, requirement generation, compliance validation, feedback routing, and audit tracking so that the information extracted can be transformed into a usable format.\nAcceptance Criteria: Demonstration of functioning and useful AI agent functionalities.\n\n4. As a user, I want the solution integrated with APIs and enterprise tools so that the utility of the solution is enhanced through synergy with existing systems.\nAcceptance Criteria: Verified successful integration through the successful passing of test cases.\n\n5. As a user, I want the system to have necessary security and compliance measures such as redaction and anonymization of personally identifiable information, audit logs stored in an append-only database or JSON, a role-based SME validation loop, and secure deployment options so that the system remains compliant and trustworthy. \nAcceptance Criteria: Verified adequate security and compliance measures implemented and functional by reviewing audit logs and running security checks.\n\n6. As an user, I want to test the system and see a reduction in manual SME effort by about 70% so that efficiency and productivity are increased. \nAcceptance Criteria: Demonstrate a 70% reduction of manual SME work through testing and analysis.\n\n7. As a developer, I want to achieve the MVP Goals, which includes the upload of PDF or email transcripts, auto-generation of 3 user stories with acceptance criteria, pushing these to Jira, and storing logs in a dashboard, in the development of the system so that it meets the minimum functionality and can be built upon. \nAcceptance Criteria: Verification of MVP functionality through testing and system analysis.",
-    "compliance_result": "- Compliance Status: Non-Compliant\n- Matched Policies: \n  - Rule ID: 1 (Data ingestion and PII redaction/anonymization)\n  - Rule ID: 2 (Audit logs storage)\n  - Rule ID: 3 (Secure deployment)\n  - Rule ID: 4 (Role-based SME validation loop)\n  - Rule ID: 5 (Output data sources compliance)\n  - Rule ID: 7 (Secure storage and access control)\n  - Rule ID: 10 (Accuracy and up-to-date input data sources)\n\n- Missing Elements:\n  - Rule ID: 6 (Ensuring all agents perform tasks accurately and efficiently)\n  - Rule ID: 8 (Accuracy and completeness of auto-generated user stories and acceptance criteria)\n  - Rule ID: 9 (Seamless and error-free process for uploading policy PDFs, text extraction, context identification, structured requirements generation, alignment validation with policies, logging all steps, and result pushed to Jira)\n\n- Suggested Clauses:\n  - Include a clause ensuring that all agents, including IngestorAgent, ParserAgent, ContextAgent, RequirementAgent, ComplianceAgent, ValidationAgent, and TraceAgent, perform their respective tasks accurately and efficiently.\n  - Add a clause to ensure that the auto-generated user stories and acceptance criteria are accurate, complete, and comply with the business requirements.\n  - Incorporate a clause to ensure that the process of uploading policy PDFs, text extraction, context identification, structured requirements generation, alignment validation with policies, logging all steps, and result pushed to Jira is seamless and error-free."
+    "summary": "**Key Points:**\n\n1. The aim is to digitize XYZ Bank's manual, paper-based loan application process to reduce frequent errors, poor customer experience, and TAT.\n2. An online platform will be created for customers to apply for personal loans, assess their eligibility, upload KYC documents, check application status, and receive approval digitally.\n3. The project will include features like Aadhaar/PAN-based pre-fill online loan application, integration with the credit bureau CIBIL, AI-based eligibility/risk assessment, real-time KYC verification, OTP-based e-agreement signing, and core banking integration.\n4. Home loan, car loan, and business loan modules, as well as agent-assisted services for Tier 3 regions, will not be included.\n5. The project involves key stakeholders like Product Manager Rahul Sharma, Business Head – Retail Lending Priya Iyer, IT Manager Rakesh Sinha, and Compliance Lead Anjali Mehta.\n6. System prerequisites including customers having Aadhaar-linked mobile numbers and valid bank accounts.\n7. Risks include API access delay to the credit bureau, digital onboarding resistance from customers, and compliance changes due to upcoming RBI guidelines.\n  \n**Actions:**\n\n1. Finalize the requirements by 15 March 2025.\n2. Kickoff the development process by 1 April 2025.\n3. Begin UAT by 1 June 2025.\n4. Schedule to Go-Live by 1 July 2025.\n\n**Blockers:**\n\n1. Possible delay in API access to credit bureau.\n2. Potential resistance from customers who are not comfortable with digital onboarding.\n3. Possible sudden changes in compliance due to emerging RBI guidelines. \n\n**Success Metrics:**\n\n1. Reduction of TAT from 5 days to 2 hours.\n2. 80% reduction in manual data entry.\n3. 90% accuracy in eligibility checks.",
+    "requirements": "**Business Requirements**\n\n1. As a customer, I want to apply for a personal loan online, so that the process is quick, efficient, and less time-consuming.  \n   **Acceptance Criteria:** Online loan application feature has been implemented and functional. A customer can fill and submit an online application.  \n   **Role:** Customer  \n   **Expected Behavior:** On providing necessary details and documents, the system should allow submission of the application.\n\n2. As a customer, I want the system to assess my loan eligibility using AI-based risk assessment, so that I can know my status instantly.  \n   **Acceptance Criteria:** The system can make accurate loan eligibility decisions.  \n   **Role:** AI system  \n   **Expected Behavior:** On providing all the necessary information, the system should assess the eligibility and inform the customer.\n\n3. As a customer, I want an Aadhaar/PAN-based pre-fill for my online loan application, so that the process becomes faster and I can avoid frequent data entry.  \n   **Acceptance Criteria:** On providing Aadhaar/PAN number, the system should autofill the respective information in the application.  \n   **Role:** Customer  \n   **Expected Behavior:** The system should automatically fill in the details using the Aadhaar/PAN number.\n\n4. As a customer, I want to upload my KYC documents online and get real-time verification, so that I don't need to visit the bank physically.  \n   **Acceptance Criteria:** Customers are able to upload the necessary documents and the system verifies those in real time.  \n   **Role:** System  \n   **Expected Behavior:** The system should accept documents upload and perform real-time verification.\n\n5. As a customer, I want to sign the loan agreement digitally using OTP, so that it is convenient and safe.  \n   **Acceptance Criteria:** After loan approval, the system should allow OTP-based e-agreement signing.  \n   **Role:** Customer  \n   **Expected Behavior:** After receiving OTP, customers should be able to confirm their loan agreement.\n\n6. As a customer, I want to check my loan application status online, so that I can stay updated about the progress.  \n   **Acceptance Criteria:** Once the application is submitted, the system should allow customers to check application status.   \n   **Role:** Customer  \n   **Expected Behavior:** The system should provide real-time updates on application status.\n\n7. As a credit bureau CIBIL, I want the bank's system to integrate with my API, so that I can provide the credit history of the applicants.  \n   **Acceptance Criteria:** The developed system is fully integrated with CIBIL's API and can fetch data successfully.  \n   **Role:** IT Manager Rakesh Sinha  \n   **Expected Behavior:** The system should send the required query and be able to receive and decode the response from CIBIL.  \n\n8. As a Product Manager, I want the system to integrate with our core banking system, so that all actions taken on the platform reflect in our banking system.  \n   **Acceptance Criteria:** The system is fully integrated with the bank's existing core system.  \n   **Role:** Product Manager Rahul Sharma  \n   **Expected Behavior:** Any action recorded on the platform should synchronize with bank's system.",
+    "compliance_result": "- **Compliance Status:** Compliant\n\n- **Matched Policies:** \n  - R1: The system must allow online loan application form with Aadhaar/PAN-based prefill.\n  - R2: The system must integrate with credit bureau (CIBIL) to fetch credit score.\n  - R3: The system must have an AI-based eligibility and risk assessment module.\n  - R4: The system must perform real-time KYC document verification (OCR + face match).\n  - R5: The system must allow loan sanction and e-agreement signing via OTP-based authentication.\n  - R6: The system must integrate with core banking for disbursement.\n\n- **Missing Elements:** None\n\n- **Suggested Clauses:** None",
+    "rules": {
+        "brd_text": "## Project Name\nDigital Loan Application and Approval System\n\n## Business Requirement Document\n\n### 1. Background\n\nThe current loan application process at XYZ Bank is manual, paper-based, and requires customers to visit branches physically. This has led to increased turnaround time (TAT), frequent errors, and poor customer experience. The management wants to digitize the entire loan origination process for personal loans.\n\n### 2. As-is Process\n\nThe as-is process steps are documented below (as-is process diagram):\n\n<<Image>>\n\n### 3. Business Requirements\n\n#### 3.1 Functional Requirements\n\n##### 3.1.1 Process Details\n\n- Online loan application form with Aadhaar/PAN-based prefill.\n- Integration with credit bureau (CIBIL) to fetch credit score.\n- AI-based eligibility and risk assessment module.\n- Real-time KYC document verification (OCR + face match).\n- Loan sanction and e-agreement signing via OTP-based authentication.\n- Integration with core banking for disbursement.\n\n##### 3.1.2 Process Steps\n\n- Customer fills online loan application form.\n- System fetches credit score from CIBIL.\n- System performs eligibility and risk assessment.\n- Customer uploads KYC documents for real-time verification.\n- Customer receives loan sanction and signs e-agreement via OTP.\n- System integrates with core banking for disbursement.\n\n#### 3.2 System Orchestration Requirements\n\n- File Storage: To be defined\n- Output File Library: To be defined\n\n#### 3.3 UI/UX Requirements (MVP -1)\n\n- Login Screen: Users are expected to log in using Single Sign-On (SSO) when accessing. This login mechanism enhances security and streamlines the authentication process.\n- User Role-Based Access: \n  - Manager Role: Managers should be granted access to cases, empowering them to utilize both the upload and download functionalities of the automation. This role ensures that managerial users have the necessary permissions for case-related activities.\n  - Admin Role: Admin access, reserved for select team members, provides comprehensive access to the entire application. This privileged role is designated for individuals who require full control and oversight of the application's functionalities.\n\n#### 3.4 Non-Functional Requirements\n\n- Audit Trail: A comprehensive audit trail will be maintained to track user activities within the application. This includes capturing user-specific information such as usernames, date and time stamps, and the type of activities performed.\n- Monitoring and Reporting: The system will collect log data to monitor the number of active users and track individual usernames. Additionally, performance metrics of the application will be recorded.\n- Security: User authentication will be implemented using secure protocols. This security measure ensures that only authenticated users with proper credentials can access the application, enhancing overall system security.\n- Reliability: The system is committed to maintaining a minimum uptime, excluding scheduled maintenance.\n\n### 4. To Be Process\n\nAnticipated Procedural Steps for MVP -1:\n\n- The Team initializes the application login procedure upon receipt of emails.\n- Subsequently, the team systematically transfers files, utilizing them as inputs for the designated tool.\n\n#### 4.1 Process Steps\n\n- Step-by-step guide for process information.\n\n### 5. Assumptions\n\n- Customer must have Aadhaar-linked mobile number.\n- System must support English and Hindi.\n- Loan disbursement only through verified bank accounts.\n\n### 6. Inclusions and Exclusions\n\nInclusions of the project are as follows:\n\n- Online loan application form with Aadhaar/PAN-based prefill.\n- Integration with credit bureau (CIBIL) to fetch credit score.\n- AI-based eligibility and risk assessment module.\n- Real-time KYC document verification (OCR + face match).\n- Loan sanction and e-agreement signing via OTP-based authentication.\n- Integration with core banking for disbursement.\n\nExclusions for the project are as follows:\n\n- Home loan, car loan, and business loan modules.\n- Agent-assisted journeys for Tier 3 regions.\n\n### 7. Data Sources\n\n#### 7.1 Input Data Sources\n\nTo be defined\n\n#### 7.1.1 Key Volumetrics of the As-Is User Flow\n\nTo be defined\n\n#### 7.2 Output Data Sources\n\nTo be defined\n\n### 8. Glossary of Data\n\nTo be defined\n\n## Compliance Rules\n\n| Rule ID | Description | Category | Severity | Applicable Standards |\n|---------|-------------|----------|----------|-----------------------|\n| R1      | All user activities within the application must be tracked and recorded in an audit trail. | Security | High | ISO 27001 |\n| R2      | User authentication must be implemented using secure protocols. | Security | High | ISO 27001 |\n| R3      | The system must maintain a minimum uptime, excluding scheduled maintenance. | Operational | High | N/A |\n| R4      | The system must support English and Hindi languages. | Operational | Medium | N/A |\n| R5      | Loan disbursement must only be done through verified bank accounts. | Legal | High | Anti-Money Laundering (AML) Regulations |\n| R6      | The system must fetch credit score from CIBIL. | Data | High | Credit Information Companies Regulation Act (CICRA) |\n| R7      | The system must perform real-time KYC document verification (OCR + face match). | Legal | High | Know Your Customer (KYC) Regulations |\n| R8      | The system must perform AI-based eligibility and risk assessment. | Data | High | N/A |\n| R9      | The system must integrate with core banking for disbursement. | Operational | High | N/A |\n| R10     | The system must not include home loan, car loan, and business loan modules. | Operational | Medium | N/A |\n| R11     | The system must not include agent-assisted journeys for Tier 3 regions. | Operational | Medium | N/A |\n| R12     | The system must provide role-based access (Manager Role and Admin Role). | Security | High | ISO 27001 |\n| R13     | The system must maintain log data to monitor the number of active users and track individual usernames. | Security | High | ISO 27001 |\n| R14     | The system must allow loan application form prefill with Aadhaar/PAN. | Data | Medium | Aadhaar Act, 2016 |\n| R15     | The system must allow loan sanction and e-agreement signing via OTP-based authentication. | Security | High | ISO 27001 |\n| R16     | The system must ensure that customers have Aadhaar-linked mobile numbers. | Legal | High | Aadhaar Act, 2016 |",
+        "pdf_path": "generated_pdf\\generated_brd.pdf"
+    },
+    "rules_file": "compliance_rules.json",
+    "rules_path": "compliance_rules\\compliance_rules.json",
+    "message": "Full pipeline and BRD rules processing complete"
 }
