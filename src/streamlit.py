@@ -1,18 +1,17 @@
+
 import streamlit as st
 import requests
 import json
-import os
-from io import BytesIO
-from fpdf import FPDF
+import io
 
-# Set page config
+# Set page config with HSBC styling
 st.set_page_config(
-    page_title="Document Processing Pipeline",
+    page_title="BRD Generator & Compliance System",
     page_icon="📄",
     layout="wide"
 )
 
-# Custom CSS styling
+# Custom CSS for HSBC-style UI
 st.markdown("""
     <style>
     .stApp {
@@ -37,442 +36,298 @@ st.markdown("""
         padding: 20px;
         margin-top: 20px;
         min-height: 100px;
+        white-space: pre-wrap;
     }
     .header {
         color: #FFD700;
     }
+    .agent-container {
+        background-color: #222222;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    .agent-name {
+        color: #FFD700;
+        font-size: 1.2em;
+        font-weight: bold;
+    }
+    .agent-task {
+        font-style: italic;
+        margin: 5px 0 10px 0;
+    }
+    .agent-output {
+        background-color: #333333;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 10px 0;
+        white-space: pre-wrap;
+    }
+    .agent-summary {
+        color: #AAAAAA;
+        font-size: 0.9em;
+    }
     </style>
-    """, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
-# API base URL
-API_URL = "http://localhost:8000"
+BACKEND_URL = "http://localhost:8000"  # Change if needed
 
-# Initialize session state
-if 'mode' not in st.session_state:
-    st.session_state.mode = 'manual'
-if 'output' not in st.session_state:
-    st.session_state.output = None
-
-# Header
-st.markdown("<h1 class='header'>Document Processing Pipeline</h1>", unsafe_allow_html=True)
-
-# Mode selection
-col1, col2, col3 = st.columns(3)
-with col1:
-    if st.button("Manual Mode"):
-        st.session_state.mode = 'manual'
-with col2:
-    if st.button("Sequential Mode"):
-        st.session_state.mode = 'sequential'
-with col3:
-    if st.button("Rules Matching"):
-        st.session_state.mode = 'rules_matching'
-
-
-st.markdown("---")
-
-# Rules Matching Mode
-if st.session_state.mode == 'rules_matching':
-    st.markdown("### Rules Matching Pipeline")
-
-    rules_file = st.file_uploader("Upload a PDF file for rules matching", type=["pdf"], key="rules_match_file")
-
-    if st.button("Run Rules Matching"):
-        if rules_file:
-            with st.spinner("Running rules matching..."):
-                response = requests.post(f"{API_URL}/full-compliance-pipeline", files={"file": rules_file})
-                if response.status_code == 200:
-                    result = response.json()
-                    
-                    # Correct key names
-                    match_result = result.get("semantic_gap_analysis", "N/A")
-                    generated_rules = result.get("generated_rules", "N/A")
-                    compliance_result = result.get("compliance_result", "N/A")
-                    extracted_text = result.get("extracted_text", "N/A")
-
-                    st.session_state.output = {
-                        "generated_rules": generated_rules,
-                        "compliance_result": compliance_result,
-                        "match_result": match_result,
-                        "extracted_text": extracted_text
-                    }
-                    st.success("Rules matched successfully!")
-
-                    st.markdown("#### 🧾 Extracted Text")
-                    st.code(extracted_text)
-                    st.markdown("#### 🔍 Match Result (List Format)")
-                    try:
-                        if isinstance(match_result, list) and all(isinstance(item, dict) for item in match_result):
-                            for idx, item in enumerate(match_result, start=1):
-                                st.markdown(f"**Result {idx}:**")
-                                for key, value in item.items():
-                                    st.markdown(f"- **{key}**: {value}")
-                                st.markdown("---")
-                        else:
-                            st.code(json.dumps(match_result, indent=2), language="json")
-                    except Exception as e:
-                        st.error(f"Error displaying match result: {e}")                    
-                    
-
-                    st.markdown("#### 📜 Generated Rules")
-                    st.code(json.dumps(generated_rules, indent=2) if isinstance(generated_rules, (dict, list)) else str(generated_rules), language="json")
-
-                    st.markdown("#### ✅ Compliance Result")
-                    st.code(json.dumps(compliance_result, indent=2) if isinstance(compliance_result, (dict, list)) else str(compliance_result), language="json")
-
-                else:
-                    st.error(f"Error: {response.text}")
+def call_backend(endpoint, files=None, data=None):
+    try:
+        url = f"{BACKEND_URL}/{endpoint}"
+        if files and data:
+            response = requests.post(url, files=files, json=data)
+        elif files:
+            response = requests.post(url, files=files)
+        elif data:
+            response = requests.post(url, json=data)
         else:
-            st.warning("Please upload a PDF file first.")
-
-# Manual Mode
-if st.session_state.mode == 'manual':
-    st.markdown("### Manual Processing Steps")
-
-    tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-        "Ingestion", "BRD Generation", "Preprocessing",
-        "Summarization", "Requirements", "Compliance", "Feedback"
-    ])
-
-    with tab1:
-        st.markdown("#### PDF Ingestion")
-        uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"], key="ingestion_file")
-        if st.button("Process PDF"):
-            if uploaded_file is not None:
-                files = {"file": uploaded_file.getvalue()}
-                response = requests.post(f"{API_URL}/ingestion", files=files)
-                if response.status_code == 200:
-                    st.session_state.output = response.json()
-                    st.success("PDF processed successfully!")
-                else:
-                    st.error(f"Error: {response.text}")
-            else:
-                st.warning("Please upload a PDF file first")
-
-    with tab2:
-        st.markdown("#### BRD Generation")
-        brd_file = st.file_uploader("Upload a PDF for BRD Generation", type=["pdf"], key="brd_file")
-        if st.button("Generate BRD with Rules"):
-            if brd_file:
-                with st.spinner("Running full compliance pipeline for BRD..."):
-                    # Post the uploaded file bytes correctly
-                    response = requests.post(
-                        f"{API_URL}/full-compliance-pipeline",
-                        files={"file": ("uploaded_brd.pdf", brd_file.getvalue(), "application/pdf")}
-                    )
-
-                    if response.status_code == 200:
-                        result = response.json()
-                        st.session_state.output = result
-
-                        # Download buttons for rules JSON and BRD PDF
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            rules_json = json.dumps(result.get("rules", {}), indent=2, ensure_ascii=False)
-                            st.download_button(
-                                label="Download BRD Rules (JSON)",
-                                data=rules_json,
-                                file_name="generated_brd_rules.json",
-                                mime="application/json"
-                            )
-
-                        with col2:
-                            # Assuming the backend sends back PDF bytes or a path - let's fetch again to be sure
-                            # If your API returns 'pdf_path', you may need a separate endpoint to fetch the file
-                            # But here, we'll call /generate-brd-pdf again with the same file
-                            pdf_response = requests.post(
-                                f"{API_URL}/generate-brd-pdf",
-                                files={"file": ("uploaded_brd.pdf", brd_file.getvalue(), "application/pdf")}
-                            )
-
-                            if pdf_response.status_code == 200:
-                                st.download_button(
-                                    label="Download BRD (PDF)",
-                                    data=pdf_response.content,
-                                    file_name="generated_brd.pdf",
-                                    mime="application/pdf"
-                                )
-                            else:
-                                st.error("Failed to fetch BRD PDF.")
-
-                        # Display the BRD text nicely
-                        brd_text = result.get("brd_text", None)
-                        if brd_text:
-                            st.markdown("#### 📄 Business Requirement Document (BRD) Text")
-                            # Show in a scrollable container or markdown with limited height
-                            st.text_area("BRD Content", value=brd_text, height=400)
-
-                        # Display BRD rules JSON
-                        st.markdown("#### 📘 Generated BRD and Compliance Rules")
-                        brd_rules_display = result.get("rules", {})
-                        if isinstance(brd_rules_display, (dict, list)):
-                            st.code(json.dumps(brd_rules_display, indent=2), language="json")
-                        else:
-                            st.text(str(brd_rules_display))
-
-                        # Display Summary if present
-                        if "summary" in result:
-                            st.markdown("#### 📝 Document Summary")
-                            summary = result["summary"]
-                            if isinstance(summary, (dict, list)):
-                                st.code(json.dumps(summary, indent=2), language="json")
-                            else:
-                                st.text(str(summary))
-
-                    else:
-                        st.error(f"Error: {response.text}")
-            else:
-                st.warning("Please upload a PDF file for BRD Generation")
-                    
-
-            with tab3:
-                st.markdown("#### PDF Preprocessing")
-                preprocess_file = st.file_uploader("Upload a PDF file", type=["pdf"], key="preprocess_file")
-                if st.button("Preprocess PDF"):
-                    if preprocess_file is not None:
-                        response = requests.post(f"{API_URL}/preprocess/", files={"file": preprocess_file})
-                        if response.status_code == 200:
-                            st.session_state.output = response.json()
-                            st.success("PDF preprocessed successfully!")
-                        else:
-                            st.error(f"Error: {response.text}")
-                    else:
-                        st.warning("Please upload a PDF file first")
-
-            with tab4:
-                st.markdown("#### PDF Summarization")
-                summarize_file = st.file_uploader("Upload a PDF file", type=["pdf"], key="summarize_file")
-                if st.button("Summarize PDF"):
-                    if summarize_file is not None:
-                        response = requests.post(f"{API_URL}/summarize-content", files={"file": summarize_file})
-                        if response.status_code == 200:
-                            st.session_state.output = response.json()
-                            st.success("PDF summarized successfully!")
-                        else:
-                            st.error(f"Error: {response.text}")
-                    else:
-                        st.warning("Please upload a PDF file first")
-
-            with tab5:
-                st.markdown("#### Generate Requirements")
-                if st.button("Generate Requirements"):
-                    response = requests.get(f"{API_URL}/generate-requirements")
-                    if response.status_code == 200:
-                        st.session_state.output = response.json()
-                        st.success("Requirements generated successfully!")
-                    else:
-                        st.error(f"Error: {response.text}")
-
-            with tab6:
-                st.markdown("#### Check Compliance")
-                requirement_file = st.file_uploader("Upload requirements PDF", type=["pdf"], key="requirement_file")
-                if st.button("Check Compliance"):
-                    if requirement_file is not None:
-                        response = requests.post(
-                            f"{API_URL}/check-compliance",
-                            files={"requirements_file": requirement_file}
-                        )
-                        if response.status_code == 200:
-                            st.session_state.output = response.json()
-                            st.success("Compliance checked successfully!")
-                        else:
-                            st.error(f"Error: {response.text}")
-                    else:
-                        st.warning("Please upload a requirements PDF file")
-
-            with tab7:
-                st.markdown("#### Feedback Management")
-                feedback_requirement = st.text_area("Requirement", height=68, key="feedback_req")
-                feedback_text = st.text_area("Feedback Text", height=100, key="feedback_text_area")
-                feedback_rating = st.slider("Rating (1-5)", 1, 5, 3, key="feedback_rating")
-
-                if st.button("Submit Feedback"):
-                    if feedback_requirement and feedback_text:
-                        payload = {
-                            "requirement": feedback_requirement,
-                            "feedback": feedback_text,
-                            "rating": feedback_rating
-                        }
-                        response = requests.post(
-                            f"{API_URL}/submit-feedback",
-                            json=payload
-                        )
-                        if response.status_code == 200:
-                            st.session_state.output = response.json()
-                            st.success("Feedback submitted successfully!")
-                        else:
-                            st.error(f"Error: {response.text}")
-                    else:
-                        st.warning("Please enter both requirement and feedback text")
-
-                if st.button("View Feedback Log"):
-                    response = requests.get(f"{API_URL}/feedback-log")
-                    if response.status_code == 200:
-                        st.session_state.output = response.json()
-                        st.success("Feedback log retrieved successfully!")
-                    else:
-                        st.error(f"Error: {response.text}")
-
-# Sequential Mode
-if st.session_state.mode == 'sequential':
-    st.markdown("### Full Pipeline Processing")
-
-    uploaded_file = st.file_uploader("Upload a PDF file for full pipeline processing", type=["pdf"], key="pipeline_file")
-    brd_requirements_file = st.file_uploader("Upload a PDF for BRD requirements", type=["pdf"], key="pipeline_brd_file")
-
-    def generate_pdf(data, brd_rules):
-        pdf = FPDF()
-        pdf.add_page()
-
-        # Set base font
-        pdf.set_font("Times", size=14)
-        pdf.cell(0, 10, "Full Pipeline Processing Result", ln=True, align="C")
-        pdf.ln(5)
-
-        # --- Summary Section ---
-        pdf.set_font("Times", size=14)
-        pdf.cell(0, 10, "Summary", ln=True)
-        pdf.set_font("Times", size=12)
-        pdf.multi_cell(0, 8, data.get("summary", "N/A"))
-        pdf.ln(5)
-
-        # --- Requirements Section ---
-        pdf.set_font("Times", size=14)
-        pdf.cell(0, 10, "Generated Requirements", ln=True)
-        pdf.set_font("Times", size=12)
-        requirements = data.get("requirements", [])
-        if isinstance(requirements, list):
-            for req in requirements:
-                pdf.multi_cell(0, 8, f"- {req}")
+            response = requests.post(url)
+        if response.status_code == 200:
+            return response.json()
         else:
-            pdf.multi_cell(0, 8, str(requirements))
-        pdf.ln(5)
+            st.error(f"Backend error: {response.text}")
+            return None
+    except Exception as e:
+        st.error(f"Connection error: {str(e)}")
+        return None
 
-        # --- Compliance Result ---
-        pdf.set_font("Times", size=14)
-        pdf.cell(0, 10, "Compliance Result", ln=True)
-        pdf.set_font("Times", size=12)
-        compliance = data.get("compliance_result", {})
-        pdf.multi_cell(0, 8, json.dumps(compliance, indent=2))
-        pdf.ln(5)
+def display_agent_progress(agent_name, task, output=None, summary=None):
+    st.markdown(f"<div class='agent-container'>", unsafe_allow_html=True)
+    st.markdown(f"<div class='agent-name'>{agent_name}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='agent-task'>{task}</div>", unsafe_allow_html=True)
 
-        # --- BRD Rules ---
-        pdf.set_font("Times", size=14)
-        pdf.cell(0, 10, "BRD Rules", ln=True)
-        pdf.set_font("Times", size=12)
-        if isinstance(brd_rules, list):
-            for rule in brd_rules:
-                pdf.multi_cell(0, 8, f"- {rule}")
+    if output:
+        if isinstance(output, (dict, list)):
+            st.json(output)
         else:
-            pdf.multi_cell(0, 8, str(brd_rules))
-        pdf.ln(5)
+            st.markdown(f"<div class='agent-output'>{output}</div>", unsafe_allow_html=True)
 
-        # --- Generate PDF to BytesIO ---
-        pdf_bytes = pdf.output(dest='S').encode('latin1')
-        pdf_output = BytesIO(pdf_bytes)
-        pdf_output.seek(0)
-
-        return pdf_output
-
-
-
-    if st.button("Run Full Pipeline"):
-        if uploaded_file is not None and brd_requirements_file is not None:
-            with st.spinner("Processing your document through the full pipeline..."):
-                # Call full pipeline endpoint
-                files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/pdf")}
-                process_response = requests.post(f"{API_URL}/run-full-pipeline", files=files)
-
-                if process_response.status_code == 200:
-                    # Call BRD generation endpoint
-                    brd_response = requests.post(
-                        f"{API_URL}/generate-brd-and-rules",
-                        files={"file": (brd_requirements_file.name, brd_requirements_file.getvalue(), "application/pdf")}
-                    )
-
-                    if brd_response.status_code == 200:
-                        result = process_response.json()
-                        brd_result = brd_response.json()
-
-                        # Display pipeline results nicely
-                        st.subheader("Summary")
-                        st.write(result.get("summary", "No summary available."))
-
-                        st.subheader("Requirements")
-                        requirements = result.get("requirements", [])
-                        if isinstance(requirements, list):
-                            for req in requirements:
-                                st.markdown(f"- {req}")
-                        else:
-                            st.write(requirements)
-
-                        # st.subheader("Compliance Result")
-                        # st.json(result.get("compliance_result", {}))
-
-                        st.subheader("BRD Rules")
-                        rules = brd_result.get("rules", [])
-                        if isinstance(rules, list):
-                            for rule in rules:
-                                st.markdown(f"- {rule}")
-                        else:
-                            st.write(rules)
-
-                        # Generate downloadable PDF with all results
-                        pdf_file = generate_pdf(result, rules)
-
-                        st.success("Full pipeline completed successfully!")
-
-                        # col1, col2 = st.columns(2)
-                        # with col1:
-                        #     st.download_button(
-                        #         label="Download BRD (JSON)",
-                        #         data=json.dumps(brd_result["rules"], indent=2),
-                        #         file_name="full_pipeline_brd.json",
-                        #         mime="application/json"
-                        #     )
-                        # with col2:
-                        #     st.download_button(
-                        #         label="Download Compliance Rules (JSON)",
-                        #         data=json.dumps(brd_result["rules"], indent=2),
-                        #         file_name="full_pipeline_rules.json",
-                        #         mime="application/json"
-                        #     )
-
-                        # st.download_button(
-                        #     label="Download Full Pipeline Result (PDF)",
-                        #     data=pdf_file,
-                        #     file_name="full_pipeline_result.pdf",
-                        #     mime="application/pdf"
-                        # )
-
-                    else:
-                        st.error(f"BRD generation error: {brd_response.text}")
-                else:
-                    st.error(f"Pipeline processing error: {process_response.text}")
-        else:
-            st.warning("Please upload both files: main document and BRD requirements PDF")
-# Output display
-st.markdown("---")
-st.markdown("### Output")
-
-if st.session_state.output is not None:
-    output = st.session_state.output
-
-    st.markdown("<div class='output-box'>", unsafe_allow_html=True)
-
-    st.markdown("#### 📜 Generated Rules")
-    st.code(output.get("generated_rules", "No rules generated"), language="json")
-
-    st.markdown("#### ✅ Compliance Result")
-    st.code(output.get("compliance_result", "No compliance result"), language="json")
-
-    st.markdown("#### 🔍 Match Result")
-    st.code(output.get("match_result", "No match result"), language="json")
-
+    if summary:
+        st.markdown(f"<div class='agent-summary'>{summary}</div>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-    if st.button("Clear Output"):
-        st.session_state.output = None
-else:
-    st.markdown("<div class='output-box'>Output will appear here after processing</div>", 
-                unsafe_allow_html=True)
+# ----- Manual Mode -----
+def manual_mode():
+    st.markdown("### Manual Mode - Trigger Agents Individually")
+
+    uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="manual_upload")
+    prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="manual_prompt")
+    template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="manual_template")
+
+    if not uploaded_file:
+        st.warning("Please upload a PDF document to proceed.")
+        return
+
+    # Read uploaded file bytes once for repeated requests
+    file_bytes = uploaded_file.read()
+    template_bytes = None
+    if template_file:
+        template_bytes = template_file.read()
+
+    # Run each agent on button press, show results individually
+
+    if st.button("Run Ingestion Agent"):
+        with st.spinner("Running Ingestion Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            result = call_backend("ingestion", files=files)
+            if result:
+                display_agent_progress("Ingestion Agent", "Extracting text from PDF", result.get("text", ""), "Text extracted successfully")
+
+    if st.button("Run Preprocessing Agent"):
+        with st.spinner("Running Preprocessing Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            result = call_backend("preprocess", files=files)
+            if result:
+                display_agent_progress("Preprocessing Agent", "Cleaning and structuring text", result, "Text preprocessed successfully")
+
+    if st.button("Run Summarization Agent"):
+        with st.spinner("Running Summarization Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            result = call_backend("summarize-content", files=files)
+            if result:
+                display_agent_progress("Summarization Agent", "Creating document summary", result.get("summary", ""), "Content summarized successfully")
+
+    if st.button("Run Requirement Generation Agent"):
+        with st.spinner("Running Requirement Generation Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            data = {"prompt": prompt_text} if prompt_text else None
+            result = call_backend("generate-requirements", files=files, data=data)
+            if result:
+                display_agent_progress("Requirement Agent", "Generating system requirements", result.get("requirements", []), "Requirements generated successfully")
+
+    if st.button("Run Compliance Agent"):
+        with st.spinner("Running Compliance Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            result = call_backend("check-compliance", files=files)
+            if result:
+                display_agent_progress("Compliance Agent", "Validating requirements against standards", result.get("result", {}), "Compliance checked successfully")
+
+    if st.button("Run BRD Generation Agent"):
+        with st.spinner("Running BRD Generation Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            if template_bytes:
+                files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
+            data = {"prompt": prompt_text} if prompt_text else None
+            result = call_backend("generate-brd", files=files, data=data)
+            if result:
+                display_agent_progress("BRD Generation Agent", "Creating Business Requirements Document", result.get("brd_text", ""), "BRD generated successfully")
+                # Optional: show download link if backend supports it
+                pdf_url = f"{BACKEND_URL}/download-brd/"
+                st.markdown(f"[Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
+
+# ----- Sequential Mode -----
+def sequential_mode():
+    st.markdown("### BRD & Compliance System - Sequential Mode")
+
+    uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="sequential_upload")
+    prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="sequential_prompt")
+    template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="sequential_template")
+
+    if st.button("Start Process"):
+
+        if not uploaded_file:
+            st.warning("Please upload a PDF file first")
+            return
+
+        file_bytes = uploaded_file.read()
+        template_bytes = None
+        if template_file:
+            template_bytes = template_file.read()
+
+        # 1. Ingestion
+        with st.spinner("Running Ingestion Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            ingestion_result = call_backend("ingestion", files=files)
+        if ingestion_result is None:
+            return
+        display_agent_progress(
+            "Ingestion Agent",
+            "Extracting text from PDF",
+            ingestion_result.get("text", ""),
+            "Text extracted successfully"
+        )
+
+        # 2. Preprocessing
+        with st.spinner("Running Preprocessing Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            preprocess_result = call_backend("preprocess", files=files)
+        if preprocess_result is None:
+            return
+        display_agent_progress(
+            "Preprocessing Agent",
+            "Cleaning and structuring text",
+            preprocess_result,
+            "Text preprocessed successfully"
+        )
+
+        # 3. Summarization
+        with st.spinner("Running Summarization Agent..."):
+            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            summarize_result = call_backend("summarize-content", files=files)
+        if summarize_result is None:
+            return
+        display_agent_progress(
+            "Summarization Agent",
+            "Creating document summary",
+            summarize_result.get("summary", ""),
+            "Content summarized successfully"
+        )
+
+        # 4. Requirement Generation
+        # data = {"prompt": prompt_text} if prompt_text else None
+        # with st.spinner("Running Requirement Generation Agent..."):
+        #     files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+        #     requirement_result = call_backend("generate-requirements", files=files, data=data)
+        # if requirement_result is None:
+        #     return
+        # display_agent_progress(
+        #     "Requirement Agent",
+        #     "Generating system requirements",
+        #     requirement_result.get("requirements", []),
+        #     "Requirements generated successfully"
+        # )
+
+        # 5. Compliance Check
+        with st.spinner("Running Compliance Agent..."):
+            files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+
+            compliance_result = call_backend("check-compliance", files=files)
+        if compliance_result is None:
+            return
+        display_agent_progress(
+            "Compliance Agent",
+            "Validating requirements against standards",
+            compliance_result.get("result", {}),
+            "Compliance checked successfully"
+        )
+
+        # 6. BRD Generation
+                # 6. BRD Generation
+        brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+        if template_bytes is not None:
+            brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
+
+        # ✅ Define `data` before calling the backend
+        data = {"prompt": prompt_text} if prompt_text else None
+
+        with st.spinner("Running BRD Generation Agent..."):
+            brd_result = call_backend("generate-brd", files=brd_files, data=data)
+
+        if brd_result is None:
+            return
+        display_agent_progress(
+            "BRD Generation Agent",
+            "Creating Business Requirements Document",
+            brd_result.get("brd_text", ""),
+            "BRD generated successfully"
+        )
+
+        pdf_url = f"{BACKEND_URL}/download-brd/"
+        st.markdown(f"[Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
+
+
+# ----- Rules Matching Mode (placeholder) -----
+def rules_matching_mode():
+    st.markdown("### Rules Matching Mode (Coming Soon)")
+    st.info("This mode is not implemented yet. Please check back later.")
+
+# ----- Main app -----
+def main():
+    st.markdown("<h1 class='header'>BRD Generator & Compliance System</h1>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    mode = st.radio(
+        "Select Mode:",
+        ("Manual Mode", "Sequential Mode"
+        #  , "Rules Matching"
+         ),
+        horizontal=True,
+        label_visibility="hidden"
+    )
+
+    st.markdown("---")
+
+    if mode == "Manual Mode":
+        manual_mode()
+    elif mode == "Sequential Mode":
+        sequential_mode()
+    else:
+        rules_matching_mode()
+
+    st.markdown("---")
+    # st.subheader("Feedback")
+    # feedback = st.text_area("Provide feedback on the system:")
+    # if st.button("Submit Feedback"):
+    #     if feedback:
+    #         data = {"text": feedback, "rating": 5}  # Default rating
+    #         result = call_backend("feedback-log", data=data)
+    #         if result:
+    #             st.success("Thank you for your feedback!")
+    #     else:
+    #         st.warning("Please enter feedback before submitting")
+
+if __name__ == "__main__":
+    main()
+
+ 

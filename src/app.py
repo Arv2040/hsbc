@@ -21,6 +21,13 @@ from agents.governance_agent import gov_agent
 from agents.ingestion import parse_pdf
 from agents.compliance_agent import check_requirement_compliance
 from agents.match_compliance_rules import extract_and_match_vs_excel
+from fastapi import FastAPI, File, UploadFile, Form
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from pathlib import Path
+import shutil
+import tempfile
+from agents.brd import generate_brd  
 #--------- after dependencies ------
 #import speech_recognition as sr
 # from dotenv import load_dotenv
@@ -102,51 +109,100 @@ async def parse(file: UploadFile = File(...)):
 
 
 
-@app.post("/generate-brd-and-rules")
-async def generate_brd_and_rules(file: UploadFile = File(...)):
-    try:
+# @app.post("/generate-brd-and-rules")
+# async def generate_brd_and_rules(file: UploadFile = File(...)):
+#     try:
        
-        temp_dir = tempfile.mkdtemp()
+#         temp_dir = tempfile.mkdtemp()
         
         
-        input_pdf_path = os.path.join(temp_dir, "input.pdf")
-        with open(input_pdf_path, "wb") as f:
-            shutil.copyfileobj(file.file, f)
+#         input_pdf_path = os.path.join(temp_dir, "input.pdf")
+#         with open(input_pdf_path, "wb") as f:
+#             shutil.copyfileobj(file.file, f)
         
-        extracted_text = parse_pdf(input_pdf_path)
+#         extracted_text = parse_pdf(input_pdf_path)
         
       
-        rules_content = generate_brd_from_text(extracted_text)
+#         rules_content = generate_brd_from_text(extracted_text)
         
        
         
-        rules_filename = f"compliance_rules.json"
-        rules_path = os.path.join("compliance_rules", rules_filename)
+#         rules_filename = f"compliance_rules.json"
+#         rules_path = os.path.join("compliance_rules", rules_filename)
         
         
-        os.makedirs("compliance_rules", exist_ok=True)
-        
-       
-        with open(rules_path, "w") as f:
-            json.dump({"rules": rules_content}, f, indent=2)
+#         os.makedirs("compliance_rules", exist_ok=True)
         
        
-        return {
-            "status": "success",
-            "rules": rules_content,
-            "rules_file": rules_filename,
-            "rules_path": rules_path,
-            "message": "BRD processing complete and compliance rules generated"
-        }
+#         with open(rules_path, "w") as f:
+#             json.dump({"rules": rules_content}, f, indent=2)
         
+       
+#         return {
+#             "status": "success",
+#             "rules": rules_content,
+#             "rules_file": rules_filename,
+#             "rules_path": rules_path,
+#             "message": "BRD processing complete and compliance rules generated"
+#         }
+        
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+#     finally:
+       
+#         if 'temp_dir' in locals():
+#             shutil.rmtree(temp_dir, ignore_errors=True)
+
+@app.post("/generate-brd/")
+async def generate_brd_endpoint(
+    prompt: str = Form(None),
+    file: UploadFile = File(None),
+    template_file: UploadFile = File(None)  # optional template
+):
+    try:
+        if not prompt and not file:
+            return JSONResponse(status_code=400, content={"error": "Provide either a prompt or a PDF file."})
+
+        # Handle optional template
+        template_path = None
+        if template_file:
+            if not template_file.filename.endswith(".pdf"):
+                return JSONResponse(status_code=400, content={"error": "Only PDF templates are allowed."})
+            temp_template_path = Path(f"uploads/templates/{template_file.filename}")
+            temp_template_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(temp_template_path, "wb") as buffer:
+                shutil.copyfileobj(template_file.file, buffer)
+            template_path = temp_template_path
+
+        # Handle input data
+        if file:
+            upload_path = Path(f"uploads/{file.filename}")
+            upload_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(upload_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            result = generate_brd(upload_path, template_file=template_path)
+        else:
+            result = generate_brd(prompt, template_file=template_path)
+
+        return JSONResponse({
+            "brd_text": result["brd_text"],
+            "pdf_download_url": "/download-brd/"
+        })
+
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-    finally:
-       
-        if 'temp_dir' in locals():
-            shutil.rmtree(temp_dir, ignore_errors=True)
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
+@app.get("/download-brd/")
+def download_brd_pdf():
+    pdf_path = Path("generated_pdf/generated_brd.pdf")
+    if not pdf_path.exists():
+        return JSONResponse(status_code=404, content={"error": "Generated BRD PDF not found."})
 
+    return FileResponse(
+        path=str(pdf_path),
+        filename="generated_brd.pdf",
+        media_type="application/pdf"
+    )
 
 
 
@@ -333,9 +389,13 @@ async def ai_summarize_feedback(feedback: Feedback):
 
 
 @app.post("/run-full-pipeline")
-async def run_full_pipeline(file: UploadFile = File(...)):
+async def run_full_pipeline(
+    file: UploadFile = File(...),
+    prompt: str = Form(None),
+    template_file: UploadFile = File(None)
+):
     try:
-        # Step 1: Save uploaded PDF to temp file
+        # Step 1: Save uploaded file to temp file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             shutil.copyfileobj(file.file, tmp)
             tmp_path = tmp.name
@@ -366,20 +426,24 @@ async def run_full_pipeline(file: UploadFile = File(...)):
         data["compliance_result"] = compliance
         gov_agent("compliance", requirements, compliance)
 
-        # ✅ Step 7: BRD and Rules Generation
-        rules_content = generate_brd_from_text(extracted_text)  # <-- HIGHLIGHTED FIX
-        rules_filename = "compliance_rules.json"                # <-- HIGHLIGHTED FIX
-        rules_path = os.path.join("compliance_rules", rules_filename)  # <-- HIGHLIGHTED FIX
-        os.makedirs("compliance_rules", exist_ok=True)          # <-- HIGHLIGHTED FIX
-        with open(rules_path, "w", encoding="utf-8") as f:  # ✅ Fix applied here
-            json.dump({"rules": rules_content}, f, ensure_ascii=False, indent=2)
-        # Add to response
-        data["rules"] = rules_content                           # <-- HIGHLIGHTED FIX
-        data["rules_file"] = rules_filename                     # <-- HIGHLIGHTED FIX
-        data["rules_path"] = rules_path                         # <-- HIGHLIGHTED FIX
-        data["message"] = "Full pipeline and BRD rules processing complete"
+        # Step 7: BRD & PDF Generation
+        template_path = None
+        if template_file:
+            if not template_file.filename.endswith(".pdf"):
+                return JSONResponse(status_code=400, content={"error": "Only PDF templates are allowed."})
+            template_path = Path(f"uploads/templates/{template_file.filename}")
+            template_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(template_path, "wb") as f:
+                shutil.copyfileobj(template_file.file, f)
 
-        # Save full data to file
+        # Use prompt if available, else extracted PDF text
+        brd_input = prompt if prompt else extracted_text
+        result = generate_brd(brd_input, template_file=template_path)
+
+        data["brd_text"] = result["brd_text"]
+        data["pdf_download_url"] = "/download-brd/"
+        data["message"] = "Full pipeline and BRD PDF generation complete"
+
         os.makedirs("src", exist_ok=True)
         with open("src/data.json", "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
@@ -387,7 +451,7 @@ async def run_full_pipeline(file: UploadFile = File(...)):
         return data
 
     except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
+        return JSONResponse(status_code=500, content={"error": str(e)})
 
 #---------second part of the code --------
 @app.post("/full-compliance-pipeline")
@@ -402,12 +466,11 @@ async def full_compliance_pipeline(file: UploadFile = File(...)):
         # Step 2: Extract text from PDF
         extracted_text = parse_pdf(input_pdf_path)
 
-        # Step 3: Generate BRD-based rules
-        rules_content = generate_brd_from_text(extracted_text)
-        rules_path = os.path.join("compliance_rules", "compliance_rules.json")
-        os.makedirs("compliance_rules", exist_ok=True)
-        with open(rules_path, "w", encoding="utf-8") as f:  # ✅ Fix applied here
-            json.dump({"rules": rules_content}, f, ensure_ascii=False, indent=2)
+        # Step 3: Generate BRD (text + PDF)
+        brd_result = generate_brd(extracted_text)  # returns dict with 'brd_text'
+        brd_text = brd_result.get("brd_text", "")
+        pdf_path = "generated_pdf/generated_brd.pdf"
+
         # Step 4: Run Compliance Check using GPT
         compliance_result = check_requirement_compliance(extracted_text)
 
@@ -418,7 +481,8 @@ async def full_compliance_pipeline(file: UploadFile = File(...)):
         return JSONResponse(content={
             "status": "✅ Full pipeline completed",
             "extracted_text": extracted_text,
-            "generated_rules": rules_content,
+            "brd_text": brd_text,
+            "pdf_download_url": "/download-brd/",
             "compliance_result": compliance_result,
             "semantic_gap_analysis": match_result
         })
