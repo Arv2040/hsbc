@@ -65,9 +65,8 @@ with col2:
     if st.button("Sequential Mode"):
         st.session_state.mode = 'sequential'
 with col3:
-    if st.session_state.get("sequential_done", False):  # Show button only after sequential is done
-        if st.button("Rules Matching"):
-            st.session_state.mode = 'rules_matching'
+    if st.button("Rules Matching"):
+        st.session_state.mode = 'rules_matching'
 
 
 st.markdown("---")

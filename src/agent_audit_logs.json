@@ -6358,6 +6358,428 @@
       },
       "output": "**Key Points:**\n\n- Project focus is on the digitization of the personal loan origination process at XYZ Bank, which is currently manual and paper-based.\n- The online platform will allow customers to apply for personal loans, get eligibility assessments, upload KYC documents, track application status, and receive approvals digitally.\n- The system will comprise multiple features: online form with Aadhaar/PAN-based prefill, integration with CIBIL to fetch credit scores, AI-based eligibility and risk assessment, real-time KYC document verification, loan sanction and e-signing via OTP-based authentication, and integration with core banking for disbursement.\n- System will not handle home loans, car loans, or business loans, and won't assist with journeys for Tier 3 regions.\n- Key stakeholders: Rahul Sharma (Product Manager), Priya Iyer (Business Head \u2013 Retail Lending), Rakesh Sinha (IT Manager), Anjali Mehta (Compliance Lead).\n- Assumptions include customers having Aadhaar-linked mobile numbers and the system to support English.\n- Risks include potential delay in API access to credit bureau, resistance from customers not comfortable with digital onboarding, and compliance changes due to upcoming RBI guidelines.\n- The project timeline schedules requirements finalization in March 2025 and go-live in July 2025.\n  \n**Actions:**\n\n- Undertake business and technical requirements gathering.\n- Commence project development by April 1st, 2025.\n- Conduct UAT by June 1, 2025.\n- Aim for project to go-live by 1st July, 2025.\n  \n**Blockers:**\n\n- Possible delay in API access to credit bureau.\n- Resistance among some customers to digital onboarding.\n- Potential changes in compliance due to upcoming RBI guidelines.",
       "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points and actions related to the digitization of the personal loan origination process at XYZ Bank. It includes gathering business and technical requirements, commencing project development, conducting UAT, and aiming for a go-live date. The agent also identified potential blockers such as API access delays, customer resistance to digital onboarding, and compliance changes due to RBI guidelines.\n- User Involved: Not specified in the action details.\n- Risk Flags: Medium\n- Recommendations (if any): \n  - Ensure transparency in communication with stakeholders regarding project timelines and potential risks.\n  - Implement robust data handling and access control measures to protect customer information, especially during digital onboarding and KYC processes.\n  - Regularly update compliance protocols to align with any new RBI guidelines.\n  - Develop contingency plans to address potential delays in API access and customer resistance.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-19T10:48:08.082612",
+      "agent_name": "summarize",
+      "input": {
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices",
+        "segments": [
+          "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+          "Ttime (TAT), frequent errors, and poor customer experience.",
+          "Management wants to \ndigitize the entire loan origination process for personal loans.",
+          "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+          "Scope: \n\uf0b7",
+          "Online loan application form with Aadhaar/PAN-based pre\ufb01ll.",
+          "\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score.",
+          "\uf0b7 AI-based eligibility and risk assessment module.",
+          "\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match).",
+          "\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication.",
+          "\uf0b7 Integration with core banking for disbursement.",
+          "Out of Scope: \n\uf0b7 Home loan, car loan, and business loan modules.",
+          "\uf0b7 Agent-assisted journeys for Tier 3 regions.",
+          "Stakeholders: \n\uf0b7",
+          "Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7",
+          "IT Manager: Rakesh Sinha \n\uf0b7",
+          "Compliance Lead:",
+          "Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7",
+          "Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7",
+          "Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7",
+          "Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7",
+          "Dashboard for customer to track loan status \n \nAssumptions:",
+          "\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7",
+          "System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7",
+          "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7",
+          "Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices"
+        ],
+        "entities": [
+          {
+            "text": "Digital Loan Application",
+            "label": "ORG"
+          },
+          {
+            "text": "XYZ Bank",
+            "label": "ORG"
+          },
+          {
+            "text": "TAT",
+            "label": "ORG"
+          },
+          {
+            "text": "KYC",
+            "label": "ORG"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "CIBIL",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "OTP",
+            "label": "ORG"
+          },
+          {
+            "text": "Home",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Rahul Sharma",
+            "label": "PERSON"
+          },
+          {
+            "text": "Priya Iyer",
+            "label": "PERSON"
+          },
+          {
+            "text": "Anjali Mehta",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "OCR",
+            "label": "ORG"
+          },
+          {
+            "text": "Credit",
+            "label": "ORG"
+          },
+          {
+            "text": "fetc\uf0b7 Eligibility",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DigiLocker",
+            "label": "ORG"
+          },
+          {
+            "text": "Dashboard",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "English",
+            "label": "LANGUAGE"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "Delay",
+            "label": "PERSON"
+          },
+          {
+            "text": "API",
+            "label": "ORG"
+          },
+          {
+            "text": "RBI",
+            "label": "ORG"
+          },
+          {
+            "text": "15 March 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 April 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "UAT",
+            "label": "ORG"
+          },
+          {
+            "text": "1 June 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 July 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "5 days",
+            "label": "DATE"
+          },
+          {
+            "text": "2 hours",
+            "label": "TIME"
+          },
+          {
+            "text": "80%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "90%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "Business Objectives",
+            "label": "ORG"
+          },
+          {
+            "text": "Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Requirements",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "Compliance and Regulatory Needs",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "Assumptions, Constraints, Risks",
+            "label": "ORG"
+          }
+        ]
+      },
+      "output": "Key Points:\n- The project involves digitizing the current manual loan application process at XYZ Bank through a Digital Loan Application and Approval System.\n- The business objective is to build an online platform for customers to apply for personal loans, get eligibility assessments, upload KYC documents, track application status, and receive approval digitally.\n- The platforms will have features such as an online loan application form with Aadhaar/PAN-based pre-fill, integration with credit bureau (CIBIL) to fetch credit scores, an AI-based eligibility and risk assessment module, real-time KYC document verification, and loan sanction and e-agreement signing via OTP-based authentication.\n- Home loan, car loan, business loan modules, and assistance for Tier 3 regions are out of scope.\n- The key stakeholders are Product Manager Rahul Sharma, Business Head - Retail Lending Priya Iyer, IT Manager Rakesh Sinha, and Compliance Lead Anjali Mehta.\n- The project timeline proposes requirements finalization by 15 March 2025, development kickoff by 1 April 2025, UAT by 1 June 2025, and go-live by 1 July 2025.\n- Success metrics include reducing TAT from 5 days to 2 hours, achieving an 80% reduction in manual data entry, and 90% accuracy in eligibility checks.\n- Risks highlighted include delays in API access to the credit bureau, resistance from customers uncomfortable with digital onboarding, and changes in compliance due to upcoming RBI guidelines.\n\nActions:\n- Begin the development phase in April 2025 and ensure all necessary stakeholders and teams are aware.\n\nBlockers:\n- Delay in API access to credit bureau.\n- Customer resistance to digital onboarding.\n- Potential compliance changes due to upcoming RBI guidelines.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points of a project aimed at digitizing the loan application process at XYZ Bank. It includes the project's objectives, scope, stakeholders, timeline, success metrics, and risks. The agent also identified actions to begin the development phase and noted potential blockers.\n- User Involved: Not specified in the provided details.\n- Risk Flags: Medium\n- Recommendations (if any):\n  - Ensure transparency in communication with stakeholders regarding project progress and any changes in compliance requirements.\n  - Implement robust data handling and access control measures to protect sensitive customer information, especially during digital onboarding and KYC processes.\n  - Develop contingency plans to address potential delays in API access and customer resistance to digital onboarding.\n  - Regularly review and update compliance protocols in line with RBI guidelines to mitigate regulatory risks.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-19T11:18:51.318755",
+      "agent_name": "summarize",
+      "input": {
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices",
+        "segments": [
+          "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+          "Ttime (TAT), frequent errors, and poor customer experience.",
+          "Management wants to \ndigitize the entire loan origination process for personal loans.",
+          "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+          "Scope: \n\uf0b7",
+          "Online loan application form with Aadhaar/PAN-based pre\ufb01ll.",
+          "\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score.",
+          "\uf0b7 AI-based eligibility and risk assessment module.",
+          "\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match).",
+          "\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication.",
+          "\uf0b7 Integration with core banking for disbursement.",
+          "Out of Scope: \n\uf0b7 Home loan, car loan, and business loan modules.",
+          "\uf0b7 Agent-assisted journeys for Tier 3 regions.",
+          "Stakeholders: \n\uf0b7",
+          "Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7",
+          "IT Manager: Rakesh Sinha \n\uf0b7",
+          "Compliance Lead:",
+          "Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7",
+          "Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7",
+          "Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7",
+          "Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7",
+          "Dashboard for customer to track loan status \n \nAssumptions:",
+          "\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7",
+          "System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7",
+          "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7",
+          "Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices"
+        ],
+        "entities": [
+          {
+            "text": "Digital Loan Application",
+            "label": "ORG"
+          },
+          {
+            "text": "XYZ Bank",
+            "label": "ORG"
+          },
+          {
+            "text": "TAT",
+            "label": "ORG"
+          },
+          {
+            "text": "KYC",
+            "label": "ORG"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "CIBIL",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "OTP",
+            "label": "ORG"
+          },
+          {
+            "text": "Home",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Rahul Sharma",
+            "label": "PERSON"
+          },
+          {
+            "text": "Priya Iyer",
+            "label": "PERSON"
+          },
+          {
+            "text": "Anjali Mehta",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "OCR",
+            "label": "ORG"
+          },
+          {
+            "text": "Credit",
+            "label": "ORG"
+          },
+          {
+            "text": "fetc\uf0b7 Eligibility",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DigiLocker",
+            "label": "ORG"
+          },
+          {
+            "text": "Dashboard",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "English",
+            "label": "LANGUAGE"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "Delay",
+            "label": "PERSON"
+          },
+          {
+            "text": "API",
+            "label": "ORG"
+          },
+          {
+            "text": "RBI",
+            "label": "ORG"
+          },
+          {
+            "text": "15 March 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 April 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "UAT",
+            "label": "ORG"
+          },
+          {
+            "text": "1 June 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 July 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "5 days",
+            "label": "DATE"
+          },
+          {
+            "text": "2 hours",
+            "label": "TIME"
+          },
+          {
+            "text": "80%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "90%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "Business Objectives",
+            "label": "ORG"
+          },
+          {
+            "text": "Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Requirements",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "Compliance and Regulatory Needs",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "Assumptions, Constraints, Risks",
+            "label": "ORG"
+          }
+        ]
+      },
+      "output": "Key Points:\n1. The digital loan application and approval system project at XYZ Bank aims to digitize the entire loan origination process for personal loans.\n2. The scope includes online loan application forms, real-time KYC document verification, credit score fetch from CIBIL, AI-based eligibility and risk assessment, loan sanction, and integration with core banking.\n3. Home loans, car loans, and business loans, as well as agent-related processes for Tier 3 regions, are not part of the project.\n4. Stakeholders include Product Manager Rahul Sharma, Business Head\u2014Retail Lending Priya Iyer, IT Manager Rakesh Sinha, and Compliance Lead Anjali Mehta.\n5. The system must support English and loan disbursement will occur only through verified bank accounts.\n\nActions:\n1. Work on requirement finalization by 15 March 2025.\n2. Begin development by 1 April 2025. \n3. Complete User Acceptance Testing (UAT) by 1 June 2025.\n4. Go live by 1 July 2025.\n\nBlockers:\n1. Potential for delay in API access to the credit bureau.\n2. Resistance from customers uncomfortable with digital onboarding.\n3. Possible compliance changes due to upcoming RBI guidelines.\n\nSuccess Metrics:\n1. Reducing turnaround time from 5 days to 2 hours.\n2. Achieving an 80% reduction in manual data entry.\n3. Ensuring 90% accuracy in eligibility checks.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points and actions related to the digital loan application and approval system project at XYZ Bank. The project aims to digitize the loan origination process for personal loans, detailing the scope, stakeholders, timeline, potential blockers, and success metrics.\n- User Involved: The stakeholders mentioned include Product Manager Rahul Sharma, Business Head\u2014Retail Lending Priya Iyer, IT Manager Rakesh Sinha, and Compliance Lead Anjali Mehta.\n- Risk Flags: Medium\n- Recommendations (if any): \n  1. Ensure transparency in communication with stakeholders regarding potential delays and compliance changes.\n  2. Implement robust data handling and access control measures to protect sensitive customer information, especially during KYC verification and credit score fetching.\n  3. Develop contingency plans to address resistance from customers uncomfortable with digital onboarding.\n  4. Regularly review and update compliance protocols in line with RBI guidelines.\n- Timestamp: [Timestamp not provided in the input]"
     }
   ],
   "requirement_audit": [
@@ -6598,6 +7020,20 @@
       "input": "N/A",
       "output": "**Business Requirements**\n\n1. As a customer, I want to apply for a personal loan online, so that the process is quick, efficient, and less time-consuming.  \n   **Acceptance Criteria:** Online loan application feature has been implemented and functional. A customer can fill and submit an online application.  \n   **Role:** Customer  \n   **Expected Behavior:** On providing necessary details and documents, the system should allow submission of the application.\n\n2. As a customer, I want the system to assess my loan eligibility using AI-based risk assessment, so that I can know my status instantly.  \n   **Acceptance Criteria:** The system can make accurate loan eligibility decisions.  \n   **Role:** AI system  \n   **Expected Behavior:** On providing all the necessary information, the system should assess the eligibility and inform the customer.\n\n3. As a customer, I want an Aadhaar/PAN-based pre-fill for my online loan application, so that the process becomes faster and I can avoid frequent data entry.  \n   **Acceptance Criteria:** On providing Aadhaar/PAN number, the system should autofill the respective information in the application.  \n   **Role:** Customer  \n   **Expected Behavior:** The system should automatically fill in the details using the Aadhaar/PAN number.\n\n4. As a customer, I want to upload my KYC documents online and get real-time verification, so that I don't need to visit the bank physically.  \n   **Acceptance Criteria:** Customers are able to upload the necessary documents and the system verifies those in real time.  \n   **Role:** System  \n   **Expected Behavior:** The system should accept documents upload and perform real-time verification.\n\n5. As a customer, I want to sign the loan agreement digitally using OTP, so that it is convenient and safe.  \n   **Acceptance Criteria:** After loan approval, the system should allow OTP-based e-agreement signing.  \n   **Role:** Customer  \n   **Expected Behavior:** After receiving OTP, customers should be able to confirm their loan agreement.\n\n6. As a customer, I want to check my loan application status online, so that I can stay updated about the progress.  \n   **Acceptance Criteria:** Once the application is submitted, the system should allow customers to check application status.   \n   **Role:** Customer  \n   **Expected Behavior:** The system should provide real-time updates on application status.\n\n7. As a credit bureau CIBIL, I want the bank's system to integrate with my API, so that I can provide the credit history of the applicants.  \n   **Acceptance Criteria:** The developed system is fully integrated with CIBIL's API and can fetch data successfully.  \n   **Role:** IT Manager Rakesh Sinha  \n   **Expected Behavior:** The system should send the required query and be able to receive and decode the response from CIBIL.  \n\n8. As a Product Manager, I want the system to integrate with our core banking system, so that all actions taken on the platform reflect in our banking system.  \n   **Acceptance Criteria:** The system is fully integrated with the bank's existing core system.  \n   **Role:** Product Manager Rahul Sharma  \n   **Expected Behavior:** Any action recorded on the platform should synchronize with bank's system.",
       "audit_summary": "- Summary of Action: The requirement agent has outlined a series of business requirements for an online personal loan application system. These include features such as online application submission, AI-based eligibility assessment, Aadhaar/PAN-based pre-fill, online KYC document upload and verification, OTP-based digital agreement signing, real-time application status updates, integration with CIBIL's API for credit history, and synchronization with the bank's core system.\n- User Involved: Customers, AI system, System, IT Manager Rakesh Sinha, Product Manager Rahul Sharma\n- Risk Flags: Medium\n- Recommendations (if any):\n  - Ensure transparency in data handling, especially concerning the use of AI for risk assessment and integration with CIBIL's API.\n  - Implement robust access control measures to protect sensitive customer data, particularly when using Aadhaar/PAN for pre-fill and during document uploads.\n  - Regularly audit the system for compliance with data protection regulations and best practices.\n  - Provide clear communication to customers regarding how their data will be used and the security measures in place.\n- Timestamp: N/A"
+    },
+    {
+      "timestamp": "2025-05-19T10:48:40.892187",
+      "agent_name": "requirement",
+      "input": "N/A",
+      "output": "Business Requirement 1:\nAs a banking customer, I want to apply for a loan online, so that I can avoid physical visits to the bank and speed up my loan application process.\nAcceptance Criteria: The system accepts online loan application forms with all necessary information and attachments.\nRoles: Banking Customer, IT Manager, Compliance Lead\nExpected Behavior: The system validates the information entered by the customer and prompts them for any missing or incorrect information.\n\nBusiness Requirement 2:\nAs a banking customer, I want my loan eligibility to be assessed instantly, so that I can understand if I can progress with the loan application.\nAcceptance Criteria: The system retrieves the credit score of the customer from the credit bureau and uses AI module to assess eligibility.\nRoles: Banking Customer, IT Manager, Product Manager\nExpected Behavior: The system accesses the credit score of the customer, performs risk assessment and gives a real-time decision on the loan eligibility of the customer.\n\nBusiness Requirement 3:\nAs a banking customer, I want to upload my KYC documents digitally, so that I do not have to visit the bank for document verification.\nAcceptance Criteria: The system accepts digital uploads of necessary KYC documents and verifies them in real-time.\nRoles: Banking Customer, IT Manager, Compliance Lead\nExpected Behavior: The system prompts the customer for necessary KYC documents, accepts their digital versions, and verifies them against given information.\n\nBusiness Requirement 4:\nAs a banking customer, I want to sign my loan agreement digitally, so that I can complete my loan application process in a hassle-free manner.\nAcceptance Criteria: The system presents the loan agreement to the customer and accepts their e-signature authenticated via OTP.\nRoles: Banking Customer, IT Manager, Compliance Lead\nExpected Behavior: The system generates the loan agreement based on approved details, presents it to the customer for review and accepts their e-signature after OTP-based verification.\n\nBusiness Requirement 5:\nAs a banking customer, I want to track my loan application status online, so that I can be aware of the progress at all times.\nAcceptance Criteria: The system shows the current status of the active loan application of the customer.\nRoles: Banking Customer, Product Manager, IT Manager\nExpected Behavior: The system updates the status of the loan application in real-time and allows the customer to check it anytime, anywhere.\n\nBusiness Requirement 6:\nAs a bank executive, I want the system to significantly reduce manual data entry and turnaround time, so I can provide faster, more efficient service.\nAcceptance Criteria: The system auto-fills data where possible and processes applications quickly, reducing manual data entry and overall TAT.\nRoles: Bank Executive, Business Head-Retail Lending, IT Manager\nExpected Behavior: The system utilizes Aadhaar/PAN-based pre-fill, real-time verification, and other features to expedite processes and minimize manual tasks.\n\nBlockers will be addressed by a contingency plan that includes alternate data access methods, user comfort strategies for digital adoption, and adaptive compliance strategies to handle RBI guidelines updates.",
+      "audit_summary": "- Summary of Action: The requirement agent has outlined several business requirements aimed at enhancing the online loan application process for banking customers. These include online loan applications, instant loan eligibility assessment, digital KYC document uploads, digital signing of loan agreements, online tracking of loan application status, and reducing manual data entry for bank executives. Each requirement includes acceptance criteria, roles involved, expected behavior, and contingency plans for potential blockers.\n\n- User Involved: Banking Customer, IT Manager, Compliance Lead, Product Manager, Bank Executive, Business Head-Retail Lending\n\n- Risk Flags: Medium\n  - The use of AI for loan eligibility assessment and real-time data handling raises concerns about data privacy and accuracy.\n  - Digital KYC and e-signature processes must ensure robust security measures to prevent unauthorized access and fraud.\n  - Transparency in how customer data is handled and assessed is crucial to maintain trust and comply with regulations.\n\n- Recommendations:\n  - Implement strong encryption and access control measures to protect customer data during digital uploads and e-signature processes.\n  - Ensure transparency in AI decision-making processes for loan eligibility assessments to build customer trust.\n  - Regularly update compliance strategies to align with evolving RBI guidelines and data protection laws.\n  - Conduct thorough testing and validation of the system to ensure accuracy and reliability of automated processes.\n\n- Timestamp: [Assumed Current Timestamp]"
+    },
+    {
+      "timestamp": "2025-05-19T11:19:16.603861",
+      "agent_name": "requirement",
+      "input": "N/A",
+      "output": "Business Requirement 1:\nAs a loan applicant, I want to fill online loan application forms, so that loan application becomes a hassle-free and quick process.\n- Acceptance criteria: A user-friendly interface is built into the system that allows for smooth navigation and validation of credentials.\n- Roles: IT Manager, Product Manager.\n- Expected behavior: System seamlessly handles data entry and validation.\n\nBusiness Requirement 2:\nAs a loan applicant, I want an integrated KYC process, so that real-time document verification can be done and application is processed quickly.\n- Acceptance criteria: System successfully verifies documents in real time.\n- Roles: IT Manager, Compliance Lead.\n- Expected behavior: System should ensure secure document upload and immediate verification results.\n\nBusiness Requirement 3:\nAs a loan manager, I need to fetch the applicant's Credit score from CIBIL, so that risk associated with lending to applicant can be assessed accurately.\n- Acceptance criteria: System should successfully pull credit score data from CIBIL database.\n- Roles: IT Manager, Product Manager, Compliance Lead.\n- Expected behavior: Seamless integration with CIBIL for real-time data fetch.\n\nBusiness Requirement 4:\nAs a loan supervisor, I want AI-based eligibility and risk assessment, so that loan approval decisions can be made faster and more accurately.\n- Acceptance criteria: System's AI engine should accurately score and approve/reject applications.\n- Roles: IT Manager, Business Head.\n- Expected behavior: Secure, real-time, accurate assessment of applicant's eligibility and level of risk.\n\nBusiness Requirement 5:\nAs a bank employee, I want the loan application system to be integrated with core banking, so that loan disbursements can be made directly to verified bank accounts.\n- Acceptance criteria: Successful integration with core banking and correct disbursement of loans \n- Roles: IT Manager, Business Head, Compliance Lead.\n- Expected behavior: Secure and accurate transfer of loan amount into the correct bank account.\n\nBusiness Requirement 6:\nAs a banker, I want the system to support English, to cater to widest base of customers.\n- Acceptance criteria: The user interface and every page/instruction of system is in English.\n- Roles: IT Manager, Product Manager.\n- Expected behavior: The system language is default set to English and every interface is intuitive and user-friendly.",
+      "audit_summary": "- Summary of Action: The requirement agent has outlined six business requirements for a loan application system, focusing on user-friendly interfaces, integrated KYC processes, credit score retrieval, AI-based risk assessment, integration with core banking, and English language support. Each requirement includes acceptance criteria, roles involved, and expected behavior to ensure the system meets user needs and operational goals.\n\n- User Involved: IT Manager, Product Manager, Compliance Lead, Business Head, Loan Manager, Loan Supervisor, Bank Employee, Banker.\n\n- Risk Flags: Medium. While the requirements aim for efficiency and user-friendliness, they involve handling sensitive data (e.g., personal information, credit scores, bank account details) and require robust security measures to prevent data breaches and ensure compliance with regulations.\n\n- Recommendations:\n  1. Ensure transparency in data handling by providing clear privacy policies and consent forms to users.\n  2. Implement strong access control measures to protect sensitive data, including role-based access and encryption.\n  3. Regularly audit and test the system for vulnerabilities, especially in areas involving data integration and AI-based assessments.\n  4. Provide training to involved personnel on data protection best practices and compliance requirements.\n  5. Consider multilingual support to cater to a broader customer base beyond English-speaking users.\n\n- Timestamp: [Insert current timestamp here]"
     }
   ],
   "feedback_audit": [
@@ -6833,6 +7269,20 @@
       "input": "**Business Requirements**\n\n1. As a customer, I want to apply for a personal loan online, so that the process is quick, efficient, and less time-consuming.  \n   **Acceptance Criteria:** Online loan application feature has been implemented and functional. A customer can fill and submit an online application.  \n   **Role:** Customer  \n   **Expected Behavior:** On providing necessary details and documents, the system should allow submission of the application.\n\n2. As a customer, I want the system to assess my loan eligibility using AI-based risk assessment, so that I can know my status instantly.  \n   **Acceptance Criteria:** The system can make accurate loan eligibility decisions.  \n   **Role:** AI system  \n   **Expected Behavior:** On providing all the necessary information, the system should assess the eligibility and inform the customer.\n\n3. As a customer, I want an Aadhaar/PAN-based pre-fill for my online loan application, so that the process becomes faster and I can avoid frequent data entry.  \n   **Acceptance Criteria:** On providing Aadhaar/PAN number, the system should autofill the respective information in the application.  \n   **Role:** Customer  \n   **Expected Behavior:** The system should automatically fill in the details using the Aadhaar/PAN number.\n\n4. As a customer, I want to upload my KYC documents online and get real-time verification, so that I don't need to visit the bank physically.  \n   **Acceptance Criteria:** Customers are able to upload the necessary documents and the system verifies those in real time.  \n   **Role:** System  \n   **Expected Behavior:** The system should accept documents upload and perform real-time verification.\n\n5. As a customer, I want to sign the loan agreement digitally using OTP, so that it is convenient and safe.  \n   **Acceptance Criteria:** After loan approval, the system should allow OTP-based e-agreement signing.  \n   **Role:** Customer  \n   **Expected Behavior:** After receiving OTP, customers should be able to confirm their loan agreement.\n\n6. As a customer, I want to check my loan application status online, so that I can stay updated about the progress.  \n   **Acceptance Criteria:** Once the application is submitted, the system should allow customers to check application status.   \n   **Role:** Customer  \n   **Expected Behavior:** The system should provide real-time updates on application status.\n\n7. As a credit bureau CIBIL, I want the bank's system to integrate with my API, so that I can provide the credit history of the applicants.  \n   **Acceptance Criteria:** The developed system is fully integrated with CIBIL's API and can fetch data successfully.  \n   **Role:** IT Manager Rakesh Sinha  \n   **Expected Behavior:** The system should send the required query and be able to receive and decode the response from CIBIL.  \n\n8. As a Product Manager, I want the system to integrate with our core banking system, so that all actions taken on the platform reflect in our banking system.  \n   **Acceptance Criteria:** The system is fully integrated with the bank's existing core system.  \n   **Role:** Product Manager Rahul Sharma  \n   **Expected Behavior:** Any action recorded on the platform should synchronize with bank's system.",
       "output": "- **Compliance Status:** Compliant\n\n- **Matched Policies:** \n  - R1: The system must allow online loan application form with Aadhaar/PAN-based prefill.\n  - R2: The system must integrate with credit bureau (CIBIL) to fetch credit score.\n  - R3: The system must have an AI-based eligibility and risk assessment module.\n  - R4: The system must perform real-time KYC document verification (OCR + face match).\n  - R5: The system must allow loan sanction and e-agreement signing via OTP-based authentication.\n  - R6: The system must integrate with core banking for disbursement.\n\n- **Missing Elements:** None\n\n- **Suggested Clauses:** None",
       "audit_summary": "- **Summary of Action:** The compliance agent reviewed the business requirements for an online personal loan application system, ensuring that it aligns with various policies related to online application, AI-based risk assessment, Aadhaar/PAN-based pre-fill, real-time KYC verification, OTP-based digital signing, application status tracking, integration with CIBIL's API, and synchronization with the core banking system.\n\n- **User Involved:** Compliance Agent\n\n- **Risk Flags:** Low  \n  The actions taken align with best practices such as transparency, efficient data handling, and access control. The integration with CIBIL and core banking systems ensures secure data exchange and synchronization.\n\n- **Recommendations (if any):**  \n  - Ensure robust encryption and security measures are in place for data handling, especially when dealing with sensitive information like Aadhaar/PAN and KYC documents.\n  - Regular audits and monitoring of AI-based risk assessment algorithms to ensure accuracy and fairness.\n  - Implement user consent mechanisms for data sharing with third-party systems like CIBIL.\n\n- **Timestamp:** [Timestamp not provided in the input]"
+    },
+    {
+      "timestamp": "2025-05-19T10:48:45.779418",
+      "agent_name": "compliance",
+      "input": "Business Requirement 1:\nAs a banking customer, I want to apply for a loan online, so that I can avoid physical visits to the bank and speed up my loan application process.\nAcceptance Criteria: The system accepts online loan application forms with all necessary information and attachments.\nRoles: Banking Customer, IT Manager, Compliance Lead\nExpected Behavior: The system validates the information entered by the customer and prompts them for any missing or incorrect information.\n\nBusiness Requirement 2:\nAs a banking customer, I want my loan eligibility to be assessed instantly, so that I can understand if I can progress with the loan application.\nAcceptance Criteria: The system retrieves the credit score of the customer from the credit bureau and uses AI module to assess eligibility.\nRoles: Banking Customer, IT Manager, Product Manager\nExpected Behavior: The system accesses the credit score of the customer, performs risk assessment and gives a real-time decision on the loan eligibility of the customer.\n\nBusiness Requirement 3:\nAs a banking customer, I want to upload my KYC documents digitally, so that I do not have to visit the bank for document verification.\nAcceptance Criteria: The system accepts digital uploads of necessary KYC documents and verifies them in real-time.\nRoles: Banking Customer, IT Manager, Compliance Lead\nExpected Behavior: The system prompts the customer for necessary KYC documents, accepts their digital versions, and verifies them against given information.\n\nBusiness Requirement 4:\nAs a banking customer, I want to sign my loan agreement digitally, so that I can complete my loan application process in a hassle-free manner.\nAcceptance Criteria: The system presents the loan agreement to the customer and accepts their e-signature authenticated via OTP.\nRoles: Banking Customer, IT Manager, Compliance Lead\nExpected Behavior: The system generates the loan agreement based on approved details, presents it to the customer for review and accepts their e-signature after OTP-based verification.\n\nBusiness Requirement 5:\nAs a banking customer, I want to track my loan application status online, so that I can be aware of the progress at all times.\nAcceptance Criteria: The system shows the current status of the active loan application of the customer.\nRoles: Banking Customer, Product Manager, IT Manager\nExpected Behavior: The system updates the status of the loan application in real-time and allows the customer to check it anytime, anywhere.\n\nBusiness Requirement 6:\nAs a bank executive, I want the system to significantly reduce manual data entry and turnaround time, so I can provide faster, more efficient service.\nAcceptance Criteria: The system auto-fills data where possible and processes applications quickly, reducing manual data entry and overall TAT.\nRoles: Bank Executive, Business Head-Retail Lending, IT Manager\nExpected Behavior: The system utilizes Aadhaar/PAN-based pre-fill, real-time verification, and other features to expedite processes and minimize manual tasks.\n\nBlockers will be addressed by a contingency plan that includes alternate data access methods, user comfort strategies for digital adoption, and adaptive compliance strategies to handle RBI guidelines updates.",
+      "output": "- Compliance Status: Compliant\n\n- Matched Policies:\n  - R1: The system must securely store and process Aadhaar and PAN card details.\n  - R2: The system must ensure real-time KYC document verification using OCR and face match.\n  - R3: The system must integrate with credit bureau (CIBIL) to fetch credit score.\n  - R4: The system must implement AI-based eligibility and risk assessment module.\n  - R5: The system must allow loan sanction and e-agreement signing via OTP-based authentication.\n  - R7: The system must provide a responsive web app for self-service journey.\n  - R8: The system must provide a dashboard for customer to track loan status.\n  - R9: The system must maintain a comprehensive audit trail to track user activities within the application.\n  - R11: The system must implement user authentication using secure protocols.\n  - R13: The system must support English and Hindi languages.\n  - R14: The system must disburse loans only through verified bank accounts.\n\n- Missing Elements: None\n\n- Suggested Clauses: None\n\nThe business requirements align well with the compliance rules outlined, ensuring secure processing, real-time verification, integration with credit bureaus, AI-based assessment, and digital signing, all while maintaining audit trails and secure user authentication.",
+      "audit_summary": "- Summary of Action: The compliance agent reviewed the business requirements for an online loan application system, ensuring that the system aligns with compliance policies related to secure data handling, real-time verification, AI-based risk assessment, digital signing, and user authentication.\n\n- User Involved: Compliance Lead\n\n- Risk Flags: Low\n\n- Recommendations (if any): Ensure continuous monitoring and updates to compliance strategies, particularly in response to changes in RBI guidelines. Regular audits should be conducted to verify adherence to compliance policies and to identify any potential vulnerabilities in data handling and access control.\n\n- Timestamp: [Insert current timestamp]"
+    },
+    {
+      "timestamp": "2025-05-19T11:19:22.793826",
+      "agent_name": "compliance",
+      "input": "Business Requirement 1:\nAs a loan applicant, I want to fill online loan application forms, so that loan application becomes a hassle-free and quick process.\n- Acceptance criteria: A user-friendly interface is built into the system that allows for smooth navigation and validation of credentials.\n- Roles: IT Manager, Product Manager.\n- Expected behavior: System seamlessly handles data entry and validation.\n\nBusiness Requirement 2:\nAs a loan applicant, I want an integrated KYC process, so that real-time document verification can be done and application is processed quickly.\n- Acceptance criteria: System successfully verifies documents in real time.\n- Roles: IT Manager, Compliance Lead.\n- Expected behavior: System should ensure secure document upload and immediate verification results.\n\nBusiness Requirement 3:\nAs a loan manager, I need to fetch the applicant's Credit score from CIBIL, so that risk associated with lending to applicant can be assessed accurately.\n- Acceptance criteria: System should successfully pull credit score data from CIBIL database.\n- Roles: IT Manager, Product Manager, Compliance Lead.\n- Expected behavior: Seamless integration with CIBIL for real-time data fetch.\n\nBusiness Requirement 4:\nAs a loan supervisor, I want AI-based eligibility and risk assessment, so that loan approval decisions can be made faster and more accurately.\n- Acceptance criteria: System's AI engine should accurately score and approve/reject applications.\n- Roles: IT Manager, Business Head.\n- Expected behavior: Secure, real-time, accurate assessment of applicant's eligibility and level of risk.\n\nBusiness Requirement 5:\nAs a bank employee, I want the loan application system to be integrated with core banking, so that loan disbursements can be made directly to verified bank accounts.\n- Acceptance criteria: Successful integration with core banking and correct disbursement of loans \n- Roles: IT Manager, Business Head, Compliance Lead.\n- Expected behavior: Secure and accurate transfer of loan amount into the correct bank account.\n\nBusiness Requirement 6:\nAs a banker, I want the system to support English, to cater to widest base of customers.\n- Acceptance criteria: The user interface and every page/instruction of system is in English.\n- Roles: IT Manager, Product Manager.\n- Expected behavior: The system language is default set to English and every interface is intuitive and user-friendly.",
+      "output": "- Compliance Status: Non-Compliant\n- Matched Policies: \n  - R1: Secure storage of loan application forms and KYC documents.\n  - R2: Secure fetching and storage of credit scores from CIBIL.\n  - R3: Compliance with fair lending laws for AI-based eligibility and risk assessment.\n  - R4: Accurate and secure real-time KYC document verification.\n  - R5: OTP-based authentication for loan sanction and e-agreement signing.\n  - R6: Secure integration with core banking for disbursement.\n  - R7: Support for English language.\n  - R8: Loan disbursement through verified bank accounts.\n  - R11: Minimum uptime maintenance.\n  - R12: Secure user authentication protocols.\n  - R13: Privacy and protection of customer data.\n  - R14: Responsive web app for self-service journey and dashboard.\n  - R15: Secure storage of loan agreements and related documents.\n  - R16: Aadhaar-linked mobile number requirement.\n  - R17: Secure and accurate prefill of online loan application form with Aadhaar/PAN-based data.\n\n- Missing Elements: \n  - Support for Hindi language (R7 specifies support for both English and Hindi).\n  - Exclusion of home loan, car loan, and business loan modules (R9).\n  - Exclusion of agent-assisted journeys for Tier 3 regions (R10).\n\n- Suggested Clauses:\n  - Add a clause to ensure the system supports both English and Hindi languages to comply with R7.\n  - Add a clause to explicitly exclude home loan, car loan, and business loan modules to comply with R9.\n  - Add a clause to exclude agent-assisted journeys for Tier 3 regions to comply with R10.",
+      "audit_summary": "- Summary of Action: The compliance agent reviewed the business requirements for a loan application system and assessed its compliance with existing policies. They identified matched policies and missing elements, suggesting clauses to address the gaps.\n- User Involved: Compliance Lead\n- Risk Flags: Medium\n- Recommendations (if any): \n  - Ensure the system supports both English and Hindi languages to comply with language requirements.\n  - Explicitly exclude home loan, car loan, and business loan modules to align with policy exclusions.\n  - Exclude agent-assisted journeys for Tier 3 regions to meet compliance standards.\n- Timestamp: [Please insert timestamp here]"
     }
   ],
   "preprocess_audit": [
@@ -13519,6 +13969,428 @@
         ]
       },
       "audit_summary": "- Summary of Action:  \n  The 'preprocess' agent has cleaned and segmented the input text related to the Digital Loan Application and Approval System project. It extracted entities and structured the information for further analysis or documentation purposes.\n\n- User Involved:  \n  The action does not specify a particular user involved; it appears to be an automated process.\n\n- Risk Flags: Low  \n  The action involves text processing and entity extraction, which generally poses low risk. However, handling sensitive information such as Aadhaar and PAN details requires careful attention to data privacy and security.\n\n- Recommendations:  \n  1. Ensure that any sensitive data extracted (e.g., Aadhaar, PAN) is handled in compliance with data protection regulations.\n  2. Implement access controls to restrict who can view or process this information.\n  3. Maintain transparency about data handling practices and ensure stakeholders are informed about how their data is processed.\n\n- Timestamp:  \n  The action details do not include a specific timestamp."
+    },
+    {
+      "timestamp": "2025-05-19T10:47:48.166172",
+      "agent_name": "preprocess",
+      "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "output": {
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices",
+        "segments": [
+          "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+          "Ttime (TAT), frequent errors, and poor customer experience.",
+          "Management wants to \ndigitize the entire loan origination process for personal loans.",
+          "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+          "Scope: \n\uf0b7",
+          "Online loan application form with Aadhaar/PAN-based pre\ufb01ll.",
+          "\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score.",
+          "\uf0b7 AI-based eligibility and risk assessment module.",
+          "\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match).",
+          "\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication.",
+          "\uf0b7 Integration with core banking for disbursement.",
+          "Out of Scope: \n\uf0b7 Home loan, car loan, and business loan modules.",
+          "\uf0b7 Agent-assisted journeys for Tier 3 regions.",
+          "Stakeholders: \n\uf0b7",
+          "Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7",
+          "IT Manager: Rakesh Sinha \n\uf0b7",
+          "Compliance Lead:",
+          "Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7",
+          "Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7",
+          "Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7",
+          "Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7",
+          "Dashboard for customer to track loan status \n \nAssumptions:",
+          "\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7",
+          "System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7",
+          "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7",
+          "Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices"
+        ],
+        "entities": [
+          {
+            "text": "Digital Loan Application",
+            "label": "ORG"
+          },
+          {
+            "text": "XYZ Bank",
+            "label": "ORG"
+          },
+          {
+            "text": "TAT",
+            "label": "ORG"
+          },
+          {
+            "text": "KYC",
+            "label": "ORG"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "CIBIL",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "OTP",
+            "label": "ORG"
+          },
+          {
+            "text": "Home",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Rahul Sharma",
+            "label": "PERSON"
+          },
+          {
+            "text": "Priya Iyer",
+            "label": "PERSON"
+          },
+          {
+            "text": "Anjali Mehta",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "OCR",
+            "label": "ORG"
+          },
+          {
+            "text": "Credit",
+            "label": "ORG"
+          },
+          {
+            "text": "fetc\uf0b7 Eligibility",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DigiLocker",
+            "label": "ORG"
+          },
+          {
+            "text": "Dashboard",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "English",
+            "label": "LANGUAGE"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "Delay",
+            "label": "PERSON"
+          },
+          {
+            "text": "API",
+            "label": "ORG"
+          },
+          {
+            "text": "RBI",
+            "label": "ORG"
+          },
+          {
+            "text": "15 March 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 April 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "UAT",
+            "label": "ORG"
+          },
+          {
+            "text": "1 June 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 July 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "5 days",
+            "label": "DATE"
+          },
+          {
+            "text": "2 hours",
+            "label": "TIME"
+          },
+          {
+            "text": "80%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "90%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "Business Objectives",
+            "label": "ORG"
+          },
+          {
+            "text": "Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Requirements",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "Compliance and Regulatory Needs",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "Assumptions, Constraints, Risks",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action:  \nThe 'preprocess' agent has cleaned and structured the input text related to the Digital Loan Application and Approval System project. The output includes a cleaned version of the text, segmented sections, and identified entities such as organizations, persons, and dates.\n\n- User Involved:  \nNot explicitly mentioned in the action details.\n\n- Risk Flags: Low  \nThe action involves text preprocessing, which is generally low risk. However, attention should be given to ensuring data privacy and compliance with regulations, especially when handling sensitive information like Aadhaar/PAN details.\n\n- Recommendations (if any):  \n1. Ensure that any personally identifiable information (PII) is handled according to data protection regulations.\n2. Implement access controls to restrict who can view or process sensitive information.\n3. Maintain transparency in data processing activities and inform stakeholders about how their data is used.\n\n- Timestamp:  \nNot provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-19T11:18:35.012923",
+      "agent_name": "preprocess",
+      "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "output": {
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices",
+        "segments": [
+          "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+          "Ttime (TAT), frequent errors, and poor customer experience.",
+          "Management wants to \ndigitize the entire loan origination process for personal loans.",
+          "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+          "Scope: \n\uf0b7",
+          "Online loan application form with Aadhaar/PAN-based pre\ufb01ll.",
+          "\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score.",
+          "\uf0b7 AI-based eligibility and risk assessment module.",
+          "\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match).",
+          "\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication.",
+          "\uf0b7 Integration with core banking for disbursement.",
+          "Out of Scope: \n\uf0b7 Home loan, car loan, and business loan modules.",
+          "\uf0b7 Agent-assisted journeys for Tier 3 regions.",
+          "Stakeholders: \n\uf0b7",
+          "Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7",
+          "IT Manager: Rakesh Sinha \n\uf0b7",
+          "Compliance Lead:",
+          "Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7",
+          "Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7",
+          "Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7",
+          "Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7",
+          "Dashboard for customer to track loan status \n \nAssumptions:",
+          "\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7",
+          "System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7",
+          "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7",
+          "Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices"
+        ],
+        "entities": [
+          {
+            "text": "Digital Loan Application",
+            "label": "ORG"
+          },
+          {
+            "text": "XYZ Bank",
+            "label": "ORG"
+          },
+          {
+            "text": "TAT",
+            "label": "ORG"
+          },
+          {
+            "text": "KYC",
+            "label": "ORG"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "CIBIL",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "OTP",
+            "label": "ORG"
+          },
+          {
+            "text": "Home",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Rahul Sharma",
+            "label": "PERSON"
+          },
+          {
+            "text": "Priya Iyer",
+            "label": "PERSON"
+          },
+          {
+            "text": "Anjali Mehta",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "OCR",
+            "label": "ORG"
+          },
+          {
+            "text": "Credit",
+            "label": "ORG"
+          },
+          {
+            "text": "fetc\uf0b7 Eligibility",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DigiLocker",
+            "label": "ORG"
+          },
+          {
+            "text": "Dashboard",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "English",
+            "label": "LANGUAGE"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "Delay",
+            "label": "PERSON"
+          },
+          {
+            "text": "API",
+            "label": "ORG"
+          },
+          {
+            "text": "RBI",
+            "label": "ORG"
+          },
+          {
+            "text": "15 March 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 April 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "UAT",
+            "label": "ORG"
+          },
+          {
+            "text": "1 June 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 July 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "5 days",
+            "label": "DATE"
+          },
+          {
+            "text": "2 hours",
+            "label": "TIME"
+          },
+          {
+            "text": "80%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "90%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "Business Objectives",
+            "label": "ORG"
+          },
+          {
+            "text": "Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Requirements",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "Compliance and Regulatory Needs",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "Assumptions, Constraints, Risks",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action:  \nThe 'preprocess' agent has cleaned and structured the input text related to the Digital Loan Application and Approval System project at XYZ Bank. The output includes a cleaned version of the text, segmented information, and identified entities such as organizations, persons, dates, and percentages.\n\n- User Involved:  \nThe action does not specify a particular user involved; it appears to be an automated process by the 'preprocess' agent.\n\n- Risk Flags: Low  \nThe action involves text processing and entity recognition, which are standard practices in data handling. There are no indications of sensitive data exposure or unauthorized access.\n\n- Recommendations (if any):  \n1. Ensure that any personal data (e.g., names, Aadhaar numbers) is handled in compliance with data protection regulations.  \n2. Verify that the entity recognition process does not mislabel or misinterpret critical information, especially in compliance-related sections.  \n3. Maintain transparency about the data processing activities and ensure stakeholders are informed about how their data is used.\n\n- Timestamp:  \nThe action details do not provide a specific timestamp."
     }
   ],
   "ingestion_audit": [
@@ -13731,6 +14603,20 @@
       "input": "raw-pdf",
       "output": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
       "audit_summary": "- Summary of Action:  \nThe ingestion agent processed a raw PDF document containing details about a project titled \"Digital Loan Application and Approval System\" for XYZ Bank. The document outlines the business context, objectives, scope, stakeholders, key features, assumptions, risks, timeline, and success metrics related to digitizing the loan origination process for personal loans.\n\n- User Involved:  \nNot specified in the action details.\n\n- Risk Flags: Low  \nThe action involves handling project documentation, which is generally low-risk. However, attention should be paid to data privacy and security, especially concerning sensitive information like Aadhaar and PAN details.\n\n- Recommendations:  \n  - Ensure transparency in data handling by clearly documenting the data flow and access permissions.\n  - Implement robust access control measures to protect sensitive information, especially personal identifiers like Aadhaar and PAN.\n  - Regularly update compliance protocols to align with RBI guidelines and other regulatory requirements.\n  - Conduct security audits to ensure the integrity and confidentiality of the data processed.\n\n- Timestamp:  \nNot specified in the action details."
+    },
+    {
+      "timestamp": "2025-05-19T10:47:44.607296",
+      "agent_name": "ingestion",
+      "input": "raw-pdf",
+      "output": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "audit_summary": "- Summary of Action:  \nThe ingestion agent processed a raw PDF document containing details about a project titled \"Digital Loan Application and Approval System\" for XYZ Bank. The document outlines the business context, objectives, scope, stakeholders, key features, assumptions, risks, timeline, and success metrics related to digitizing the loan origination process for personal loans.\n\n- User Involved:  \nNot specified in the action details.\n\n- Risk Flags: Low  \nThe action involves handling project documentation, which is standard practice. However, attention should be given to data privacy and compliance, especially concerning Aadhaar and PAN information.\n\n- Recommendations (if any):  \n1. Ensure that any personal data (e.g., Aadhaar, PAN) is handled in compliance with data protection regulations.\n2. Implement access controls to ensure that only authorized personnel can view or modify sensitive project documentation.\n3. Maintain transparency with stakeholders regarding data handling practices and compliance measures.\n4. Regularly update risk assessments to address potential compliance changes due to upcoming RBI guidelines.\n\n- Timestamp:  \nNot provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-19T11:18:31.501504",
+      "agent_name": "ingestion",
+      "input": "raw-pdf",
+      "output": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "audit_summary": "- Summary of Action:  \nThe ingestion agent processed a raw PDF document containing detailed information about the digital loan application and approval system project at XYZ Bank. The document outlines the business context, objectives, scope, stakeholders, key features, assumptions, risks, timeline, and success metrics related to the project. This information is intended to be used by a Business Analyst to create a Business Requirements Document (BRD).\n\n- User Involved:  \nThe document mentions stakeholders including Rahul Sharma (Product Manager), Priya Iyer (Business Head \u2013 Retail Lending), Rakesh Sinha (IT Manager), and Anjali Mehta (Compliance Lead).\n\n- Risk Flags: Low  \nThe action involves handling project documentation, which is generally low risk. However, attention should be paid to data handling and access control to ensure sensitive information is protected, especially regarding customer data and compliance with regulatory requirements.\n\n- Recommendations (if any):  \n  - Ensure transparency in data handling and access control by implementing robust security measures to protect sensitive information.\n  - Regularly update compliance protocols to align with any changes in RBI guidelines.\n  - Conduct training sessions for stakeholders to address potential resistance from customers uncomfortable with digital onboarding.\n  - Monitor API access to credit bureaus to mitigate delays and ensure seamless integration.\n\n- Timestamp:  \nThe document does not provide a specific timestamp for the ingestion action. However, the timeline for project milestones is outlined, with the Go-Live date set for 1 July 2025."
     }
   ]
 }
