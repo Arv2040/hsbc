@@ -1,49 +1,93 @@
-import openai 
-import os
+import pandas as pd
+from openai import AzureOpenAI
 from dotenv import load_dotenv
-from agents.ingestion import parse_pdf
-import json
-from pathlib import Path
+import os
 
+# Load .env variables
 load_dotenv()
-client = openai.AzureOpenAI(
+
+client = AzureOpenAI(
     api_key=os.getenv("OPENAI_API_KEY_LOCAL"),
     api_version=os.getenv("OPENAI_API_VERSION_LOCAL"),
     azure_endpoint=os.getenv("OPENAI_API_BASE_LOCAL")
 )
 
-def check_requirement_compliance(requirement_text):
-       
-    json_path = Path("compliance_rules/compliance_rules.json")
-    with open(json_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+EXCEL_RULES_PATH = "data/presaved_rules.xlsx"
 
-    # Extract the "rules" key
-    compliance_rules_text = data.get("rules", [])
-        
+def get_excel_rules():
+    df = pd.read_excel(EXCEL_RULES_PATH)
+    rule_column = "Rules" if "Rules" in df.columns else df.columns[0]
+    return df[rule_column].dropna().tolist()
+
+def check_requirement_compliance(gpt_response_text: str):
+    static_rules = get_excel_rules()
+
     prompt = f"""
-    You are a compliance assistant.
-    Given the following business requirement, check if it aligns with these policies:
-    {compliance_rules_text}
+You are an AI assistant designed to evaluate the alignment of an LLM-generated response with a set of predefined rules listed in an Excel sheet. Your tasks are as follows:
 
-    If not compliant, list what's missing and suggest clauses to add.
+Semantic Matching:
+Compare the LLM-generated output with the rules present in the provided Excel file using semantic similarity—not keyword or string matching. You must understand and interpret the meaning of the rules.
 
-    Requirement:
-    \"\"\"
-    {requirement_text}
-    \"\"\"
+Highlighting Unmatched Data:
+Any content in the LLM output that does not semantically match any rule in the Excel must be highlighted in red to indicate non-compliance or deviation.
 
-    Respond in this format:
-    - Compliance Status: [Compliant/Non-Compliant] 
-    - Matched Policies: [List]
-    - Missing Elements: [List]
-    - Suggested Clauses: [List]
-    """
+Rule Extraction:
+Extract all policy or compliance rules that are either explicitly stated or implied in the LLM-generated response. These should be listed clearly and concisely.
+
+Mismatch Identification:
+From the extracted rules, identify and return a list of those that do not closely match any rule from the Excel sheet (again, based on semantic meaning).
+
+Return the final output in the following format:
+
+Original LLM Output (with unmatched sections highlighted in red)
+
+Extracted Rules from LLM Output
+
+List of Extracted Rules that Do Not Match Any Static Rule
+
+Ensure that your evaluation focuses on the intent and meaning behind each rule rather than exact wording.
+
+The displayed result should only consist of the unmatched values and not the llm output.
+
+LLM Response:
+\"\"\"{gpt_response_text}\"\"\"
+
+Static Company Rules:
+{chr(10).join([f"{i+1}. {Rules}" for i, Rules in enumerate(static_rules)])}
+
+You are a Compliance Validation Agent. You are given a set of SME-defined requirements and an industry standard (e.g., ISO 27001, NIST, GDPR).
+Compare each requirement against the standard and return:
+
+Matched Rules (rules that are fully compliant),
+
+Mismatched Rules (rules that are not compliant),
+
+LLM-Generated Recommendations (suggest rules or changes to meet compliance).
+
+Format your output as a JSON object with the following keys:
+
+json
+
+
+The output that should be shown is as follows only:
+1) Mismatched Policy Rules
+2) Matched Policy Rules
+
+"""
 
     response = client.chat.completions.create(
-            model="gpt-4o",
-            messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
-        )
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a compliance expert trained to extract and match policy rules."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.2
+    )
 
-    return response.choices[0].message.content
+    reply = response.choices[0].message.content.strip()
+
+    return {
+        "status": "✅ Completed extraction and comparison",
+        "result": reply,
+    
+    }

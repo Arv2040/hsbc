@@ -266,12 +266,20 @@ def sequential_mode():
             return
 
         with st.expander("📋 Compliance Agent - Compliance checked successfully", expanded=True):
-            display_agent_progress(
-                "Compliance Agent",
-                "Validating requirements against standards",
-                compliance_result.get("result", {}),
-                "Compliance checked successfully"
-            )
+            st.markdown("#### Validating requirements against standards")
+
+            result = compliance_result.get("result", {})
+
+            # If result is a list of dicts (preferred for tabular data)
+            if isinstance(result, list):
+                st.table(result)
+            # If result is a single dictionary
+            elif isinstance(result, dict):
+                df_data = [{"Key": k, "Value": v} for k, v in result.items()]
+                st.table(df_data)
+            else:
+                st.write("Unsupported result format")
+
 
 
         # 6. BRD Generation Agent
