@@ -6178,6 +6178,1031 @@
         ]
       },
       "audit_summary": "- Summary of Action: The 'preprocess' agent cleaned and structured the input text, removing excessive whitespace and formatting inconsistencies. It segmented the text into logical parts and identified entities within the document.\n- User Involved: Not specified in the action details.\n- Risk Flags: Low\n- Recommendations (if any): Ensure that any sensitive information is adequately protected during preprocessing. Consider implementing access controls to limit who can perform preprocessing tasks, especially when handling confidential documents.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T21:08:04.856146",
+      "agent_name": "preprocess",
+      "input": " \n  \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  \nProject Name  \n \n \n \n \nBusiness Requirement Document   Title  2 Contents  \n1. Background  ................................ ................................ ................................ ................................ ................................ ...........................  3 \n2. As -is Process  ................................ ................................ ................................ ................................ ................................ .........................  3 \n3. Business Requirements  ................................ ................................ ................................ ................................ ................................ ...........  3 \n3.1 Functional Requirements ................................ ................................ ................................ ................................ ................................ ................  3 \n3.1.1 xxxxxx  ................................ ................................ ................................ ................................ ................................ ................................ ...........  3 \n3.1.2 xxxx  ................................ ................................ ................................ ................................ ................................ ................................ ..............  3 \n3.2 System orchestration requirements  ................................ ................................ ................................ ................................ ................................  3 \n3.3 UI/UX Requirements (MVP -1) ................................ ................................ ................................ ................................ ................................ .........  3 \n3.4 Non -Functional Requirements  ................................ ................................ ................................ ................................ ................................ ........  4 \n4. To Be Process  ................................ ................................ ................................ ................................ ................................ ........................  4 \n5. Assumptions  ................................ ................................ ................................ ................................ ................................ ..........................  4 \n6. Inclusions and Exclusions  ................................ ................................ ................................ ................................ ................................ ........  4 \n7. Data Sources  ................................ ................................ ................................ ................................ ................................ .........................  5 \n7.1 Input data sources  ................................ ................................ ................................ ................................ ................................ .........................  5 \n7.1.1 Key volumetrics of the as -is User Flow  ................................ ................................ ................................ ................................ ...........................  5 \n7.2 Output data sources  ................................ ................................ ................................ ................................ ................................ .......................  5 \n8. G lossary of Data  ................................ ................................ ................................ ................................ ................................ .....................  5 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  Title  3 1. Background  \n \n \nThe background of the project and the problem statement which we are trying to solve.  \nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  \n \n \n \n \n \n \n2. As -is Process   \n \nThe as -is process steps are documented below  (as-is process diagram):  \n \n<<Image>>  \n \n \n \n3. Business Requirements  \n3.1 Functional Requirements  \n3.1.1 Process Details  \n \n3.1.2 Process Steps  \n \n3.2 System orchestration requirements  \nThis section outlines the documented system orchestration requirements, encompassing the following key aspects:  \no File Storage: . \no Output File Library:   \nThese requirements aim to establish a well -organized and user -centric orchestration framework, ensuring the effective \nmanagement of files and output information within the system  \n3.3 UI/UX Requirements  (MVP -1) \nThe development process will incorporate user flow a ctions characterized by the following qualities:  \no Login Screen:  Users are expected to log in using Single Sign -On (SSO) when accessing. This login mechanism enhances \nsecurity and streamlines the authentication process.  \no User Role -Based Access:   Title  4 o Manager Role:  Managers should be granted access to cases, empowering them to utilize both the upload and \ndownload functionalities of the automation. This role ensures that managerial users have the necessary \npermissions for case -related activities.  \no Admin Role:  Admin ac cess, reserved for select team members, provides comprehensive access to the entire \napplication. This privileged role is designated for individuals who require full control and oversight of the \napplication's functionalities.  \nBy incorporating these user flo w actions into the development process, the system ensures secure and role -specific access, \ncatering to the distinct needs of both managerial and administrative users within.  \n3.4 Non -Functional Requirements   \nThe system will implement the following key features to ensure robust functionality and security:  \no Audit Trail:  A comprehensive audit trail will be maintained to track user activities within the application. This includes \ncapturing user -specific information such as usernames, date and time stamps, an d the type of activities performed. This \ntrail serves as a valuable tool for monitoring and accountability.  \no Monitoring and Reporting:  The system will collect log data to monitor the number of active users and track individual \nusernames. Additionally, perfo rmance metrics of the application will be recorded. This monitoring and reporting \nmechanism aim to provide insights into user engagement and ensure optimal application performance.  \no Security: User authentication will be implemented using secure protocols , This security measure ensures that only \nauthenticated users with proper credentials can access the Scenario Planning & Optimization \u2013 Rapid Tool, enhancing \noverall system security.  \no Reliability:  Tool is committed to maintaining a minimum uptime, excluding sc heduled maintenance. This reliability target \nensures continuous availability and accessibility for users, contributing to a seamless user experience.  \nThese features collectively contribute to the integrity, security, and reliability of the, promoting a rob ust and dependable platform \nfor users.  \n \n4. To Be  Process   \nAnticipated Procedural Steps  for MVP -1: \no This section outlines the procedural steps of the automated solution.  \no The Team initializes the application login procedure upon receipt of emails.  \no Subsequently, the team systematically transfers files, utilizing them as inputs for the designated tool.  \n4.1  Process Steps  \n\uf0b7 Step -by-step guide for process information.  \n5. Assumptions  \no List of assumptions  \n6. Inclusions and Exclusions  \nInclusions of the  are as follows:   Title  5  \nExclusions for Scenario Planning & Optimization \u2013 Rapid Tool  (MVP -1): \n \n7. Data Sources  \n7.1 Input data sources  \n \n \n7.1.1 Key volumetrics of the as -is User Flow  \n \nThe metrics are as per the size of documents received from.  \nSr. No.  Key metric  Volume  \n1.   \n2.   \n3.   \n4.   \n \n7.2 Output data sources  \n \n8. Glossary of Data  \nThe sample data collected, and documents for the same are mapped in this section.  \nSr. No.  Data  Document  \n1.   \n2.   \n3.   \n4.    \n  \n  Ernst & Young LLP  \nEY | Building a better working world  \nAbout EY  \nEY exists to build a better working world, helping to create \nlong -term value for clients, people and society and build trust \nin the capital markets.  \nEnabled by data and technology, diverse EY teams in over 150 \ncountries provide trust through assurance and help clients \ngrow, transform and operate.  \nWorking across assurance, consulting, law, strategy, tax and \ntransactions, EY teams ask better questions to find new \nanswers for the comple x issues facing our world today.  \nEY refers to the global organization, and may refer to one or \nmore, of the member firms of Ernst & Young Global Limited, \neach of which is a separate legal entity. Ernst & Young Global \nLimited, a UK company limited by guaran tee, does not \nprovide services to clients. Information about how EY collects \nand uses personal data and a description of the rights \nindividuals have under data protection legislation are \navailable via ey.com/privacy. EYG member firms do not \npractice law wh ere prohibited by local laws. For more \ninformation about our organization, please visit ey.com.   \nErnst & Young LLP is one of the Indian client serving member firms of EYGM \nLimited. For more information about our organization, please visit \nwww.ey.com/en_in.   \nErnst & Young LLP is a Limited Liability Partnership, registered under the Limited \nLiability Partnership Act, 2008 in India, having its registered office at Ground \nFloor, Plot No. 67, Institutional Area, Sector - 44, Gurugram - 122 003, Haryana, \nIndia.  \n\u00a9 202 3 Ernst & Young LLP. Published in India.  \nAll Rights Reserved.  \nED None  \nThis publication contains information in summary form and is therefore intended \nfor general guidance only. It is not intended to be a substitute for detailed research \nor the exercis e of professional judgment. Neither EYGM Limited nor any other \nmember of the global Ernst & Young organization can accept any responsibility for \nloss occasioned to any person acting or refraining from action as a result of any \nmaterial in this publication.  On any specific matter, reference should be made to \nthe appropriate advisor.  \n ",
+      "output": {
+        "clean_text": "Project Name  \n \n \n \n \nBusiness Requirement Document   Title  2 Contents  \n1. Background  ................................ ................................ ................................ ................................ ................................ ...........................  3 \n2. As -is Process  ................................ ................................ ................................ ................................ ................................ .........................  3 \n3. Business Requirements  ................................ ................................ ................................ ................................ ................................ ...........  3 \n3.1 Functional Requirements ................................ ................................ ................................ ................................ ................................ ................  3 \n3.1.1 xxxxxx  ................................ ................................ ................................ ................................ ................................ ................................ ...........  3 \n3.1.2 xxxx  ................................ ................................ ................................ ................................ ................................ ................................ ..............  3 \n3.2 System orchestration requirements  ................................ ................................ ................................ ................................ ................................  3 \n3.3 UI/UX Requirements (MVP -1) ................................ ................................ ................................ ................................ ................................ .........  3 \n3.4 Non -Functional Requirements  ................................ ................................ ................................ ................................ ................................ ........  4 \n4. To Be Process  ................................ ................................ ................................ ................................ ................................ ........................  4 \n5. Assumptions  ................................ ................................ ................................ ................................ ................................ ..........................  4 \n6. Inclusions and Exclusions  ................................ ................................ ................................ ................................ ................................ ........  4 \n7. Data Sources  ................................ ................................ ................................ ................................ ................................ .........................  5 \n7.1 Input data sources  ................................ ................................ ................................ ................................ ................................ .........................  5 \n7.1.1 Key volumetrics of the as -is User Flow  ................................ ................................ ................................ ................................ ...........................  5 \n7.2 Output data sources  ................................ ................................ ................................ ................................ ................................ .......................  5 \n8. G lossary of Data  ................................ ................................ ................................ ................................ ................................ .....................  5 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  Title  3 1. Background  \n \n \nThe background of the project and the problem statement wxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  \n \n \n \n \n \n \n2. As -is Process   \n \nThe as -is process steps are documented below  (as-is process diagram):  \n \n<<Image>>  \n \n \n \n3. Business Requirements  \n3.1 Functional Requirements  \n3.1.1 Process Details  \n \n3.1.2 Process Steps  \n \n3.2 System orchestration requirements  \nT encompassing the following key aspects:  \no File Storage: . \no Output File Library:   \nThese requirements aim to establish a well -organized and user -centric orchestration framework, ensuring the effective \nmanagement of files and output information wit3.3 UI/UX Requirements  (MVP -1) \nThe development process will incorporate user flow a ctions characterized by the following qualities:  \no Login Screen:  Users are expected to log in using Single Sign -On (SSO) when accessing. Tsecurity and streamlines the authentication process.  \no User Role -Based Access:   Title  4 o Manager Role:  Managers should be granted access to cases, empowering them to utilize both the upload and \ndownload functionalities of the automation. Tpermissions for case -related activities.  \no Admin Role:  Admin ac cess, reserved for select team members, provides comprehensive access to the entire \napplication. Tapplication's functionalities.  \nBy incorporating these user flo w actions into the development process, the system ensures secure and role -specific access, \ncatering to the distinct needs of both managerial and administrative users wit3.4 Non -Functional Requirements   \nThe system will implement the following key features to ensure robust functionality and security:  \no Audit Trail:  A comprehensive audit trail will be maintained to track user activities witcapturing user -specific information such as usernames, date and time stamps, an d the type of activities performed. Ttrail serves as a valuable tool for monitoring and accountability.  \no Monitoring and Reporting:  The system will collect log data to monitor the number of active users and track individual \nusernames. Additionally, perfo rmance metrics of the application will be recorded. Tmechanism aim to provide insights into user engagement and ensure optimal application performance.  \no Security: User authentication will be implemented using secure protocols , Tauthenticated users with proper credentials can access the Scenario Planning & Optimization \u2013 Rapid Tool, enhancing \noverall system security.  \no Reliability:  Tool is committed to maintaining a minimum uptime, excluding sc heduled maintenance. Tensures continuous availability and accessibility for users, contributing to a seamless user experience.  \nThese features collectively contribute to the integrity, security, and reliability of the, promoting a rob ust and dependable platform \nfor users.  \n \n4. To Be  Process   \nAnticipated Procedural Steps  for MVP -1: \no To The Team initializes the application login procedure upon receipt of emails.  \no Subsequently, the team systematically transfers files, utilizing them as inputs for the designated tool.  \n4.1  Process Steps  \n\uf0b7 Step -by-step guide for process information.  \n5. Assumptions  \no List of assumptions  \n6. Inclusions and Exclusions  \nInclusions of the  are as follows:   Title  5  \nExclusions for Scenario Planning & Optimization \u2013 Rapid Tool  (MVP -1): \n \n7. Data Sources  \n7.1 Input data sources  \n \n \n7.1.1 Key volumetrics of the as -is User Flow  \n \nThe metrics are as per the size of documents received from.  \nSr. No.  Key metric  Volume  \n1.   \n2.   \n3.   \n4.   \n \n7.2 Output data sources  \n \n8. Glossary of Data  \nThe sample data collected, and documents for the same are mapped in tSr. No.  Data  Document  \n1.   \n2.   \n3.   \n4.    \n  \n  Ernst & Young LLP  \nEY | Building a better working world  \nAbout EY  \nEY exists to build a better working world, helping to create \nlong -term value for clients, people and society and build trust \nin the capital markets.  \nEnabled by data and technology, diverse EY teams in over 150 \ncountries provide trust through assurance and help clients \ngrow, transform and operate.  \nWorking across assurance, consulting, law, strategy, tax and \ntransactions, EY teams ask better questions to find new \nanswers for the comple x issues facing our world today.  \nEY refers to the global organization, and may refer to one or \nmore, of the member firms of Ernst & Young Global Limited, \neach of wLimited, a UK company limited by guaran tee, does not \nprovide services to clients. Information about how EY collects \nand uses personal data and a description of the rights \nindividuals have under data protection legislation are \navailable via ey.com/privacy. EYG member firms do not \npractice law wh ere proinformation about our organization, please visit ey.com.   \nErnst & Young LLP is one of the Indian client serving member firms of EYGM \nLimited. For more information about our organization, please visit \nwww.ey.com/en_in.   \nErnst & Young LLP is a Limited Liability Partners registered under the Limited \nLiability Partners 2008 in India, having its registered office at Ground \nFloor, Plot No. 67, Institutional Area, Sector - 44, Gurugram - 122 003, Haryana, \nIndia.  \n\u00a9 202 3 Ernst & Young LLP. Published in India.  \nAll Rights Reserved.  \nED None  \nTfor general guidance only. It is not intended to be a substitute for detailed research \nor the exercis e of professional judgment. Neither EYGM Limited nor any other \nmember of the global Ernst & Young organization can accept any responsibility for \nloss occasioned to any person acting or refraining from action as a result of any \nmaterial in t reference should be made to \nthe appropriate advisor.",
+        "segments": [
+          "Project Name  \n \n \n \n \nBusiness Requirement Document   Title  2 Contents  \n1.",
+          "Background  ................................",
+          "................................ ................................",
+          "................................ ................................ ...........................",
+          "3 \n2.",
+          "As -is Process  ................................",
+          "................................ ................................",
+          "................................ ................................",
+          ".........................  3 \n3. Business Requirements  ................................",
+          "................................ ................................",
+          "................................ ................................",
+          "...........  3 \n3.1 Functional Requirements ................................",
+          "................................ ................................",
+          "................................ ................................",
+          "................  3 \n3.1.1 xxxxxx  ................................",
+          "................................ ................................",
+          "................................ ................................",
+          "................................ ...........  3 \n3.1.2 xxxx",
+          "................................ ................................",
+          "................................ ................................",
+          "................................ ................................",
+          "..............  3 \n3.2 System orchestration requirements  ................................",
+          "................................ ................................",
+          "................................ ................................",
+          "3 \n3.3 UI/UX Requirements (MVP -1)",
+          "................................",
+          "................................ ................................",
+          "................................ ................................ .........",
+          "3 \n3.4 Non -Functional Requirements  ................................",
+          "................................ ................................",
+          "................................ ................................ ........",
+          "4 \n4.",
+          "To Be Process  ................................",
+          "................................ ................................",
+          "................................ ................................ ........................",
+          "4 \n5.",
+          "Assumptions  ................................",
+          "................................ ................................",
+          "................................ ................................ ..........................",
+          "4 \n6.",
+          "Inclusions and Exclusions  ................................",
+          "................................ ................................",
+          "................................ ................................ ........",
+          "4 \n7.",
+          "Data Sources  ................................",
+          "................................ ................................",
+          "................................ ................................",
+          ".........................  5 \n7.1 Input data sources  ................................",
+          "................................ ................................",
+          "................................ ................................",
+          ".........................  5 \n7.1.1 Key volumetrics of the as -is User Flow  ................................",
+          "................................ ................................",
+          "................................ ...........................",
+          "5 \n7.2 Output data sources  ................................",
+          "................................ ................................",
+          "................................ ................................ .......................",
+          "5 \n8.",
+          "G lossary of Data  ................................",
+          "................................ ................................",
+          "................................ ................................ .....................",
+          "5 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  Title  3 1.",
+          "Background  \n \n \nThe background of the project and the problem statement wxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  \n \n \n \n \n \n \n2.",
+          "As -is Process   \n \nThe as -is process steps are documented below  (as-is process diagram):  \n \n<<Image>>  \n \n \n \n3.",
+          "Business Requirements  \n3.1 Functional Requirements  \n3.1.1 Process Details  \n \n3.1.2 Process Steps  \n \n3.2 System orchestration requirements  \nT encompassing the following key aspects:  \no File Storage: .",
+          "o Output File Library:",
+          "These requirements aim to establish a well -organized and user -centric orchestration framework, ensuring the effective \nmanagement of files and output information wit3.3 UI/UX Requirements  (MVP -1)",
+          "The development process will incorporate user flow a ctions characterized by the following qualities:",
+          "o Login Screen:  Users are expected to log in using Single Sign -On (SSO) when accessing.",
+          "Tsecurity and streamlines the authentication process.",
+          "o User Role -Based Access:   Title  4 o Manager Role:",
+          "Managers should be granted access to cases, empowering them to utilize both the upload and \ndownload functionalities of the automation.",
+          "Tpermissions for case -related activities.",
+          "o Admin Role:",
+          "Admin ac cess, reserved for select team members, provides comprehensive access to the entire \napplication.",
+          "Tapplication's functionalities.",
+          "By incorporating these user flo w actions into the development process, the system ensures secure and role -specific access, \ncatering to the distinct needs of both managerial and administrative users wit3.4 Non -Functional Requirements   \nThe system will implement the following key features to ensure robust functionality and security:  \no Audit Trail:",
+          "A comprehensive audit trail will be maintained to track user activities witcapturing user -specific information such as usernames, date and time stamps, an d the type of activities performed.",
+          "Ttrail serves as a valuable tool for monitoring and accountability.",
+          "o Monitoring and Reporting:",
+          "The system will collect log data to monitor the number of active users and track individual \nusernames.",
+          "Additionally, perfo rmance metrics of the application will be recorded.",
+          "Tmechanism aim to provide insights into user engagement and ensure optimal application performance.",
+          "o Security: User authentication will be implemented using secure protocols , Tauthenticated users with proper credentials can access the Scenario Planning & Optimization \u2013 Rapid Tool, enhancing \noverall system security.",
+          "o Reliability:",
+          "Tool is committed to maintaining a minimum uptime, excluding sc heduled maintenance.",
+          "Tensures continuous availability and accessibility for users, contributing to a seamless user experience.",
+          "These features collectively contribute to the integrity, security, and reliability of the, promoting a rob ust and dependable platform \nfor users.",
+          "4.",
+          "To Be  Process   \nAnticipated Procedural Steps  for MVP",
+          "-1:",
+          "o To The Team initializes the application login procedure upon receipt of emails.",
+          "o",
+          "Subsequently, the team systematically transfers files, utilizing them as inputs for the designated tool.",
+          "4.1  Process Steps  \n\uf0b7",
+          "Step -by-step guide for process information.",
+          "5.",
+          "Assumptions  \no List of assumptions  \n6.",
+          "Inclusions and Exclusions  \nInclusions of the  are as follows:",
+          "Title  5  \nExclusions for Scenario Planning & Optimization \u2013 Rapid Tool  (MVP -1): \n \n7.",
+          "Data Sources  \n7.1 Input data sources  \n \n \n7.1.1 Key volumetrics of the as -is User Flow",
+          "The metrics are as per the size of documents received from.",
+          "Sr.",
+          "No.",
+          "Key metric  Volume  \n1.   \n2.   \n3.   \n4.   \n \n7.2 Output data sources  \n \n8.",
+          "Glossary of Data  \nThe sample data collected, and documents for the same are mapped in tSr.",
+          "No.  Data  Document  \n1.   \n2.   \n3.",
+          "4.    \n  \n  Ernst & Young LLP  \nEY | Building a better working world  \nAbout EY  \nEY exists to build a better working world, helping to create \nlong -term value for clients, people and society and build trust \nin the capital markets.",
+          "Enabled by data and technology, diverse EY teams in over 150 \ncountries provide trust through assurance and help clients \ngrow, transform and operate.",
+          "Working across assurance, consulting, law, strategy, tax and \ntransactions, EY teams ask better questions to find new \nanswers for the comple",
+          "x issues facing our world today.",
+          "EY refers to the global organization, and may refer to one or \nmore, of the member firms of Ernst & Young Global Limited, \neach of wLimited, a UK company limited by guaran tee, does not \nprovide services to clients.",
+          "Information about how EY collects \nand uses personal data and a description of the rights \nindividuals have under data protection legislation are \navailable via ey.com/privacy.",
+          "EYG member firms do not \npractice law wh ere proinformation about our organization, please visit ey.com.",
+          "Ernst & Young LLP is one of the Indian client serving member firms of EYGM \nLimited.",
+          "For more information about our organization, please visit \nwww.ey.com/en_in.",
+          "Ernst & Young LLP is a Limited Liability Partners registered under the Limited \nLiability Partners 2008 in India, having its registered office at Ground \nFloor, Plot No. 67, Institutional Area, Sector - 44, Gurugram - 122 003, Haryana, \nIndia.",
+          "\u00a9 202 3 Ernst & Young LLP.",
+          "Published in India.",
+          "All Rights Reserved.",
+          "ED None  \nTfor general guidance only.",
+          "It is not intended to be a substitute for detailed research \nor the exercis e of professional judgment.",
+          "Neither EYGM Limited nor any other \nmember of the global Ernst & Young organization can accept any responsibility for \nloss occasioned to any person acting or refraining from action as a result of any \nmaterial in t reference should be made to \nthe appropriate advisor."
+        ],
+        "entities": [
+          {
+            "text": "1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Business Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3.1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3.1.1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3.2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3.3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "UI/UX Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "MVP",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3.4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7.1 Input",
+            "label": "PERCENT"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7.2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "8",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Title",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "3 1",
+            "label": "DATE"
+          },
+          {
+            "text": "Background  \n \n \n",
+            "label": "ORG"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Business Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "3.1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3.1.2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Process Steps",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "3.2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Output File Library",
+            "label": "ORG"
+          },
+          {
+            "text": "UI/UX Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "MVP",
+            "label": "ORG"
+          },
+          {
+            "text": "Login Screen",
+            "label": "PERSON"
+          },
+          {
+            "text": "Single Sign",
+            "label": "LOC"
+          },
+          {
+            "text": "Role",
+            "label": "PERSON"
+          },
+          {
+            "text": "Admin Role",
+            "label": "LOC"
+          },
+          {
+            "text": "Admin",
+            "label": "PERSON"
+          },
+          {
+            "text": "Tapplication",
+            "label": "ORG"
+          },
+          {
+            "text": "flo w",
+            "label": "ORG"
+          },
+          {
+            "text": "Non -Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Audit Trail",
+            "label": "FAC"
+          },
+          {
+            "text": "Ttrail",
+            "label": "PERSON"
+          },
+          {
+            "text": "Monitoring and Reporting",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "the Scenario Planning & Optimization \u2013 Rapid Tool",
+            "label": "ORG"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "MVP",
+            "label": "ORG"
+          },
+          {
+            "text": "Team",
+            "label": "ORG"
+          },
+          {
+            "text": "Subsequently",
+            "label": "ORG"
+          },
+          {
+            "text": "4.1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Process Steps",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Inclusions and Exclusions  \nInclusions of the  ",
+            "label": "ORG"
+          },
+          {
+            "text": "MVP",
+            "label": "ORG"
+          },
+          {
+            "text": "7",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7.1 Input",
+            "label": "PERCENT"
+          },
+          {
+            "text": "7.1.1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7.2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "8",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Ernst & Young LLP",
+            "label": "ORG"
+          },
+          {
+            "text": "EY",
+            "label": "GPE"
+          },
+          {
+            "text": "EY",
+            "label": "PERSON"
+          },
+          {
+            "text": "over 150",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "EY",
+            "label": "ORG"
+          },
+          {
+            "text": "today",
+            "label": "DATE"
+          },
+          {
+            "text": "EY",
+            "label": "PERSON"
+          },
+          {
+            "text": "one",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Ernst & Young Global Limited",
+            "label": "ORG"
+          },
+          {
+            "text": "wLimited",
+            "label": "ORG"
+          },
+          {
+            "text": "UK",
+            "label": "GPE"
+          },
+          {
+            "text": "guaran",
+            "label": "GPE"
+          },
+          {
+            "text": "EY",
+            "label": "ORG"
+          },
+          {
+            "text": "EYG",
+            "label": "ORG"
+          },
+          {
+            "text": "ey.com",
+            "label": "ORG"
+          },
+          {
+            "text": "Ernst & Young LLP",
+            "label": "ORG"
+          },
+          {
+            "text": "one",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Indian",
+            "label": "NORP"
+          },
+          {
+            "text": "EYGM \nLimited",
+            "label": "ORG"
+          },
+          {
+            "text": "Ernst & Young LLP",
+            "label": "ORG"
+          },
+          {
+            "text": "Limited Liability Partners",
+            "label": "ORG"
+          },
+          {
+            "text": "Limited",
+            "label": "ORG"
+          },
+          {
+            "text": "2008",
+            "label": "DATE"
+          },
+          {
+            "text": "India",
+            "label": "GPE"
+          },
+          {
+            "text": "Ground \nFloor",
+            "label": "ORG"
+          },
+          {
+            "text": "67",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Institutional Area",
+            "label": "ORG"
+          },
+          {
+            "text": "Gurugram",
+            "label": "ORG"
+          },
+          {
+            "text": "122 003",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Haryana",
+            "label": "PERSON"
+          },
+          {
+            "text": "India",
+            "label": "GPE"
+          },
+          {
+            "text": "202",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Ernst & Young LLP",
+            "label": "ORG"
+          },
+          {
+            "text": "India",
+            "label": "GPE"
+          },
+          {
+            "text": "All Rights Reserved",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "ED None  \n",
+            "label": "PERSON"
+          },
+          {
+            "text": "Neither EYGM Limited",
+            "label": "ORG"
+          },
+          {
+            "text": "Ernst & Young",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action: The 'preprocess' agent has cleaned and structured the input text, extracting relevant sections and organizing them into a more readable format. The output includes a cleaned text version and segmented data, along with identified entities.\n- User Involved: Not specified in the action details.\n- Risk Flags: Low\n- Recommendations (if any): Ensure that any sensitive data is anonymized or removed during preprocessing to comply with data protection regulations. Additionally, verify that access to the preprocessed data is restricted to authorized personnel only.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T21:08:37.505132",
+      "agent_name": "preprocess",
+      "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "output": {
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices",
+        "segments": [
+          "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+          "Ttime (TAT), frequent errors, and poor customer experience.",
+          "Management wants to \ndigitize the entire loan origination process for personal loans.",
+          "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+          "Scope: \n\uf0b7",
+          "Online loan application form with Aadhaar/PAN-based pre\ufb01ll.",
+          "\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score.",
+          "\uf0b7 AI-based eligibility and risk assessment module.",
+          "\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match).",
+          "\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication.",
+          "\uf0b7 Integration with core banking for disbursement.",
+          "Out of Scope: \n\uf0b7 Home loan, car loan, and business loan modules.",
+          "\uf0b7 Agent-assisted journeys for Tier 3 regions.",
+          "Stakeholders: \n\uf0b7",
+          "Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7",
+          "IT Manager: Rakesh Sinha \n\uf0b7",
+          "Compliance Lead:",
+          "Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7",
+          "Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7",
+          "Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7",
+          "Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7",
+          "Dashboard for customer to track loan status \n \nAssumptions:",
+          "\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7",
+          "System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7",
+          "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7",
+          "Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices"
+        ],
+        "entities": [
+          {
+            "text": "Digital Loan Application",
+            "label": "ORG"
+          },
+          {
+            "text": "XYZ Bank",
+            "label": "ORG"
+          },
+          {
+            "text": "TAT",
+            "label": "ORG"
+          },
+          {
+            "text": "KYC",
+            "label": "ORG"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "CIBIL",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "OTP",
+            "label": "ORG"
+          },
+          {
+            "text": "Home",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Rahul Sharma",
+            "label": "PERSON"
+          },
+          {
+            "text": "Priya Iyer",
+            "label": "PERSON"
+          },
+          {
+            "text": "Anjali Mehta",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "OCR",
+            "label": "ORG"
+          },
+          {
+            "text": "Credit",
+            "label": "ORG"
+          },
+          {
+            "text": "fetc\uf0b7 Eligibility",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DigiLocker",
+            "label": "ORG"
+          },
+          {
+            "text": "Dashboard",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "English",
+            "label": "LANGUAGE"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "Delay",
+            "label": "PERSON"
+          },
+          {
+            "text": "API",
+            "label": "ORG"
+          },
+          {
+            "text": "RBI",
+            "label": "ORG"
+          },
+          {
+            "text": "15 March 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 April 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "UAT",
+            "label": "ORG"
+          },
+          {
+            "text": "1 June 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 July 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "5 days",
+            "label": "DATE"
+          },
+          {
+            "text": "2 hours",
+            "label": "TIME"
+          },
+          {
+            "text": "80%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "90%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "Business Objectives",
+            "label": "ORG"
+          },
+          {
+            "text": "Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Requirements",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "Compliance and Regulatory Needs",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "Assumptions, Constraints, Risks",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action:  \nThe 'preprocess' agent has cleaned and structured the input text related to the Digital Loan Application and Approval System project. The output includes a cleaned version of the text, segmented information, and identified entities such as organizations, persons, dates, and percentages.\n\n- User Involved:  \nNot specified in the action details.\n\n- Risk Flags: Low  \nThe action involves text preprocessing, which is generally low risk. However, it involves handling sensitive information related to a banking project, which requires careful attention to data privacy and security.\n\n- Recommendations (if any):  \n  - Ensure that any sensitive data, such as personal information or proprietary business details, is handled in compliance with data protection regulations.\n  - Implement access controls to ensure that only authorized personnel can view or modify the processed data.\n  - Maintain transparency about the data processing activities, especially if the data is shared with third parties.\n\n- Timestamp:  \nNot specified in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T21:10:57.622536",
+      "agent_name": "preprocess",
+      "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "output": {
+        "clean_text": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. Ttime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices",
+        "segments": [
+          "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically.",
+          "Ttime (TAT), frequent errors, and poor customer experience.",
+          "Management wants to \ndigitize the entire loan origination process for personal loans.",
+          "Business Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally.",
+          "Scope: \n\uf0b7",
+          "Online loan application form with Aadhaar/PAN-based pre\ufb01ll.",
+          "\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score.",
+          "\uf0b7 AI-based eligibility and risk assessment module.",
+          "\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match).",
+          "\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication.",
+          "\uf0b7 Integration with core banking for disbursement.",
+          "Out of Scope: \n\uf0b7 Home loan, car loan, and business loan modules.",
+          "\uf0b7 Agent-assisted journeys for Tier 3 regions.",
+          "Stakeholders: \n\uf0b7",
+          "Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7",
+          "IT Manager: Rakesh Sinha \n\uf0b7",
+          "Compliance Lead:",
+          "Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7",
+          "Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7",
+          "Credit score fetc\uf0b7 Eligibility rules based on income, credit  and existing liabilities \n\uf0b7",
+          "Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7",
+          "Dashboard for customer to track loan status \n \nAssumptions:",
+          "\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7",
+          "System must support English and \uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7",
+          "Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7",
+          "Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nT wwill structure t\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices"
+        ],
+        "entities": [
+          {
+            "text": "Digital Loan Application",
+            "label": "ORG"
+          },
+          {
+            "text": "XYZ Bank",
+            "label": "ORG"
+          },
+          {
+            "text": "TAT",
+            "label": "ORG"
+          },
+          {
+            "text": "KYC",
+            "label": "ORG"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "CIBIL",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "OTP",
+            "label": "ORG"
+          },
+          {
+            "text": "Home",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Rahul Sharma",
+            "label": "PERSON"
+          },
+          {
+            "text": "Priya Iyer",
+            "label": "PERSON"
+          },
+          {
+            "text": "Anjali Mehta",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "PAN",
+            "label": "ORG"
+          },
+          {
+            "text": "OCR",
+            "label": "ORG"
+          },
+          {
+            "text": "Credit",
+            "label": "ORG"
+          },
+          {
+            "text": "fetc\uf0b7 Eligibility",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DigiLocker",
+            "label": "ORG"
+          },
+          {
+            "text": "Dashboard",
+            "label": "PERSON"
+          },
+          {
+            "text": "Aadhaar",
+            "label": "ORG"
+          },
+          {
+            "text": "English",
+            "label": "LANGUAGE"
+          },
+          {
+            "text": "Loan",
+            "label": "ORG"
+          },
+          {
+            "text": "Delay",
+            "label": "PERSON"
+          },
+          {
+            "text": "API",
+            "label": "ORG"
+          },
+          {
+            "text": "RBI",
+            "label": "ORG"
+          },
+          {
+            "text": "15 March 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 April 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "UAT",
+            "label": "ORG"
+          },
+          {
+            "text": "1 June 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "1 July 2025",
+            "label": "DATE"
+          },
+          {
+            "text": "5 days",
+            "label": "DATE"
+          },
+          {
+            "text": "2 hours",
+            "label": "TIME"
+          },
+          {
+            "text": "80%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "90%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "Business Objectives",
+            "label": "ORG"
+          },
+          {
+            "text": "Functional Requirements",
+            "label": "ORG"
+          },
+          {
+            "text": "Requirements",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "Compliance and Regulatory Needs",
+            "label": "WORK_OF_ART"
+          },
+          {
+            "text": "Assumptions, Constraints, Risks",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action: The 'preprocess' agent has cleaned and structured the input text related to the Digital Loan Application and Approval System project. It extracted key segments, entities, and organized the information for further analysis or documentation purposes.\n- User Involved: Not specified in the provided details.\n- Risk Flags: Low\n- Recommendations (if any): Ensure that the preprocessing maintains the integrity and confidentiality of sensitive data, such as personal identifiers (Aadhaar/PAN). Implement access controls to restrict unauthorized access to the processed data. Verify that the entity recognition does not mislabel or misinterpret critical information.\n- Timestamp: Not provided in the action details."
     }
   ],
   "summarize_audit": [
@@ -6320,6 +7345,20 @@
       "input": " \n  \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  \nProject Name  \n \n \n \n \nBusiness Requirement Document   Title  2 Contents  \n1. Background  ................................ ................................ ................................ ................................ ................................ ...........................  3 \n2. As -is Process  ................................ ................................ ................................ ................................ ................................ .........................  3 \n3. Business Requirements  ................................ ................................ ................................ ................................ ................................ ...........  3 \n3.1 Functional Requirements ................................ ................................ ................................ ................................ ................................ ................  3 \n3.1.1 xxxxxx  ................................ ................................ ................................ ................................ ................................ ................................ ...........  3 \n3.1.2 xxxx  ................................ ................................ ................................ ................................ ................................ ................................ ..............  3 \n3.2 System orchestration requirements  ................................ ................................ ................................ ................................ ................................  3 \n3.3 UI/UX Requirements (MVP -1) ................................ ................................ ................................ ................................ ................................ .........  3 \n3.4 Non -Functional Requirements  ................................ ................................ ................................ ................................ ................................ ........  4 \n4. To Be Process  ................................ ................................ ................................ ................................ ................................ ........................  4 \n5. Assumptions  ................................ ................................ ................................ ................................ ................................ ..........................  4 \n6. Inclusions and Exclusions  ................................ ................................ ................................ ................................ ................................ ........  4 \n7. Data Sources  ................................ ................................ ................................ ................................ ................................ .........................  5 \n7.1 Input data sources  ................................ ................................ ................................ ................................ ................................ .........................  5 \n7.1.1 Key volumetrics of the as -is User Flow  ................................ ................................ ................................ ................................ ...........................  5 \n7.2 Output data sources  ................................ ................................ ................................ ................................ ................................ .......................  5 \n8. G lossary of Data  ................................ ................................ ................................ ................................ ................................ .....................  5 \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n  Title  3 1. Background  \n \n \nThe background of the project and the problem statement which we are trying to solve.  \nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx  \n \n \n \n \n \n \n2. As -is Process   \n \nThe as -is process steps are documented below  (as-is process diagram):  \n \n<<Image>>  \n \n \n \n3. Business Requirements  \n3.1 Functional Requirements  \n3.1.1 Process Details  \n \n3.1.2 Process Steps  \n \n3.2 System orchestration requirements  \nThis section outlines the documented system orchestration requirements, encompassing the following key aspects:  \no File Storage: . \no Output File Library:   \nThese requirements aim to establish a well -organized and user -centric orchestration framework, ensuring the effective \nmanagement of files and output information within the system  \n3.3 UI/UX Requirements  (MVP -1) \nThe development process will incorporate user flow a ctions characterized by the following qualities:  \no Login Screen:  Users are expected to log in using Single Sign -On (SSO) when accessing. This login mechanism enhances \nsecurity and streamlines the authentication process.  \no User Role -Based Access:   Title  4 o Manager Role:  Managers should be granted access to cases, empowering them to utilize both the upload and \ndownload functionalities of the automation. This role ensures that managerial users have the necessary \npermissions for case -related activities.  \no Admin Role:  Admin ac cess, reserved for select team members, provides comprehensive access to the entire \napplication. This privileged role is designated for individuals who require full control and oversight of the \napplication's functionalities.  \nBy incorporating these user flo w actions into the development process, the system ensures secure and role -specific access, \ncatering to the distinct needs of both managerial and administrative users within.  \n3.4 Non -Functional Requirements   \nThe system will implement the following key features to ensure robust functionality and security:  \no Audit Trail:  A comprehensive audit trail will be maintained to track user activities within the application. This includes \ncapturing user -specific information such as usernames, date and time stamps, an d the type of activities performed. This \ntrail serves as a valuable tool for monitoring and accountability.  \no Monitoring and Reporting:  The system will collect log data to monitor the number of active users and track individual \nusernames. Additionally, perfo rmance metrics of the application will be recorded. This monitoring and reporting \nmechanism aim to provide insights into user engagement and ensure optimal application performance.  \no Security: User authentication will be implemented using secure protocols , This security measure ensures that only \nauthenticated users with proper credentials can access the Scenario Planning & Optimization \u2013 Rapid Tool, enhancing \noverall system security.  \no Reliability:  Tool is committed to maintaining a minimum uptime, excluding sc heduled maintenance. This reliability target \nensures continuous availability and accessibility for users, contributing to a seamless user experience.  \nThese features collectively contribute to the integrity, security, and reliability of the, promoting a rob ust and dependable platform \nfor users.  \n \n4. To Be  Process   \nAnticipated Procedural Steps  for MVP -1: \no This section outlines the procedural steps of the automated solution.  \no The Team initializes the application login procedure upon receipt of emails.  \no Subsequently, the team systematically transfers files, utilizing them as inputs for the designated tool.  \n4.1  Process Steps  \n\uf0b7 Step -by-step guide for process information.  \n5. Assumptions  \no List of assumptions  \n6. Inclusions and Exclusions  \nInclusions of the  are as follows:   Title  5  \nExclusions for Scenario Planning & Optimization \u2013 Rapid Tool  (MVP -1): \n \n7. Data Sources  \n7.1 Input data sources  \n \n \n7.1.1 Key volumetrics of the as -is User Flow  \n \nThe metrics are as per the size of documents received from.  \nSr. No.  Key metric  Volume  \n1.   \n2.   \n3.   \n4.   \n \n7.2 Output data sources  \n \n8. Glossary of Data  \nThe sample data collected, and documents for the same are mapped in this section.  \nSr. No.  Data  Document  \n1.   \n2.   \n3.   \n4.    \n  \n  Ernst & Young LLP  \nEY | Building a better working world  \nAbout EY  \nEY exists to build a better working world, helping to create \nlong -term value for clients, people and society and build trust \nin the capital markets.  \nEnabled by data and technology, diverse EY teams in over 150 \ncountries provide trust through assurance and help clients \ngrow, transform and operate.  \nWorking across assurance, consulting, law, strategy, tax and \ntransactions, EY teams ask better questions to find new \nanswers for the comple x issues facing our world today.  \nEY refers to the global organization, and may refer to one or \nmore, of the member firms of Ernst & Young Global Limited, \neach of which is a separate legal entity. Ernst & Young Global \nLimited, a UK company limited by guaran tee, does not \nprovide services to clients. Information about how EY collects \nand uses personal data and a description of the rights \nindividuals have under data protection legislation are \navailable via ey.com/privacy. EYG member firms do not \npractice law wh ere prohibited by local laws. For more \ninformation about our organization, please visit ey.com.   \nErnst & Young LLP is one of the Indian client serving member firms of EYGM \nLimited. For more information about our organization, please visit \nwww.ey.com/en_in.   \nErnst & Young LLP is a Limited Liability Partnership, registered under the Limited \nLiability Partnership Act, 2008 in India, having its registered office at Ground \nFloor, Plot No. 67, Institutional Area, Sector - 44, Gurugram - 122 003, Haryana, \nIndia.  \n\u00a9 202 3 Ernst & Young LLP. Published in India.  \nAll Rights Reserved.  \nED None  \nThis publication contains information in summary form and is therefore intended \nfor general guidance only. It is not intended to be a substitute for detailed research \nor the exercis e of professional judgment. Neither EYGM Limited nor any other \nmember of the global Ernst & Young organization can accept any responsibility for \nloss occasioned to any person acting or refraining from action as a result of any \nmaterial in this publication.  On any specific matter, reference should be made to \nthe appropriate advisor.  \n ",
       "output": "Key Points:\n1. The project includes the review and re-orchestration of current process.\n2. The project will involve functional requirements, system orchestration requirements, UI/UX requirements (MVP-1), and non-functional requirements.\n3. It will implement advanced features to enhance system integrity, user security, and application reliability including an audit trail, monitoring and reporting, security and reliability measures.\n4. Steps for the final procedural steps are provided for MVP-1, following which the team proceeds to input received files into the designated tool.\n\nActions:\n1. Development process for UI/UX Requirements for MVP-1, which includes creation of login screens, user role-based access, and security measures.\n2. Implementation of non-functional requirements including an audit trail, monitoring and reporting, user authentication, and reliability.\n\nBlockers:\n1. The document does not specify any explicit blockers at this moment.\n2. Assumptions, inclusions, and exclusions have not been detailed in the meeting notes provided. Potential blockers could arise if assumptions prove incorrect, or if exclusions end up being necessary for the project.",
       "audit_summary": "- Summary of Action: The 'summarize' agent reviewed the Business Requirement Document, highlighting key points such as the re-orchestration of current processes, functional and non-functional requirements, and procedural steps for MVP-1. It emphasized the development of UI/UX requirements, implementation of security measures, and non-functional requirements like audit trails and monitoring.\n- User Involved: Not specified.\n- Risk Flags: Low. The document outlines comprehensive security and access control measures, but lacks detailed assumptions, inclusions, and exclusions which could pose minor risks if not addressed.\n- Recommendations (if any): Ensure transparency by detailing assumptions, inclusions, and exclusions to mitigate potential risks. Verify that all security and access control measures are implemented as planned.\n- Timestamp: Not provided."
+    },
+    {
+      "timestamp": "2025-05-20T21:08:55.374465",
+      "agent_name": "summarize",
+      "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "output": "Key Points:\n1. The current loan application process at XYZ Bank is slow and error-prone due to its manual, paper-based nature. The bank aims to digitize this process for personal loans.\n2. The proposed system will enable online application, eligibility assessment, KYC document uploads, status tracking, and digital approval.\n3. Key features include Aadhaar/PAN card OCR, credit score integration with Experian or CIBIL, risk scoring using AI, and e-signature.\n4. Major stakeholders include the Product Manager, Business Head of Retail Lending, IT Manager, and Compliance Lead. \n\nActions:\n1. Finalize requirements by 15th March 2025\n2. Start development by 1st April 2025\n3. Conduct User Acceptance Testing by 1st June 2025\n4. Plan for system deployment on 1st July 2025\n\nBlockers:\n1. Potential delay in API access to credit bureau.\n2. Possible resistance from customers uncomfortable with digital onboarding.\n3. Existing and upcoming compliance changes per RBI guidelines.\n\nSuccess Metrics:\n1. Reduce turnaround time from 5 days to 2 hours.\n2. 80% reduction in manual data entry.\n3. 90% accuracy in eligibility checks.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points of the digital loan application and approval system project, including the current challenges, proposed solutions, key features, stakeholders, timeline for development, potential blockers, and success metrics.\n- User Involved: Not explicitly mentioned; likely the Business Analyst or Project Manager.\n- Risk Flags: Medium\n  - Potential delay in API access to credit bureau.\n  - Resistance from customers uncomfortable with digital onboarding.\n  - Compliance changes due to upcoming RBI guidelines.\n- Recommendations:\n  - Ensure transparency in data handling and access control, particularly with sensitive information like Aadhaar and PAN details.\n  - Implement robust security measures for AI-based risk assessment and e-signature processes.\n  - Develop a comprehensive change management plan to address customer resistance to digital onboarding.\n  - Regularly review compliance requirements to align with RBI guidelines.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T21:11:14.562557",
+      "agent_name": "summarize",
+      "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
+      "output": "Project: Digital Loan Application and Approval System\n\nKey Points:\n- Current loan application process at XYZ Bank is manual and inefficient, leading to high turnaround time and poor customer experience.\n- The aim is to digitize the entire personal loan process using an online platform.\n- The system will be integrated with credit bureaus, AI for risk assessment, OTP authentication for loan sanction, and core banking for disbursement.\n- Aadhaar/PAN card verification, credit score fetching, eligibility rules, risk score, E-sign integration and dashboard are key requirements.\n\nActions:\n- Develop an online application portal with Aadhaar/PAN prefill option, loan eligibility, KYC upload, application status tracking, and digital approval features.\n- Integrate the system with CIBIL to fetch credit scores.\n- Develop an AI-based eligibility and risk assessment module.\n- Enable real-time KYC document verification.\n- Integrate platform with core banking system for loan disbursement.\n\nBlockers:\n- Possible delay in obtaining API access to the credit bureau.\n- Potential resistance from customers not comfortable with digital onboarding.\n- Possible changes in compliance due to upcoming RBI guidelines.\n\nTimeline:\n- Requirements Finalization: 15 March 2025\n- Development Kickoff: 1 April 2025 \n- UAT: 1 June 2025\n- Go-Live: 1 July 2025\n\nSuccess Metrics:\n- Reduce turnaround time (TAT) from 5 days to 2 hours.\n- 80% reduction in manual data entry.\n- 90% accuracy in eligibility checks.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points and actions for developing a digital loan application and approval system for XYZ Bank. This includes digitizing the personal loan process, integrating with credit bureaus, using AI for risk assessment, and enabling digital approval features.\n- User Involved: The document mentions stakeholders such as Rahul Sharma (Product Manager), Priya Iyer (Business Head \u2013 Retail Lending), Rakesh Sinha (IT Manager), and Anjali Mehta (Compliance Lead).\n- Risk Flags: Medium. The risks identified include potential delays in API access to credit bureaus, customer resistance to digital onboarding, and compliance changes due to upcoming RBI guidelines.\n- Recommendations (if any): Ensure robust data handling and access control measures are in place, especially concerning sensitive information like Aadhaar and PAN details. Enhance transparency by regularly updating stakeholders on progress and addressing customer concerns regarding digital onboarding. Monitor compliance changes closely to adapt the system accordingly.\n- Timestamp: [Timestamp not provided in the action details]"
     }
   ]
 }

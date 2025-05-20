@@ -22,7 +22,7 @@ client = openai.AzureOpenAI(
 
 def generate_compliance_rules_llm(brd_text: str) -> str:
     prompt = f"""
-You are a compliance analyst. Based on the following BRD content, extract relevant compliance rules or requirements that the business must adhere to. Format each rule as a numbered list.
+You are a compliance analyst.create NFR compliance rules of the provided text. Format each rule as a numbered list.
 
 BRD Content:
 \"\"\"

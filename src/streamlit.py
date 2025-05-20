@@ -339,37 +339,37 @@ def sequential_mode():
             else:
                 st.error("⚠ Unexpected response format from backend.")
 
-        # 5. BRD Generation Agent
-        brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-        if template_bytes:
-            brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
+        # # 5. BRD Generation Agent
+        # brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+        # if template_bytes:
+        #     brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
 
        
 
-        data = {
-            "prompt": prompt_text,
-            "compliance_result": json.dumps(compliance_data) if compliance_data else None
-        }
+        # data = {
+        #     "prompt": prompt_text,
+        #     "compliance_result": json.dumps(compliance_data) if compliance_data else None
+        # }
 
-        data = {k: v for k, v in data.items() if v is not None}
+        # data = {k: v for k, v in data.items() if v is not None}
 
-        with st.spinner("Running BRD Generation Agent..."):
-            brd_result = call_backend("generate-brd", files=brd_files, data=data)
-        if brd_result is None:
-            return
-        agent_steps["BRD Generation Agent"] = True
-        update_progress()
+        # with st.spinner("Running BRD Generation Agent..."):
+        #     brd_result = call_backend("generate-brd", files=brd_files, data=data)
+        # if brd_result is None:
+        #     return
+        # agent_steps["BRD Generation Agent"] = True
+        # update_progress()
 
-        with st.expander("📄 BRD Generation Agent - BRD generated successfully", expanded=True):
-            display_agent_progress(
-                "BRD Generation Agent",
-                "Creating Business Requirements Document",
-                brd_result.get("brd_text", ""),
-                "BRD generated successfully"
-            )
+        # with st.expander("📄 BRD Generation Agent - BRD generated successfully", expanded=True):
+        #     display_agent_progress(
+        #         "BRD Generation Agent",
+        #         "Creating Business Requirements Document",
+        #         brd_result.get("brd_text", ""),
+        #         "BRD generated successfully"
+        #     )
 
-        pdf_url = f"{BACKEND_URL}/download-brd/"
-        st.markdown(f"[⬇️ Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
+        # pdf_url = f"{BACKEND_URL}/download-brd/"
+        # st.markdown(f"[⬇️ Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
 
 
 # ----- Rules Matching Mode (placeholder) -----
