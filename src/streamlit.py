@@ -190,6 +190,7 @@ def sequential_mode():
         "Summarization Agent": False,
         "Compliance Rules Generator": False,
         "Compliance Agent": False,
+        "Remediation Agent": False,
         "BRD Generation Agent": False,
     }
 
@@ -202,7 +203,6 @@ def sequential_mode():
         file_bytes = uploaded_file.read()
         template_bytes = template_file.read() if template_file else None
 
-        # Sidebar progress loader
         with st.sidebar:
             st.markdown("## 📝 Agent Progress")
             progress_placeholder = st.empty()
@@ -287,16 +287,35 @@ def sequential_mode():
                 "Compliance rules generated successfully!"
             )
             st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_url})", unsafe_allow_html=True)
-        # 4. Compliance Check Agent
+
+        # 5. Compliance Agent
         with st.spinner("Running Compliance Agent..."):
-            files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            compliance_result = call_backend("check-compliance", files=files)
-            raw_compliance_list = compliance_result if isinstance(compliance_result, list) else compliance_result.get("result", [])
+            files = {
+                "requirements_file": (
+                    uploaded_file.name,
+                    io.BytesIO(file_bytes),
+                    uploaded_file.type
+                )
+            }
 
-            # Filter for only matched rules
-            matched_rules = [item for item in raw_compliance_list if item.get("status") == "Matched"]
+            # Call backend endpoint that returns {"result": [...]} or {"error": "..."}
+            response = call_backend("check-compliance", files=files)
 
-            # Format into numbered dictionary for backend compatibility
+            if not response or "result" not in response:
+                st.error(f"❌ Backend error: {response.get('error', 'Unexpected response format.')}")
+                return
+
+            compliance_result = response["result"]
+
+            # Defensive fallback
+            if not isinstance(compliance_result, list):
+                st.error("⚠ Backend returned unexpected format. Expected a list of results.")
+                return
+
+            # Filter matched rules
+            matched_rules = [item for item in compliance_result if item.get("status") == "Matched"]
+
+            # Structure data for future use
             compliance_data = {
                 f"R{i+1}": {
                     "llm_rule": item.get("llm_rule", ""),
@@ -304,42 +323,59 @@ def sequential_mode():
                 }
                 for i, item in enumerate(matched_rules)
             }
- 
+
             compliance_data = json.dumps(compliance_data)
 
-            # Extract list if wrapped in "result"
-            if isinstance(compliance_result, dict) and "result" in compliance_result:
-                compliance_result = compliance_result["result"]
+            # Update UI state
+            agent_steps["Compliance Agent"] = True
+            update_progress()
 
-        if compliance_result is None:
-            return
-        agent_steps["Compliance Agent"] = True
-        update_progress()
+            # Show results
+            with st.expander("📋 Compliance Agent - Compliance checked successfully", expanded=True):
+                st.markdown("#### ✅ Validating requirements against standards")
 
-        with st.expander("📋 Compliance Agent - Compliance checked successfully", expanded=True):
-            st.markdown("#### ✅ Validating requirements against standards")
-
-            if isinstance(compliance_result, list):
                 df = pd.DataFrame(compliance_result)
 
-                matched_df = df[df["status"] == "Matched"]
-                mismatched_df = df[df["status"] == "Mismatched"]
+                if "status" in df.columns:
+                    matched_df = df[df["status"] == "Matched"]
+                    mismatched_df = df[df["status"] == "Mismatched"]
 
-                st.markdown("### ✅ Matched Policy Rules")
-                if not matched_df.empty:
-                    st.table(matched_df[["llm_rule", "matched_static_rule"]])
-                else:
-                    st.info("No matched rules found.")
+                    st.markdown("### ✅ Matched Policy Rules")
+                    if not matched_df.empty:
+                        st.table(matched_df[["llm_rule", "matched_static_rule"]])
+                    else:
+                        st.info("No matched rules found.")
 
-                st.markdown("### ❌ Mismatched Policy Rules")
-                if not mismatched_df.empty:
-                    st.table(mismatched_df[["llm_rule"]])
+                    st.markdown("### ❌ Mismatched Policy Rules")
+                    if not mismatched_df.empty:
+                        st.table(mismatched_df[["llm_rule"]])
+                    else:
+                        st.success("No mismatched rules found.")
                 else:
-                    st.success("No mismatched rules found.")
+                    st.error("⚠ 'status' field not found in the response. Check backend output.")
+
+
+
+        # 6. Remediation Agent
+        with st.spinner("Running Remediation Agent..."):
+            files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            remediation_result = call_backend("generate-remediation", files=files)
+
+        if remediation_result is None:
+            return
+        agent_steps["Remediation Agent"] = True
+        update_progress()
+
+        with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
+            st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
+
+            remediation_text = remediation_result.get("remediation", "")
+            if remediation_text:
+                st.markdown(f"<div style='white-space: pre-wrap'>{remediation_text}</div>", unsafe_allow_html=True)
             else:
-                st.error("⚠ Unexpected response format from backend.")
+                st.success("No remediation needed — all rules are compliant.")
 
-        # # 5. BRD Generation Agent
+        # 5. BRD Generation Agent
         # brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
         # if template_bytes:
         #     brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)

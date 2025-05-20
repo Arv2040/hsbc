@@ -5,7 +5,7 @@ from typing import Dict
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Optional
+from typing import List, Optional
 from agents.brd import generate_brd_from_text
 import os
 import json
@@ -22,6 +22,7 @@ from agents.governance_agent import gov_agent
 from agents.ingestion import parse_pdf
 from agents.compliance_agent import check_requirement_compliance
 from agents.match_compliance_rules import extract_and_match_vs_excel
+from agents.remediation_agent import generate_remediation
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,22 +31,6 @@ from pathlib import Path
 import shutil
 import tempfile
 from agents.brd import generate_brd  
-#--------- after dependencies ------
-#import speech_recognition as sr
-# from dotenv import load_dotenv
-# from pydub import AudioSegment
-# from ingestion import fetch_emails, parse_pdf, ocr_image, extract_metadata
-# from faq_chatbot import main_chat
-# from ingestion import fetch_emails, transcribe_audio, parse_pdf, ocr_image, extract_metadata
-# from integration import (
-#     create_jira_ticket,
-#     push_to_sharepoint,
-#     notify_slack,
-#     generate_summary_from_openai
-# )
-# from pydantic import BaseModel
-# import logging
-
 app = FastAPI()
 
 origins = ["*"]
@@ -80,18 +65,7 @@ def run_compliance_check(requirements_file: UploadFile):
         return None, str(e)
 class MatchRequest(BaseModel):
     gpt_response_text: str
-    
-# logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(message)s")
 
-# class IntegrationPayload(BaseModel):
-#     title: str
-#     description: str
-#     summary: str
-# app = FastAPI(
-#     title="Unified Document & Audio Processing API",
-#     description="Handles emails, OCR, PDFs, audio transcription, and chatbot interaction",
-#     version="1.0.0"
-# )
 
 # Endpoint 1: Ingestion Agent
 
@@ -107,54 +81,6 @@ async def parse(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
     
- 
-
-
-
-# @app.post("/generate-brd-and-rules")
-# async def generate_brd_and_rules(file: UploadFile = File(...)):
-#     try:
-       
-#         temp_dir = tempfile.mkdtemp()
-        
-        
-#         input_pdf_path = os.path.join(temp_dir, "input.pdf")
-#         with open(input_pdf_path, "wb") as f:
-#             shutil.copyfileobj(file.file, f)
-        
-#         extracted_text = parse_pdf(input_pdf_path)
-        
-      
-#         rules_content = generate_brd_from_text(extracted_text)
-        
-       
-        
-#         rules_filename = f"compliance_rules.json"
-#         rules_path = os.path.join("compliance_rules", rules_filename)
-        
-        
-#         os.makedirs("compliance_rules", exist_ok=True)
-        
-       
-#         with open(rules_path, "w") as f:
-#             json.dump({"rules": rules_content}, f, indent=2)
-        
-       
-#         return {
-#             "status": "success",
-#             "rules": rules_content,
-#             "rules_file": rules_filename,
-#             "rules_path": rules_path,
-#             "message": "BRD processing complete and compliance rules generated"
-#         }
-        
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=str(e))
-#     finally:
-       
-#         if 'temp_dir' in locals():
-#             shutil.rmtree(temp_dir, ignore_errors=True)
-
 @app.post("/generate-brd/")
 async def generate_brd_endpoint(
     prompt: str = Form(None),
@@ -328,12 +254,9 @@ async def download_compliance_rules():
     return FileResponse(path=file_path, filename="compliance_rules.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 
-
 @app.post("/check-compliance")
-async def check_compliance_api(requirements_file: UploadFile = File(...)):
+async def check_compliance_api():
     try:
-       
-
         requirement_text =rules  # Pass file path to parse_pdf
         response = check_requirement_compliance(requirement_text)
         return JSONResponse(content={"result": response})
@@ -367,6 +290,16 @@ async def compliance_gap_analysis(requirements_file: UploadFile = File(...)):
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
 
+@app.post("/generate-remediation")
+async def remediation_api(requirements_file: UploadFile = File(...)):
+    try:
+        content = await requirements_file.read()
+        requirement_text = content.decode("utf-8")
+        remediation_output = generate_remediation(requirement_text)
+        return JSONResponse(content={"remediation": remediation_output})
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
+
 @app.get("/feedback-log")
 async def get_feedback_log():
     feedback_log_path = os.getenv("FEEDBACK_LOG", "feedback_logs.json")
@@ -393,50 +326,6 @@ async def ai_summarize_feedback(feedback: Feedback):
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
     
-# Endpoint 7: Integration Agent
-
-#requires api keys
-# '''
-# @app.post("/sync/jira")
-# async def sync_jira(payload: IntegrationPayload):
-#     try:
-#         response = create_jira_ticket(payload.title, payload.description)
-#         return {"status": "success", "ticket": response}
-#     except Exception as e:
-#         logging.error(f"Jira sync failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
-
-# @app.post("/sync/sharepoint")
-# async def sync_sharepoint(payload: IntegrationPayload):
-#     try:
-#         result = push_to_sharepoint(payload.title, payload.description)
-#         return {"status": "success", "result": result}
-#     except Exception as e:
-#         logging.error(f"SharePoint sync failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
-
-# @app.post("/notify/slack")
-# async def notify(payload: IntegrationPayload):
-#     try:
-#         result = notify_slack(payload.summary)
-#         return {"status": "notified", "result": result}
-#     except Exception as e:
-#         logging.error(f"Slack notification failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
-
-# @app.post("/generate/summary")
-# async def generate_summary(payload: IntegrationPayload):
-#     try:
-#         result = generate_summary_from_openai(payload.description)
-#         return {"summary": result}
-#     except Exception as e:
-#         logging.error(f"OpenAI summary generation failed: {e}")
-#         raise HTTPException(status_code=500, detail=str(e))
-# '''
-
-
-
-# '''
 
 
 @app.post("/run-full-pipeline")
@@ -503,44 +392,3 @@ async def run_full_pipeline(
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
-
-#---------second part of the code --------
-@app.post("/full-compliance-pipeline")
-async def full_compliance_pipeline(file: UploadFile = File(...)):
-    try:
-        # Step 1: Save uploaded file temporarily
-        temp_dir = tempfile.mkdtemp()
-        input_pdf_path = os.path.join(temp_dir, "input.pdf")
-        with open(input_pdf_path, "wb") as f:
-            shutil.copyfileobj(file.file, f)
-
-        # Step 2: Extract text from PDF
-        extracted_text = parse_pdf(input_pdf_path)
-
-        # Step 3: Generate BRD (text + PDF)
-        brd_result = generate_brd(extracted_text)  # returns dict with 'brd_text'
-        brd_text = brd_result.get("brd_text", "")
-        pdf_path = "generated_pdf/generated_brd.pdf"
-
-        # Step 4: Run Compliance Check using GPT
-        compliance_result = check_requirement_compliance(extracted_text)
-
-        # Step 5: LLM-Based Semantic Rule Extraction + Matching Against Excel
-        match_result = extract_and_match_vs_excel(compliance_result)
-
-        # Final JSON Response
-        return JSONResponse(content={
-            "status": "✅ Full pipeline completed",
-            "extracted_text": extracted_text,
-            "brd_text": brd_text,
-            "pdf_download_url": "/download-brd/",
-            "compliance_result": compliance_result,
-            "semantic_gap_analysis": match_result
-        })
-
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
-
-    finally:
-        if 'temp_dir' in locals():
-            shutil.rmtree(temp_dir, ignore_errors=True)
