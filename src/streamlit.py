@@ -270,6 +270,7 @@ def sequential_mode():
         with st.spinner("Running Compliance Agent..."):
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             compliance_result = call_backend("check-compliance", files=files)
+            compliance_data = compliance_result.get("result", {})
 
             # Extract list if wrapped in "result"
             if isinstance(compliance_result, dict) and "result" in compliance_result:
@@ -308,7 +309,12 @@ def sequential_mode():
         if template_bytes:
             brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
 
-        data = {"prompt": prompt_text} if prompt_text else None
+        data = {
+                        "prompt": prompt_text,
+                        "compliance_result": compliance_data
+                }
+            # Remove keys with None value
+        data = {k: v for k, v in data.items() if v is not None}
 
         with st.spinner("Running BRD Generation Agent..."):
             brd_result = call_backend("generate-brd", files=brd_files, data=data)
