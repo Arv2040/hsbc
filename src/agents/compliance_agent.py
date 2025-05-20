@@ -1,7 +1,9 @@
+
 import pandas as pd
 from openai import AzureOpenAI
 from dotenv import load_dotenv
 import os
+import json
 
 # Load .env variables
 load_dotenv()
@@ -23,56 +25,29 @@ def check_requirement_compliance(gpt_response_text: str):
     static_rules = get_excel_rules()
 
     prompt = f"""
-You are an AI assistant designed to evaluate the alignment of an LLM-generated response with a set of predefined rules listed in an Excel sheet. Your tasks are as follows:
+You are a Compliance Validation Agent. You are given a set of SME-defined requirements (LLM-generated text) and a list of company policy rules from an Excel file.
 
-Semantic Matching:
-Compare the LLM-generated output with the rules present in the provided Excel file using semantic similarity—not keyword or string matching. You must understand and interpret the meaning of the rules.
+Your task is to:
 
-Highlighting Unmatched Data:
-Any content in the LLM output that does not semantically match any rule in the Excel must be highlighted in red to indicate non-compliance or deviation.
+1. **Extract** all individual policy or compliance rules from the LLM-generated response.
+2. **Compare** each extracted rule semantically (not by exact words) with the company’s static policy rules.
+3. For each extracted rule, determine:
+   - Whether it semantically matches any static rule
+   - If matched, identify the closest matching static rule
+   - If no match is found, return null for the matched rule
 
-Rule Extraction:
-Extract all policy or compliance rules that are either explicitly stated or implied in the LLM-generated response. These should be listed clearly and concisely.
+Return the result strictly as a **JSON list** of objects. Each object should have the following keys:
+- `"llm_rule"`: The individual rule extracted from the LLM output
+- `"status"`: Either `"Matched"` or `"Mismatched"`
+- `"matched_static_rule"`: The static rule it matches with (if any); otherwise `null`
 
-Mismatch Identification:
-From the extracted rules, identify and return a list of those that do not closely match any rule from the Excel sheet (again, based on semantic meaning).
-
-Return the final output in the following format:
-
-Original LLM Output (with unmatched sections highlighted in red)
-
-Extracted Rules from LLM Output
-
-List of Extracted Rules that Do Not Match Any Static Rule
-
-Ensure that your evaluation focuses on the intent and meaning behind each rule rather than exact wording.
-
-The displayed result should only consist of the unmatched values and not the llm output.
+⚠ **Return ONLY the JSON list**—do not include markdown, commentary, or extra explanation.
 
 LLM Response:
 \"\"\"{gpt_response_text}\"\"\"
 
 Static Company Rules:
 {chr(10).join([f"{i+1}. {Rules}" for i, Rules in enumerate(static_rules)])}
-
-You are a Compliance Validation Agent. You are given a set of SME-defined requirements and an industry standard (e.g., ISO 27001, NIST, GDPR).
-Compare each requirement against the standard and return:
-
-Matched Rules (rules that are fully compliant),
-
-Mismatched Rules (rules that are not compliant),
-
-LLM-Generated Recommendations (suggest rules or changes to meet compliance).
-
-Format your output as a JSON object with the following keys:
-
-json
-
-
-The output that should be shown is as follows only:
-1) Mismatched Policy Rules
-2) Matched Policy Rules
-
 """
 
     response = client.chat.completions.create(
@@ -86,8 +61,17 @@ The output that should be shown is as follows only:
 
     reply = response.choices[0].message.content.strip()
 
-    return {
-        "status": "✅ Completed extraction and comparison",
-        "result": reply,
-    
-    }
+    try:
+        structured_data = json.loads(reply)
+
+        if isinstance(structured_data, list):
+            return structured_data  # ✅ Just return the list directly
+        else:
+            raise ValueError("LLM returned an unexpected format.")
+
+    except json.JSONDecodeError:
+        return [{
+            "llm_rule": "Error: Could not parse LLM response",
+            "status": "Mismatched",
+            "matched_static_rule": None
+        }]

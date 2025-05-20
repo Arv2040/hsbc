@@ -1,4 +1,4 @@
-
+import pandas as pd
 import streamlit as st
 import requests
 import json
@@ -223,6 +223,7 @@ def sequential_mode():
             return
         agent_steps["Ingestion Agent"] = True
         update_progress()
+
         with st.expander("🧠 Ingestion Agent - Text extracted successfully", expanded=True):
             display_agent_progress(
                 "Ingestion Agent",
@@ -239,6 +240,7 @@ def sequential_mode():
             return
         agent_steps["Preprocessing Agent"] = True
         update_progress()
+
         with st.expander("🧹 Preprocessing Agent - Text preprocessed successfully", expanded=True):
             display_agent_progress(
                 "Preprocessing Agent",
@@ -255,6 +257,7 @@ def sequential_mode():
             return
         agent_steps["Summarization Agent"] = True
         update_progress()
+
         with st.expander("📝 Summarization Agent - Content summarized successfully", expanded=True):
             display_agent_progress(
                 "Summarization Agent",
@@ -263,29 +266,48 @@ def sequential_mode():
                 "Content summarized successfully"
             )
 
-        # 4. Compliance Agent
+        # 4. Compliance Check Agent
         with st.spinner("Running Compliance Agent..."):
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             compliance_result = call_backend("check-compliance", files=files)
+
+            # Extract list if wrapped in "result"
+            if isinstance(compliance_result, dict) and "result" in compliance_result:
+                compliance_result = compliance_result["result"]
+
         if compliance_result is None:
             return
         agent_steps["Compliance Agent"] = True
         update_progress()
+
         with st.expander("📋 Compliance Agent - Compliance checked successfully", expanded=True):
-            st.markdown("#### Validating requirements against standards")
-            result = compliance_result.get("result", {})
-            if isinstance(result, list):
-                st.table(result)
-            elif isinstance(result, dict):
-                df_data = [{"Key": k, "Value": v} for k, v in result.items()]
-                st.table(df_data)
+            st.markdown("#### ✅ Validating requirements against standards")
+
+            if isinstance(compliance_result, list):
+                df = pd.DataFrame(compliance_result)
+
+                matched_df = df[df["status"] == "Matched"]
+                mismatched_df = df[df["status"] == "Mismatched"]
+
+                st.markdown("### ✅ Matched Policy Rules")
+                if not matched_df.empty:
+                    st.table(matched_df[["llm_rule", "matched_static_rule"]])
+                else:
+                    st.info("No matched rules found.")
+
+                st.markdown("### ❌ Mismatched Policy Rules")
+                if not mismatched_df.empty:
+                    st.table(mismatched_df[["llm_rule"]])
+                else:
+                    st.success("No mismatched rules found.")
             else:
-                st.write("Unsupported result format")
+                st.error("⚠ Unexpected response format from backend.")
 
         # 5. BRD Generation Agent
         brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
         if template_bytes:
             brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
+
         data = {"prompt": prompt_text} if prompt_text else None
 
         with st.spinner("Running BRD Generation Agent..."):
@@ -294,6 +316,7 @@ def sequential_mode():
             return
         agent_steps["BRD Generation Agent"] = True
         update_progress()
+
         with st.expander("📄 BRD Generation Agent - BRD generated successfully", expanded=True):
             display_agent_progress(
                 "BRD Generation Agent",
