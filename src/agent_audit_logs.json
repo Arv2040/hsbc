@@ -2953,6 +2953,1068 @@
         ]
       },
       "audit_summary": "- Summary of Action:  \n  The 'preprocess' agent has taken the input document detailing the project for a Digital Loan Application and Approval System and processed it to produce a structured output. This output includes a cleaned text version of the document, segmented information, and identified entities such as organizations, persons, dates, and percentages.\n\n- User Involved:  \n  Not specified in the action details.\n\n- Risk Flags: Low  \n  The action involves text processing and entity recognition, which generally poses low risk. However, the handling of sensitive information like Aadhaar and PAN details should be monitored for compliance with data protection regulations.\n\n- Recommendations:  \n  1. Ensure that any sensitive data, such as Aadhaar and PAN information, is handled in compliance with relevant data protection laws (e.g., GDPR, India\u2019s Personal Data Protection Bill).\n  2. Implement access controls to ensure that only authorized personnel can view or process sensitive information.\n  3. Maintain transparency by documenting the preprocessing steps and ensuring stakeholders are aware of how data is being handled.\n\n- Timestamp:  \n  Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T14:16:36.112828",
+      "agent_name": "preprocess",
+      "input": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of this project is to automate the requirement gathering, documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | High | ISO/IEC 27001 |\n| R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\nHigh | ISO/IEC 27001 |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | High | GDPR,\nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\nHigh | ISO/IEC 27001 |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | High\n| ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | High | GDPR |\n| R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | High | ISO/IEC\n27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | High | ISO/IEC 27001 |\n| R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | High | ISO/IEC 27001 |\n| R12 | The AI system must push generated user stories to Jira. | Operational | High | ISO/IEC 27001\n|\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+      "output": {
+        "clean_text": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of t documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\n[ArcComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | | R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | \nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | | ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | | R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | 27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | | R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | | R12 | The AI system must push generated user stories to Jira. | Operational | |\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+        "segments": [
+          "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of t documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)",
+          "[ArcComponents & Tech Stack\n1.",
+          "**Input Layer**\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3.",
+          "**Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5.",
+          "**Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1.",
+          "Upload policy PDF\n2.",
+          "IngestorAgent extracts text\n3.",
+          "ContextAgent identifies context elements\n4.",
+          "RequirementAgent generates structured requirements\n5.",
+          "ComplianceAgent validates alignment with policies\n6.",
+          "TraceAgent logs all steps\n7.",
+          "Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem.",
+          "| Data | |",
+          "R2 | The AI system must generate formal requirements/user stories/specifications.",
+          "| Operational |\n| R3 | The AI system must ensure regulatory compliance and traceability.",
+          "| Legal | \nISO/IEC 27001 |\n| R4 |",
+          "The AI system's outputs must be integrated into enterprise tools like Jira.",
+          "| Operational |\n|",
+          "R5 |",
+          "The AI system must have a secure deployment in on-prem or VPC environments.",
+          "| Security | | ISO/IEC 27001,",
+          "GDPR |\n| R6 | The AI system must redact and anonymize PII data.",
+          "| Security | | R7 | The AI system must store audit logs in an append-only DB or JSON.",
+          "| Security | 27001, GDPR ||",
+          "R8 | The AI system must have a role-based SME validation loop.",
+          "| Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%.",
+          "| Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript.",
+          "| Data | | R11 |",
+          "The AI system must auto-generate at least 3 user stories + acceptance criteria.",
+          "|\nOperational | | R12 | The AI system must push generated user stories to Jira.",
+          "| Operational | |\n| R13 |",
+          "The AI system must store logs in a dashboard.",
+          "| Data | High | ISO/IEC 27001 |"
+        ],
+        "entities": [
+          {
+            "text": "# Business Requirements Document",
+            "label": "ORG"
+          },
+          {
+            "text": "BRD",
+            "label": "ORG"
+          },
+          {
+            "text": "Project Title",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira",
+            "label": "PERSON"
+          },
+          {
+            "text": "ArcComponents & Tech Stack",
+            "label": "ORG"
+          },
+          {
+            "text": "1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Vector DB",
+            "label": "PERSON"
+          },
+          {
+            "text": "RAG",
+            "label": "ORG"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Anthropic Claude",
+            "label": "PERSON"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Orchestration Framework**\n   - LangChain",
+            "label": "FAC"
+          },
+          {
+            "text": "Sample Flow",
+            "label": "PERSON"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira\n1",
+            "label": "PERSON"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "IngestorAgent",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Jira\nSecurity & Compliance",
+            "label": "ORG"
+          },
+          {
+            "text": "DB",
+            "label": "GPE"
+          },
+          {
+            "text": "Role",
+            "label": "GPE"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "70%+",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "MVP Goals",
+            "label": "ORG"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Jira\n- Store",
+            "label": "PERSON"
+          },
+          {
+            "text": "R1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "R2",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "R3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          },
+          {
+            "text": "R4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira",
+            "label": "PERSON"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          },
+          {
+            "text": "GDPR",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "R6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "PII",
+            "label": "ORG"
+          },
+          {
+            "text": "R7",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DB",
+            "label": "GPE"
+          },
+          {
+            "text": "27001",
+            "label": "DATE"
+          },
+          {
+            "text": "GDPR",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC",
+            "label": "ORG"
+          },
+          {
+            "text": "27001",
+            "label": "DATE"
+          },
+          {
+            "text": "R9",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "at least 70%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "N/A",
+            "label": "ORG"
+          },
+          {
+            "text": "R10",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "R11",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "at least 3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "R12",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira.",
+            "label": "GPE"
+          },
+          {
+            "text": "R13",
+            "label": "PERSON"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action: The 'preprocess' agent has taken the input Business Requirements Document (BRD) and processed it to extract clean text, segments, and entities. This involves parsing the document to identify key components, requirements, and compliance rules, and organizing them into a structured format for further analysis or integration into enterprise tools like Jira.\n- User Involved: Not specified in the action details.\n- Risk Flags: Low. The action involves standard text processing and extraction, which aligns with typical data handling practices. However, the risk level could increase if sensitive information is not properly managed or if access controls are inadequate.\n- Recommendations (if any): \n  - Ensure that any extracted data containing PII is properly redacted and anonymized as per compliance requirements.\n  - Implement robust access control measures to ensure that only authorized personnel can access sensitive data.\n  - Regularly audit the append-only database or JSON logs to ensure traceability and compliance with ISO/IEC 27001 and GDPR standards.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T14:25:55.822573",
+      "agent_name": "preprocess",
+      "input": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of this project is to automate the requirement gathering, documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | High | ISO/IEC 27001 |\n| R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\nHigh | ISO/IEC 27001 |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | High | GDPR,\nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\nHigh | ISO/IEC 27001 |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | High\n| ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | High | GDPR |\n| R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | High | ISO/IEC\n27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | High | ISO/IEC 27001 |\n| R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | High | ISO/IEC 27001 |\n| R12 | The AI system must push generated user stories to Jira. | Operational | High | ISO/IEC 27001\n|\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+      "output": {
+        "clean_text": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of t documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\n[ArcComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | | R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | \nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | | ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | | R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | 27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | | R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | | R12 | The AI system must push generated user stories to Jira. | Operational | |\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+        "segments": [
+          "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of t documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)",
+          "[ArcComponents & Tech Stack\n1.",
+          "**Input Layer**\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3.",
+          "**Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5.",
+          "**Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1.",
+          "Upload policy PDF\n2.",
+          "IngestorAgent extracts text\n3.",
+          "ContextAgent identifies context elements\n4.",
+          "RequirementAgent generates structured requirements\n5.",
+          "ComplianceAgent validates alignment with policies\n6.",
+          "TraceAgent logs all steps\n7.",
+          "Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem.",
+          "| Data | |",
+          "R2 | The AI system must generate formal requirements/user stories/specifications.",
+          "| Operational |\n| R3 | The AI system must ensure regulatory compliance and traceability.",
+          "| Legal | \nISO/IEC 27001 |\n| R4 |",
+          "The AI system's outputs must be integrated into enterprise tools like Jira.",
+          "| Operational |\n|",
+          "R5 |",
+          "The AI system must have a secure deployment in on-prem or VPC environments.",
+          "| Security | | ISO/IEC 27001,",
+          "GDPR |\n| R6 | The AI system must redact and anonymize PII data.",
+          "| Security | | R7 | The AI system must store audit logs in an append-only DB or JSON.",
+          "| Security | 27001, GDPR ||",
+          "R8 | The AI system must have a role-based SME validation loop.",
+          "| Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%.",
+          "| Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript.",
+          "| Data | | R11 |",
+          "The AI system must auto-generate at least 3 user stories + acceptance criteria.",
+          "|\nOperational | | R12 | The AI system must push generated user stories to Jira.",
+          "| Operational | |\n| R13 |",
+          "The AI system must store logs in a dashboard.",
+          "| Data | High | ISO/IEC 27001 |"
+        ],
+        "entities": [
+          {
+            "text": "# Business Requirements Document",
+            "label": "ORG"
+          },
+          {
+            "text": "BRD",
+            "label": "ORG"
+          },
+          {
+            "text": "Project Title",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira",
+            "label": "PERSON"
+          },
+          {
+            "text": "ArcComponents & Tech Stack",
+            "label": "ORG"
+          },
+          {
+            "text": "1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Vector DB",
+            "label": "PERSON"
+          },
+          {
+            "text": "RAG",
+            "label": "ORG"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Anthropic Claude",
+            "label": "PERSON"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Orchestration Framework**\n   - LangChain",
+            "label": "FAC"
+          },
+          {
+            "text": "Sample Flow",
+            "label": "PERSON"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira\n1",
+            "label": "PERSON"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "IngestorAgent",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Jira\nSecurity & Compliance",
+            "label": "ORG"
+          },
+          {
+            "text": "DB",
+            "label": "GPE"
+          },
+          {
+            "text": "Role",
+            "label": "GPE"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "70%+",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "MVP Goals",
+            "label": "ORG"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Jira\n- Store",
+            "label": "PERSON"
+          },
+          {
+            "text": "R1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "R2",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "R3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          },
+          {
+            "text": "R4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira",
+            "label": "PERSON"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          },
+          {
+            "text": "GDPR",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "R6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "PII",
+            "label": "ORG"
+          },
+          {
+            "text": "R7",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DB",
+            "label": "GPE"
+          },
+          {
+            "text": "27001",
+            "label": "DATE"
+          },
+          {
+            "text": "GDPR",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC",
+            "label": "ORG"
+          },
+          {
+            "text": "27001",
+            "label": "DATE"
+          },
+          {
+            "text": "R9",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "at least 70%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "N/A",
+            "label": "ORG"
+          },
+          {
+            "text": "R10",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "R11",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "at least 3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "R12",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira.",
+            "label": "GPE"
+          },
+          {
+            "text": "R13",
+            "label": "PERSON"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action: The 'preprocess' agent has extracted and cleaned text from a Business Requirements Document (BRD) related to the project \"Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions.\" The agent segmented the document into various components and identified entities within the text.\n- User Involved: Not specified in the action details.\n- Risk Flags: Low. The action involves text extraction and segmentation, which is a standard preprocessing step. However, ensuring compliance with data handling and anonymization practices is crucial.\n- Recommendations (if any): \n  - Ensure that any extracted data containing Personally Identifiable Information (PII) is redacted or anonymized in accordance with GDPR and ISO/IEC 27001 standards.\n  - Maintain transparency by logging all preprocessing actions for audit purposes.\n  - Implement access control measures to ensure that only authorized personnel can access sensitive data.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T14:43:49.791723",
+      "agent_name": "preprocess",
+      "input": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of this project is to automate the requirement gathering, documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | High | ISO/IEC 27001 |\n| R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\nHigh | ISO/IEC 27001 |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | High | GDPR,\nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\nHigh | ISO/IEC 27001 |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | High\n| ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | High | GDPR |\n| R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | High | ISO/IEC\n27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | High | ISO/IEC 27001 |\n| R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | High | ISO/IEC 27001 |\n| R12 | The AI system must push generated user stories to Jira. | Operational | High | ISO/IEC 27001\n|\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+      "output": {
+        "clean_text": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of t documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\n[ArcComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | | R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | \nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | | ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | | R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | 27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | | R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | | R12 | The AI system must push generated user stories to Jira. | Operational | |\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+        "segments": [
+          "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of t documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)",
+          "[ArcComponents & Tech Stack\n1.",
+          "**Input Layer**\n   - Meeting transcripts (audio -> text via W   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3.",
+          "**Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5.",
+          "**Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1.",
+          "Upload policy PDF\n2.",
+          "IngestorAgent extracts text\n3.",
+          "ContextAgent identifies context elements\n4.",
+          "RequirementAgent generates structured requirements\n5.",
+          "ComplianceAgent validates alignment with policies\n6.",
+          "TraceAgent logs all steps\n7.",
+          "Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem.",
+          "| Data | |",
+          "R2 | The AI system must generate formal requirements/user stories/specifications.",
+          "| Operational |\n| R3 | The AI system must ensure regulatory compliance and traceability.",
+          "| Legal | \nISO/IEC 27001 |\n| R4 |",
+          "The AI system's outputs must be integrated into enterprise tools like Jira.",
+          "| Operational |\n|",
+          "R5 |",
+          "The AI system must have a secure deployment in on-prem or VPC environments.",
+          "| Security | | ISO/IEC 27001,",
+          "GDPR |\n| R6 | The AI system must redact and anonymize PII data.",
+          "| Security | | R7 | The AI system must store audit logs in an append-only DB or JSON.",
+          "| Security | 27001, GDPR ||",
+          "R8 | The AI system must have a role-based SME validation loop.",
+          "| Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%.",
+          "| Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript.",
+          "| Data | | R11 |",
+          "The AI system must auto-generate at least 3 user stories + acceptance criteria.",
+          "|\nOperational | | R12 | The AI system must push generated user stories to Jira.",
+          "| Operational | |\n| R13 |",
+          "The AI system must store logs in a dashboard.",
+          "| Data | High | ISO/IEC 27001 |"
+        ],
+        "entities": [
+          {
+            "text": "# Business Requirements Document",
+            "label": "ORG"
+          },
+          {
+            "text": "BRD",
+            "label": "ORG"
+          },
+          {
+            "text": "Project Title",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira",
+            "label": "PERSON"
+          },
+          {
+            "text": "ArcComponents & Tech Stack",
+            "label": "ORG"
+          },
+          {
+            "text": "1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Vector DB",
+            "label": "PERSON"
+          },
+          {
+            "text": "RAG",
+            "label": "ORG"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Anthropic Claude",
+            "label": "PERSON"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Orchestration Framework**\n   - LangChain",
+            "label": "FAC"
+          },
+          {
+            "text": "Sample Flow",
+            "label": "PERSON"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira\n1",
+            "label": "PERSON"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "2",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "IngestorAgent",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "5",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "7",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Jira\nSecurity & Compliance",
+            "label": "ORG"
+          },
+          {
+            "text": "DB",
+            "label": "GPE"
+          },
+          {
+            "text": "Role",
+            "label": "GPE"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "70%+",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "MVP Goals",
+            "label": "ORG"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "Jira\n- Store",
+            "label": "PERSON"
+          },
+          {
+            "text": "R1",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "R2",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "R3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          },
+          {
+            "text": "R4",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira",
+            "label": "PERSON"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          },
+          {
+            "text": "GDPR",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "R6",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "PII",
+            "label": "ORG"
+          },
+          {
+            "text": "R7",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "DB",
+            "label": "GPE"
+          },
+          {
+            "text": "27001",
+            "label": "DATE"
+          },
+          {
+            "text": "GDPR",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC",
+            "label": "ORG"
+          },
+          {
+            "text": "27001",
+            "label": "DATE"
+          },
+          {
+            "text": "R9",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "SME",
+            "label": "ORG"
+          },
+          {
+            "text": "at least 70%",
+            "label": "PERCENT"
+          },
+          {
+            "text": "N/A",
+            "label": "ORG"
+          },
+          {
+            "text": "R10",
+            "label": "ORG"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "PDF",
+            "label": "ORG"
+          },
+          {
+            "text": "R11",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "at least 3",
+            "label": "CARDINAL"
+          },
+          {
+            "text": "R12",
+            "label": "PRODUCT"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "Jira.",
+            "label": "GPE"
+          },
+          {
+            "text": "R13",
+            "label": "PERSON"
+          },
+          {
+            "text": "AI",
+            "label": "ORG"
+          },
+          {
+            "text": "ISO/IEC 27001",
+            "label": "ORG"
+          }
+        ]
+      },
+      "audit_summary": "- Summary of Action: The 'preprocess' agent has taken the input Business Requirements Document (BRD) and processed it to extract clean text, segments, and entities. The clean text is a refined version of the input document, while segments break down the document into manageable parts, and entities identify key elements such as organizations, products, and cardinal numbers.\n- User Involved: Not specified in the action details.\n- Risk Flags: Low. The action involves text processing and extraction, which is a standard procedure in data handling. However, the absence of explicit user involvement and access control details could be noted.\n- Recommendations (if any): Ensure that the preprocessing agent operates within a secure environment with access control measures to prevent unauthorized access to sensitive data. Additionally, maintain transparency by logging user interactions and agent actions for auditing purposes.\n- Timestamp: Not provided in the action details."
     }
   ],
   "summarize_audit": [
@@ -3046,6 +4108,27 @@
       "input": "Project Title: \nDigital Loan Application and Approval System  \n \nBackground / Business Context: \nCurrently, the loan application process at XYZ Bank is manual, paper-based, and \nrequires customers to visit branches physically. This has led to increased turnaround \ntime (TAT), frequent errors, and poor customer experience. Management wants to \ndigitize the entire loan origination process for personal loans. \n \nBusiness Objective: \nTo build an online platform for customers to apply for personal loans, get eligibility \nassessment, upload KYC documents, track application status, and receive approval \ndigitally. \n \nScope: \n\uf0b7 Online loan application form with Aadhaar/PAN-based pre\ufb01ll. \n\uf0b7 Integration with credit bureau (CIBIL) to fetch credit score. \n\uf0b7 AI-based eligibility and risk assessment module. \n\uf0b7 Real-time KYC document veri\ufb01cation (OCR + face match). \n\uf0b7 Loan sanction and e-agreement signing via OTP-based authentication. \n\uf0b7 Integration with core banking for disbursement. \n \nOut of Scope: \n\uf0b7 Home loan, car loan, and business loan modules. \n\uf0b7 Agent-assisted journeys for Tier 3 regions. \n \nStakeholders: \n\uf0b7 Product Manager: Rahul Sharma \n\uf0b7 Business Head \u2013 Retail Lending: Priya Iyer \uf0b7 IT Manager: Rakesh Sinha \n\uf0b7 Compliance Lead: Anjali Mehta \n \nKey Features / Requirements: \n\uf0b7 Responsive web app for self-service journey \n\uf0b7 Aadhaar/PAN card OCR and veri\ufb01cation \n\uf0b7 Credit score fetching from Experian or CIBIL \n\uf0b7 Eligibility rules based on income, credit history, and existing liabilities \n\uf0b7 Risk scoring using internal AI model \n\uf0b7 E-sign integration using DigiLocker + Aadhaar eKYC \n\uf0b7 Dashboard for customer to track loan status \n \nAssumptions: \n\uf0b7 Customer must have Aadhaar-linked mobile number \n\uf0b7 System must support English and Hindi \n\uf0b7 Loan disbursement only through veri\ufb01ed bank accounts \n \nRisks: \n\uf0b7 Delay in API access to credit bureau \n\uf0b7 Resistance from customers not comfortable with digital onboarding \n\uf0b7 Compliance changes due to upcoming RBI guidelines \n \nTimeline: \n\uf0b7 Requirements Finalization: 15 March 2025 \n\uf0b7 Development Kicko \u01af: 1 April 2025  \n\uf0b7 UAT: 1 June 2025 \n\uf0b7 Go-Live: 1 July 2025 \n Success Metrics: \n\uf0b7 Reduce TAT from 5 days to 2 hours \n\uf0b7 80% reduction in manual data entry \n\uf0b7 90% accuracy in eligibility checks \n \nThis document is typically shared with the Business Analyst to derive the BRD, which \nwill structure this information under formal sections like: \n\uf0b7 Executive Summary \n\uf0b7 Business Objectives \n\uf0b7 Functional Requirements \n\uf0b7 Non-functional Requirements \n\uf0b7 Compliance and Regulatory Needs \n\uf0b7 Assumptions, Constraints, Risks \n\uf0b7 Appendices \n ",
       "output": "Key Points:\n- The project aims to digitize the loan application process at XYZ Bank for personal loans.\n- Expected features include an online loan application form, integration with a credit bureau, AI-based eligibility and risk assessment, real-time KYC document verification, and core banking integration.\n- Out of scope areas include other loan types (home, car, business) and agent-assisted journeys for Tier 3 regions.\n- Stakeholders include the Product Manager, Business Head - Retail Lending, IT Manager, and Compliance Lead.\n- The system must support English, Hindi, and loan disbursement only through verified bank accounts.\n\nActions:\n- Finalize requirements by March 15, 2025.\n- Kickoff development on April 1, 2025.\n- User Acceptance Testing (UAT) by June 1, 2025.\n- Go-Live by July 1, 2025.\n\nBlockers/Risks:\n- Potential delay in API access to the credit bureau.\n- Customer resistance due to discomfort with digital onboarding.\n- Compliance changes due to upcoming RBI guidelines. \n\nSuccess Metrics:\n- Reduction of Turn Around Time (TAT) from 5 days to 2 hours.\n- Achieve 80% reduction in manual data entry.\n- Achieve 90% accuracy in eligibility checks.",
       "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points and actions related to the digitization of the loan application process at XYZ Bank, focusing on personal loans. It includes the project's scope, stakeholders, timeline, risks, and success metrics.\n- User Involved: The 'summarize' agent.\n- Risk Flags: Medium\n  - The project involves handling sensitive customer data (e.g., Aadhaar, PAN, credit scores) which requires stringent data protection measures.\n  - Potential delays in API access and customer resistance to digital onboarding could impact project timelines and adoption rates.\n  - Compliance changes due to RBI guidelines could necessitate adjustments in the project's scope or functionality.\n- Recommendations:\n  - Ensure robust data handling and privacy measures are in place, including encryption and secure access controls.\n  - Develop a comprehensive change management plan to address customer resistance, including education and support for digital onboarding.\n  - Monitor regulatory changes closely and maintain flexibility to adapt the system to comply with new guidelines.\n- Timestamp: [Please insert current timestamp]"
+    },
+    {
+      "timestamp": "2025-05-20T14:17:05.916749",
+      "agent_name": "summarize",
+      "input": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of this project is to automate the requirement gathering, documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | High | ISO/IEC 27001 |\n| R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\nHigh | ISO/IEC 27001 |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | High | GDPR,\nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\nHigh | ISO/IEC 27001 |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | High\n| ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | High | GDPR |\n| R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | High | ISO/IEC\n27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | High | ISO/IEC 27001 |\n| R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | High | ISO/IEC 27001 |\n| R12 | The AI system must push generated user stories to Jira. | Operational | High | ISO/IEC 27001\n|\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+      "output": "**Key Points:**\n\n- The project is to create an AI system to automate requirement gathering, documentation, and validation process in financial institutions.\n- The AI system will be able to ingest and interpret unstructured data, generate formal requirements or user stories, ensures regulatory compliance and traceability, and integrates outputs to enterprise tools such as Jira.\n- The high-level architecture includes components such as input layer, agents, memory and reasoning, tools and APIs, and an orchestration framework.\n- Security and compliance will be ensured through PII redaction and anonymization, storing audit logs in an append-only DB or JSON, role-based SME validation loop, and secure deployment.\n- The MVP goals include uploading PDF/email transcript, auto-generating 3 user stories + acceptance criteria, pushing output to Jira, and storing logs in a dashboard.\n\n**Actions:**\n\n- Develop different agents (IngestorAgent, ParserAgent, ContextAgent, RequirementAgent, ComplianceAgent, ValidationAgent, TraceAgent) for specific functions.\n- Integrate with enterprise tools (OpenAI GPT-4 / Anthropic Claude, Jira API, Email integrations, Vector store).\n- Set up the orchestration framework (LangChain or CrewAI).\n- Incorporate security measures into the system.\n- Develop the MVP to meet the stated goals.\n\n**Blockers:**\n\n- No clear blockers are mentioned. However, the complexity and breadth of the AI system may present challenges in terms of time, resources, and skills requirements. Compliance and security aspects may also require close attention to detail and rigorous measures to ensure all requirements are met.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the development of an AI system designed to automate requirement gathering, documentation, and validation processes in financial institutions. This involves creating various specialized agents, integrating with enterprise tools, setting up an orchestration framework, and incorporating security measures. The MVP goals include uploading transcripts, auto-generating user stories, pushing outputs to Jira, and storing logs in a dashboard.\n- User Involved: Not specified in the provided details.\n- Risk Flags: Medium. While the action aligns with best practices in terms of transparency, data handling, and access control, the complexity of the AI system and the need for rigorous compliance and security measures present potential risks.\n- Recommendations (if any): \n  - Ensure thorough testing and validation of each agent to confirm functionality and compliance.\n  - Implement robust security protocols to protect sensitive data and maintain privacy.\n  - Regularly review and update compliance measures to align with evolving regulations.\n  - Allocate sufficient resources and expertise to address potential challenges in system development and deployment.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T14:26:46.593604",
+      "agent_name": "summarize",
+      "input": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of this project is to automate the requirement gathering, documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | High | ISO/IEC 27001 |\n| R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\nHigh | ISO/IEC 27001 |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | High | GDPR,\nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\nHigh | ISO/IEC 27001 |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | High\n| ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | High | GDPR |\n| R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | High | ISO/IEC\n27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | High | ISO/IEC 27001 |\n| R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | High | ISO/IEC 27001 |\n| R12 | The AI system must push generated user stories to Jira. | Operational | High | ISO/IEC 27001\n|\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+      "output": "**Key Points:**\n\n- The objective of the project titled \"Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions\" is to automate the requirement gathering, documentation, and validation process using Language Learning Model (LLM)-powered agents.\n- The project involves several components including the input layer that includes meeting transcripts, emails, PDFs, Agents, Memory & Reasoning, Tools & APIs, and an Orchestration Framework.\n- The proposed solution offers benefits like accelerating requirements capture, maintaining traceability and audit readiness, and reducing manual Subject Matter Expert (SME) effort by over 70%.\n- The MVP Goals include the ability to upload PDF/email transcript, auto-generate 3 user stories and acceptance criteria, push to Jira, and store logs in a dashboard.\n- Compliance rules have been outlined for data, operational, legal, and security aspects as per ISO/IEC 27001 and GDPR.\n\n**Actions:**\n\n- Development - Implement the proposed components & tech stack to build the system \n- Security & Compliance - Adhere to the compliance rules outlined in the BRD\n- Testing - Validate the functioning of various Agents and other system components  \n- MVP - Achieve the outlined MVP goals \n- Integration - Ensure the AI system's outputs integrate properly with enterprise tools like Jira \n\n**Blockers:**\n\n- Security and compliance could present potential challenges given the need to redact and anonymize PII data and maintain secure deployment.\n- Ensuring the system can ingest and interpret all unstructured data types may present technical difficulties.\n- Achieving a reduction of manual SME effort by at least 70% could be a challenge.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points and actions related to the project titled \"Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions.\" The agent has identified the components and tech stack needed for development, emphasized adherence to security and compliance rules, and highlighted the testing and integration processes required to achieve the MVP goals. Additionally, potential blockers related to security, data ingestion, and SME effort reduction have been noted.\n- User Involved: Not specified in the provided details.\n- Risk Flags: Medium\n- Recommendations (if any):\n  - Ensure robust access control measures are in place to protect sensitive data and comply with GDPR and ISO/IEC 27001 standards.\n  - Implement thorough testing procedures to validate the system's ability to handle unstructured data and meet compliance requirements.\n  - Develop a clear plan for achieving the reduction in manual SME effort, possibly through iterative improvements and feedback loops.\n  - Maintain transparency in the audit logs and ensure they are stored securely in an append-only format.\n- Timestamp: Not provided in the action details."
+    },
+    {
+      "timestamp": "2025-05-20T14:44:32.789994",
+      "agent_name": "summarize",
+      "input": "# Business Requirements Document (BRD)\nProject Title\n**Agentic AI for Automated Requirement Gathering and Documentation in Financial Institutions**\nObjective\nThe objective of this project is to automate the requirement gathering, documentation, and\nvalidation process using LLM-powered agents that:\n- Ingest unstructured data (meetings, emails, PDFs)\n- Interpret context and extract relevant information\n- Generate formal requirements/user stories/specifications\n- Ensure regulatory compliance and traceability\n- Integrate outputs into enterprise tools (e.g., Jira)\nHigh-Level Architecture\n[Architecture diagram removed for plain text formatting]\nComponents & Tech Stack\n1. **Input Layer**\n   - Meeting transcripts (audio -> text via Whisper or AWS Transcribe)\n   - Emails (.eml parsing via email module)\n   - PDFs/DOCX (via PyPDF2, python-docx)\n   - Web scraping for regulatory documents\n2. **Agents**\n   - IngestorAgent: Extracts text from source files\n   - ParserAgent: Filters and segments relevant content\n   - ContextAgent: Extracts stakeholders, goals, risks\n   - RequirementAgent: Generates user stories, specs\n   - ComplianceAgent: Validates against internal policy docs   - ValidationAgent: Routes output to SMEs for feedback\n   - TraceAgent: Logs all transformations for auditing\n3. **Memory & Reasoning**\n   - Short-term memory: In-session context\n   - Long-term memory: Vector DB (Chroma, FAISS) for RAG\n4. **Tools & APIs**\n   - OpenAI GPT-4 / Anthropic Claude\n   - Jira API (atlassian-python-api)\n   - Email integrations (SMTP/SendGrid)\n   - Vector store for document retrieval\n5. **Orchestration Framework**\n   - LangChain or CrewAI to manage agent workflows\nSample Flow: PDF to Jira\n1. Upload policy PDF\n2. IngestorAgent extracts text\n3. ContextAgent identifies context elements\n4. RequirementAgent generates structured requirements\n5. ComplianceAgent validates alignment with policies\n6. TraceAgent logs all steps\n7. Result pushed to Jira\nSecurity & Compliance\n- PII redaction & anonymization pre-step\n- Audit logs stored in append-only DB or JSON\n- Role-based SME validation loop\n- Secure deployment in on-prem or VPC environmentsBenefits\n- Accelerates requirements capture\n- Ensures consistent formatting and compliance\n- Maintains traceability and audit readiness\n- Reduces manual SME effort by 70%+\nMVP Goals\n- Upload PDF/email transcript\n- Auto-generate 3 user stories + acceptance criteria\n- Push to Jira\n- Store logs in a dashboard\nCompliance Rules\n|---|---|---|---|---|\n| R1 | All unstructured data (meetings, emails, PDFs) must be ingested and interpreted by the AI\nsystem. | Data | High | ISO/IEC 27001 |\n| R2 | The AI system must generate formal requirements/user stories/specifications. | Operational |\nHigh | ISO/IEC 27001 |\n| R3 | The AI system must ensure regulatory compliance and traceability. | Legal | High | GDPR,\nISO/IEC 27001 |\n| R4 | The AI system's outputs must be integrated into enterprise tools like Jira. | Operational |\nHigh | ISO/IEC 27001 |\n| R5 | The AI system must have a secure deployment in on-prem or VPC environments. | Security | High\n| ISO/IEC 27001, GDPR |\n| R6 | The AI system must redact and anonymize PII data. | Security | High | GDPR |\n| R7 | The AI system must store audit logs in an append-only DB or JSON. | Security | High | ISO/IEC\n27001, GDPR || R8 | The AI system must have a role-based SME validation loop. | Operational | Medium | ISO/IEC\n27001 |\n| R9 | The AI system must reduce manual SME effort by at least 70%. | Operational | Medium | N/A |\n| R10 | The AI system must be able to upload PDF/email transcript. | Data | High | ISO/IEC 27001 |\n| R11 | The AI system must auto-generate at least 3 user stories + acceptance criteria. |\nOperational | High | ISO/IEC 27001 |\n| R12 | The AI system must push generated user stories to Jira. | Operational | High | ISO/IEC 27001\n|\n| R13 | The AI system must store logs in a dashboard. | Data | High | ISO/IEC 27001 |",
+      "output": "**Key Points:**\n\n- The project objective is to automate the requirement gathering, documentation, and validation process using AI agents that can integrate into enterprise tools like Jira.\n- The system components include input layer, AI agents, memory & reasoning, APIs & tools, and an orchestration framework.\n- A sample process flow includes - upload policy PDF, text extraction, context identification, generating structured requirements, policy validation, logging, and result pushed to Jira.\n- The system ensures security & compliance through PII redaction & anonymization, secured storage of audit logs, role-based validation, and secured deployment in on-prem or VPC environments.\n- The minimum viable product (MVP) must be able to upload a PDF/email transcript, auto-generate at least three user stories and push them to Jira, and store logs on a dashboard.\n- Compliance rules cover data management, operational requirements, legal rules, security measures, and effort reduction.\n\n**Actions:**\n\n- Implement AI agents, including IngestorAgent, ParserAgent, ContextAgent, RequirementAgent, ComplianceAgent, ValidationAgent, and TraceAgent.\n- Choose a suitable tech stack for each layer of the system.\n- Implement secure measures for data management, including PII redaction & anonymization, and role-based validation loop.\n- Integrating the system with Jira using the Jira API.\n- Develop the MVP for the system with defined goals.\n\n**Blockers:**\n\n- Regulatory compliance and traceability requirements need to be met, ensuring alignment with GDPR and ISO/IEC 27001.\n- Ingestion, interpretation, and secure management of unstructured data sources can potentially pose challenges.\n- The secure deployment of the system on-prem or in VPC environments must be ensured.",
+      "audit_summary": "- Summary of Action: The 'summarize' agent has outlined the key points and actions necessary for implementing an AI-driven system to automate requirement gathering and documentation in financial institutions. This includes deploying various AI agents, selecting a tech stack, ensuring secure data management, integrating with Jira, and developing an MVP with specific goals.\n- User Involved: Not specified in the provided details.\n- Risk Flags: Medium\n- Recommendations (if any): \n  - Ensure that all AI agents are thoroughly tested for accuracy and compliance with regulatory standards.\n  - Implement robust access control measures to protect sensitive data and maintain transparency in data handling.\n  - Regularly update and audit the system to align with evolving compliance requirements such as GDPR and ISO/IEC 27001.\n  - Address potential blockers by establishing clear protocols for regulatory compliance and secure data management.\n- Timestamp: Not provided in the action details."
     }
   ]
 }

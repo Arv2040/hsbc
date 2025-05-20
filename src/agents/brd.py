@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import json
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 from agents.ingestion import parse_pdf
@@ -14,10 +15,10 @@ client = AzureOpenAI(
     azure_endpoint=os.getenv("OPENAI_API_BASE_LOCAL")
 )
 
-def generate_brd(input_data: str | Path, template_file: Path = None) -> dict:
+def generate_brd(input_data: str | Path, template_file: Path = None, compliance_data: dict = None) -> dict:
     """
     Accepts either a raw string (prompt) or a PDF file path.
-    Optionally accepts a custom BRD template as a Path.
+    Optionally accepts a custom BRD template and compliance data.
     """
     if isinstance(input_data, Path) or (isinstance(input_data, str) and os.path.isfile(input_data)):
         input_path = Path(input_data)
@@ -29,12 +30,13 @@ def generate_brd(input_data: str | Path, template_file: Path = None) -> dict:
     else:
         raise TypeError("Invalid input. Provide a PDF file path or a text prompt.")
 
-    return generate_brd_from_text(raw_text, template_file=template_file)
+    return generate_brd_from_text(raw_text, template_file=template_file, compliance_data=compliance_data)
 
 
-def generate_brd_from_text(raw_text: str, template_file: Path = None) -> dict:
+def generate_brd_from_text(raw_text: str, template_file: Path = None, compliance_data: dict = None) -> dict:
     """
     Generates BRD content and compliance rules using either a provided template or a default one.
+    Injects given compliance_data and enforces only those rules to be used (no hallucination).
     """
     # Use uploaded template if provided, else fallback to default
     if template_file and template_file.exists():
@@ -45,7 +47,15 @@ def generate_brd_from_text(raw_text: str, template_file: Path = None) -> dict:
             raise FileNotFoundError(f"BRD template not found at: {default_template.resolve()}")
         template_text = parse_pdf(str(default_template))
 
-    # Construct prompt
+    # Build compliance context if provided
+    compliance_instructions = ""
+    if compliance_data:
+        compliance_instructions = "\n--- COMPLIANCE CONTEXT ---\n"
+        for key, value in compliance_data.items():
+            compliance_instructions += f"- **{key}**: {value}\n"
+        compliance_instructions += "--- END COMPLIANCE CONTEXT ---\n"
+
+    # Construct prompt for BRD generation
     prompt = f"""
 Act as a Professional Business Analyst Expert who is specialized in creating consistent BRDs for similar use-cases.
 Generate a complete Business Requirements Document (BRD) using the input and the BRD template structure.
@@ -53,6 +63,8 @@ Generate a complete Business Requirements Document (BRD) using the input and the
 --- BRD TEMPLATE STRUCTURE ---
 {template_text}
 --- END TEMPLATE ---
+
+{compliance_instructions}
 
 --- USE CASE INPUT ---
 {raw_text}
@@ -63,6 +75,7 @@ Generate a complete Business Requirements Document (BRD) using the input and the
 - Format each section using Markdown-style headers (e.g., ## Section Title).
 - Use bullet points, numbered lists, and bolded field labels.
 - For any missing information, insert “To be defined”.
+- **Use only the compliance rules provided in the compliance context. Do not hallucinate or invent any additional rules.**
 - Do NOT add anything outside the provided input.
 """
 
@@ -77,8 +90,18 @@ Generate a complete Business Requirements Document (BRD) using the input and the
 
     brd_content = response.choices[0].message.content.strip()
 
-    # Generate rules
-    rules_prompt = f"""
+    # Generate compliance rules table (from given compliance_data only)
+    if compliance_data:
+        # Format rules manually based on provided data
+        rules_markdown = "| Rule ID | Description | Category | Severity | Applicable Standards |\n"
+        rules_markdown += "|---------|-------------|----------|----------|----------------------|\n"
+        for idx, (key, rule) in enumerate(compliance_data.items(), start=1):
+            rule_id = f"R{idx}"
+            rules_markdown += f"| {rule_id} | {rule.get('description', '')} | {rule.get('category', '')} | {rule.get('severity', '')} | {rule.get('standards', '')} |\n"
+        rules_content = rules_markdown
+    else:
+        # Fallback: LLM generates compliance rules from BRD content
+        rules_prompt = f"""
 Based on the following BRD, generate a structured list of compliance rules.
 
 --- BRD CONTENT START ---
@@ -96,17 +119,17 @@ Based on the following BRD, generate a structured list of compliance rules.
 Format as a Markdown table:
 | Rule ID | Description | Category | Severity | Applicable Standards |
 """
+        rules_response = client.chat.completions.create(
+            model="gpt-4",
+            messages=[
+                {"role": "system", "content": "You are a compliance officer generating rules based on BRD content."},
+                {"role": "user", "content": rules_prompt},
+            ],
+            temperature=0.3
+        )
+        rules_content = rules_response.choices[0].message.content.strip()
 
-    rules_response = client.chat.completions.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a compliance officer generating rules based on BRD content."},
-            {"role": "user", "content": rules_prompt},
-        ],
-        temperature=0.3
-    )
-
-    rules_content = rules_response.choices[0].message.content.strip()
+    # Combine BRD + Rules
     combined_text = f"{brd_content}\n\n## Compliance Rules\n\n{rules_content}"
 
     # Save as PDF
@@ -116,7 +139,7 @@ Format as a Markdown table:
     return {
         "brd_text": combined_text,
         "pdf_path": str(pdf_path)
-    }
+}
 def sanitize_text(text: str) -> str:
     """
     Replaces common Unicode characters with ASCII equivalents.

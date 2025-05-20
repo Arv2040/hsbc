@@ -156,14 +156,20 @@ async def parse(file: UploadFile = File(...)):
 @app.post("/generate-brd/")
 async def generate_brd_endpoint(
     prompt: str = Form(None),
+    compliance_result: str = Form(None),
     file: UploadFile = File(None),
-    template_file: UploadFile = File(None)  # optional template
-):
+    template_file: UploadFile = File(None)
+    ):
     try:
         if not prompt and not file:
             return JSONResponse(status_code=400, content={"error": "Provide either a prompt or a PDF file."})
 
-        # Handle optional template
+        # Parse compliance_result from JSON string to dict
+        compliance_data = None
+        if compliance_result:
+            compliance_data = json.loads(compliance_result)
+
+        # Save optional template
         template_path = None
         if template_file:
             if not template_file.filename.endswith(".pdf"):
@@ -174,15 +180,15 @@ async def generate_brd_endpoint(
                 shutil.copyfileobj(template_file.file, buffer)
             template_path = temp_template_path
 
-        # Handle input data
+        # Save uploaded file if present
         if file:
             upload_path = Path(f"uploads/{file.filename}")
             upload_path.parent.mkdir(parents=True, exist_ok=True)
             with open(upload_path, "wb") as buffer:
                 shutil.copyfileobj(file.file, buffer)
-            result = generate_brd(upload_path, template_file=template_path)
+            result = generate_brd(upload_path, template_file=template_path, compliance_data=compliance_data)
         else:
-            result = generate_brd(prompt, template_file=template_path)
+            result = generate_brd(prompt, template_file=template_path, compliance_data=compliance_data)
 
         return JSONResponse({
             "brd_text": result["brd_text"],

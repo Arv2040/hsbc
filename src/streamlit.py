@@ -270,7 +270,21 @@ def sequential_mode():
         with st.spinner("Running Compliance Agent..."):
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             compliance_result = call_backend("check-compliance", files=files)
-            compliance_data = compliance_result.get("result", {})
+            raw_compliance_list = compliance_result if isinstance(compliance_result, list) else compliance_result.get("result", [])
+
+            # Filter for only matched rules
+            matched_rules = [item for item in raw_compliance_list if item.get("status") == "Matched"]
+
+            # Format into numbered dictionary for backend compatibility
+            compliance_data = {
+                f"R{i+1}": {
+                    "llm_rule": item.get("llm_rule", ""),
+                    "matched_static_rule": item.get("matched_static_rule", "")
+                }
+                for i, item in enumerate(matched_rules)
+            }
+ 
+            compliance_data = json.dumps(compliance_data)
 
             # Extract list if wrapped in "result"
             if isinstance(compliance_result, dict) and "result" in compliance_result:
@@ -309,11 +323,13 @@ def sequential_mode():
         if template_bytes:
             brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
 
+       
+
         data = {
-                        "prompt": prompt_text,
-                        "compliance_result": compliance_data
-                }
-            # Remove keys with None value
+            "prompt": prompt_text,
+            "compliance_result": json.dumps(compliance_data) if compliance_data else None
+        }
+
         data = {k: v for k, v in data.items() if v is not None}
 
         with st.spinner("Running BRD Generation Agent..."):
