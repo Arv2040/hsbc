@@ -188,6 +188,7 @@ def sequential_mode():
         "Ingestion Agent": False,
         "Preprocessing Agent": False,
         "Summarization Agent": False,
+        "Compliance Rules Generator": False,
         "Compliance Agent": False,
         "BRD Generation Agent": False,
     }
@@ -266,6 +267,26 @@ def sequential_mode():
                 "Content summarized successfully"
             )
 
+        # 4. Compliance Rules Generator Agent
+        with st.spinner("Running Compliance Rules Generator Agent..."):
+            files = {"brd_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            compliance_rules_result = call_backend("generate-compliance-rules", files=files)
+        if compliance_rules_result is None:
+            return
+        agent_steps["Compliance Rules Generator"] = True
+        update_progress()
+
+        rules_text = compliance_rules_result.get("rules_text", "")
+        download_url = f"{BACKEND_URL}/download/compliance-rules"
+
+        with st.expander("📋 Compliance Rules Generator - Rules generated successfully", expanded=True):
+            display_agent_progress(
+                "Compliance Rules Generator",
+                "Generating compliance rules from BRD...",
+                rules_text,
+                "Compliance rules generated successfully!"
+            )
+            st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_url})", unsafe_allow_html=True)
         # 4. Compliance Check Agent
         with st.spinner("Running Compliance Agent..."):
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}

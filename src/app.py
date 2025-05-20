@@ -11,6 +11,7 @@ import os
 import json
 import shutil
 import tempfile
+import pandas as pd
 from dotenv import load_dotenv
 from agents.ingestion import parse_pdf
 from agents.validation_agent import log_feedback, summarize_feedback, Feedback
@@ -24,6 +25,7 @@ from agents.match_compliance_rules import extract_and_match_vs_excel
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from agents.comp_gen_agent import generate_compliance_rules_llm
 from pathlib import Path
 import shutil
 import tempfile
@@ -280,16 +282,59 @@ async def requirement_endpoint():
         return {"requirements": requirements}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+rules = ""
+
+
+
+
+@app.post("/generate-compliance-rules")
+async def generate_compliance_rules_endpoint(brd_file: UploadFile = File(...)):
+    try:
+        # Save uploaded BRD PDF temporarily
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+            tmp.write(await brd_file.read())
+            tmp_path = tmp.name
+
+        # Extract text from PDF
+        brd_text = parse_pdf(tmp_path)
+
+        # Generate compliance rules using LLM
+        rules = generate_compliance_rules_llm(brd_text)
+
+        # Convert rules_text to list
+        rules_list = [line.strip() for line in rules.split('\n') if line.strip()]
+
+        # Save to Excel
+        df = pd.DataFrame({'Compliance Rules': rules_list})
+        excel_path = Path("outputs/compliance_rules.xlsx")
+        excel_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_excel(excel_path, index=False)
+
+        return JSONResponse({
+            "rules_text": rules,
+            "download_url": "/download/compliance-rules"
+        })
+
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+
+# Download endpoint
+@app.get("/download/compliance-rules")
+async def download_compliance_rules():
+    file_path = "outputs/compliance_rules.xlsx"
+    return FileResponse(path=file_path, filename="compliance_rules.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+
 
 @app.post("/check-compliance")
 async def check_compliance_api(requirements_file: UploadFile = File(...)):
     try:
-        # Save uploaded file to a temporary file
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-            tmp.write(await requirements_file.read())
-            tmp_path = tmp.name
+       
 
-        requirement_text = parse_pdf(tmp_path)  # Pass file path to parse_pdf
+        requirement_text =rules  # Pass file path to parse_pdf
         response = check_requirement_compliance(requirement_text)
         return JSONResponse(content={"result": response})
     except Exception as e:
