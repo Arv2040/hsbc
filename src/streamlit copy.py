@@ -184,14 +184,6 @@ def sequential_mode():
     prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="sequential_prompt")
     template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="sequential_template")
 
-    agent_steps = {
-        "Ingestion Agent": False,
-        "Preprocessing Agent": False,
-        "Summarization Agent": False,
-        "Compliance Agent": False,
-        "BRD Generation Agent": False,
-    }
-
     if st.button("Start Process"):
 
         if not uploaded_file:
@@ -199,111 +191,100 @@ def sequential_mode():
             return
 
         file_bytes = uploaded_file.read()
-        template_bytes = template_file.read() if template_file else None
+        template_bytes = None
+        if template_file:
+            template_bytes = template_file.read()
 
-        # Sidebar progress loader
-        with st.sidebar:
-            st.markdown("## 📝 Agent Progress")
-            progress_placeholder = st.empty()
-
-        def update_progress():
-            progress_html = ""
-            for agent, completed in agent_steps.items():
-                check = "✅" if completed else "🔄"
-                progress_html += f"{check} {agent}<br>"
-            progress_placeholder.markdown(progress_html, unsafe_allow_html=True)
-
-        update_progress()
-
-        # 1. Ingestion Agent
+        # 1. Ingestion
         with st.spinner("Running Ingestion Agent..."):
             files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             ingestion_result = call_backend("ingestion", files=files)
         if ingestion_result is None:
             return
-        agent_steps["Ingestion Agent"] = True
-        update_progress()
-        with st.expander("🧠 Ingestion Agent - Text extracted successfully", expanded=True):
-            display_agent_progress(
-                "Ingestion Agent",
-                "Extracting text from PDF",
-                ingestion_result.get("text", ""),
-                "Text extracted successfully"
-            )
+        display_agent_progress(
+            "Ingestion Agent",
+            "Extracting text from PDF",
+            ingestion_result.get("text", ""),
+            "Text extracted successfully"
+        )
 
-        # 2. Preprocessing Agent
+        # 2. Preprocessing
         with st.spinner("Running Preprocessing Agent..."):
             files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             preprocess_result = call_backend("preprocess", files=files)
         if preprocess_result is None:
             return
-        agent_steps["Preprocessing Agent"] = True
-        update_progress()
-        with st.expander("🧹 Preprocessing Agent - Text preprocessed successfully", expanded=True):
-            display_agent_progress(
-                "Preprocessing Agent",
-                "Cleaning and structuring text",
-                preprocess_result,
-                "Text preprocessed successfully"
-            )
+        display_agent_progress(
+            "Preprocessing Agent",
+            "Cleaning and structuring text",
+            preprocess_result,
+            "Text preprocessed successfully"
+        )
 
-        # 3. Summarization Agent
+        # 3. Summarization
         with st.spinner("Running Summarization Agent..."):
             files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             summarize_result = call_backend("summarize-content", files=files)
         if summarize_result is None:
             return
-        agent_steps["Summarization Agent"] = True
-        update_progress()
-        with st.expander("📝 Summarization Agent - Content summarized successfully", expanded=True):
-            display_agent_progress(
-                "Summarization Agent",
-                "Creating document summary",
-                summarize_result.get("summary", ""),
-                "Content summarized successfully"
-            )
+        display_agent_progress(
+            "Summarization Agent",
+            "Creating document summary",
+            summarize_result.get("summary", ""),
+            "Content summarized successfully"
+        )
 
-        # 4. Compliance Agent
+        # 4. Requirement Generation
+        # data = {"prompt": prompt_text} if prompt_text else None
+        # with st.spinner("Running Requirement Generation Agent..."):
+        #     files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+        #     requirement_result = call_backend("generate-requirements", files=files, data=data)
+        # if requirement_result is None:
+        #     return
+        # display_agent_progress(
+        #     "Requirement Agent",
+        #     "Generating system requirements",
+        #     requirement_result.get("requirements", []),
+        #     "Requirements generated successfully"
+        # )
+
+        # 5. Compliance Check
         with st.spinner("Running Compliance Agent..."):
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+
             compliance_result = call_backend("check-compliance", files=files)
         if compliance_result is None:
             return
-        agent_steps["Compliance Agent"] = True
-        update_progress()
-        with st.expander("📋 Compliance Agent - Compliance checked successfully", expanded=True):
-            st.markdown("#### Validating requirements against standards")
-            result = compliance_result.get("result", {})
-            if isinstance(result, list):
-                st.table(result)
-            elif isinstance(result, dict):
-                df_data = [{"Key": k, "Value": v} for k, v in result.items()]
-                st.table(df_data)
-            else:
-                st.write("Unsupported result format")
+        display_agent_progress(
+            "Compliance Agent",
+            "Validating requirements against standards",
+            compliance_result.get("result", {}),
+            "Compliance checked successfully"
+        )
 
-        # 5. BRD Generation Agent
+        # 6. BRD Generation
+                # 6. BRD Generation
         brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-        if template_bytes:
+        if template_bytes is not None:
             brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
+
+        # ✅ Define `data` before calling the backend
         data = {"prompt": prompt_text} if prompt_text else None
 
         with st.spinner("Running BRD Generation Agent..."):
             brd_result = call_backend("generate-brd", files=brd_files, data=data)
+
         if brd_result is None:
             return
-        agent_steps["BRD Generation Agent"] = True
-        update_progress()
-        with st.expander("📄 BRD Generation Agent - BRD generated successfully", expanded=True):
-            display_agent_progress(
-                "BRD Generation Agent",
-                "Creating Business Requirements Document",
-                brd_result.get("brd_text", ""),
-                "BRD generated successfully"
-            )
+        display_agent_progress(
+            "BRD Generation Agent",
+            "Creating Business Requirements Document",
+            brd_result.get("brd_text", ""),
+            "BRD generated successfully"
+        )
 
         pdf_url = f"{BACKEND_URL}/download-brd/"
-        st.markdown(f"[⬇️ Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
+        st.markdown(f"[Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
 
 
 # ----- Rules Matching Mode (placeholder) -----
