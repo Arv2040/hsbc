@@ -271,28 +271,29 @@ async def generate_remediation_endpoint():
     try:
         global remedies
         remedies = analyze_compliance_issues(remedies)
+        rules_list = [line.strip() for line in remedies.split('\n') if line.strip()]
+        df = pd.DataFrame({'Remedies': rules_list})
 
         # Save to Excel
-        # df = pd.DataFrame(remedies)
-        # excel_path = Path("outputs/remediation.xlsx")
-        # excel_path.parent.mkdir(parents=True, exist_ok=True)
-        # df.to_excel(excel_path, index=False)
+        excel_path = Path("outputs/remediation.xlsx")
+        excel_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_excel(excel_path, index=False)
 
         return JSONResponse({
             "remedies": remedies,
-            # "download_url": "/download/remediation"
+            "download_url": "/download/remediation"
         })
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
 
-# @app.get("/download/remediation")
-# async def download_remediation_excel():
-#     file_path = "outputs/remediation.xlsx"
-#     return FileResponse(
-#         path=file_path,
-#         filename="remediation.xlsx",
-#         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-#     )
+@app.get("/download/remediation")
+async def download_remediation_excel():
+    file_path = "outputs/remediation.xlsx"
+    return FileResponse(
+        path=file_path,
+        filename="remediation.xlsx",
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 
 

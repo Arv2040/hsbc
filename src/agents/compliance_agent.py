@@ -36,9 +36,9 @@ Your task is to:
    - If no match is found, return null for the matched rule
 
 Return the result strictly as a **JSON list** of objects. Each object should have the following keys:
-- `"llm_rule"`: The individual rule extracted from the LLM output
+- `"AI GENRATED POLICIES"`: The individual rule extracted from the LLM output
 - `"status"`: Either `"Matched"` or `"Mismatched"`
-- `"matched_static_rule"`: The static rule it matches with (if any); otherwise `null`
+- `"COMPANY POLICIES"`: The static rule it matches with (if any); otherwise `null`
 dont hallucinate on the llm response of the rules. just do the tasks instructed and dont add anything extra
 
 ⚠ **Return ONLY the JSON list**—do not include markdown, commentary, or extra explanation.
@@ -71,7 +71,7 @@ Static Company Rules:
 
     except json.JSONDecodeError:
         return [{
-            "llm_rule": "Error: Could not parse LLM response",
+            "AI GENRATED POLICIES": "Error: Could not parse LLM response",
             "status": "Mismatched",
-            "matched_static_rule": None
+            "COMPANY POLICIES": None
         }]

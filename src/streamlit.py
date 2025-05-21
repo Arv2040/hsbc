@@ -178,7 +178,7 @@ def manual_mode():
 
 # ----- Sequential Mode -----
 def sequential_mode():
-    st.markdown("### COMPLIANCE AND REMEDIATION SYSTEM")
+    # st.markdown("### COMPLIANCE AND REMEDIATION SYSTEM")
 
     uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="sequential_upload")
     # prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="sequential_prompt")
@@ -319,8 +319,8 @@ def sequential_mode():
             # Structure data for future use
             compliance_data = {
                 f"R{i+1}": {
-                    "llm_rule": item.get("llm_rule", ""),
-                    "matched_static_rule": item.get("matched_static_rule", "")
+                    "AI GENRATED POLICIES": item.get("AI GENRATED POLICIES", ""),
+                    "COMPANY POLICIES": item.get("COMPANY POLICIES", "")
                 }
                 for i, item in enumerate(matched_rules)
             }
@@ -343,13 +343,13 @@ def sequential_mode():
 
                     st.markdown("### ✅ Matched Policy Rules")
                     if not matched_df.empty:
-                        st.table(matched_df[["llm_rule", "matched_static_rule"]])
+                        st.table(matched_df[["AI GENRATED POLICIES", "COMPANY POLICIES"]])
                     else:
                         st.info("No matched rules found.")
 
                     st.markdown("### ❌ Mismatched Policy Rules")
                     if not mismatched_df.empty:
-                        st.table(mismatched_df[["llm_rule"]])
+                        st.table(mismatched_df[["AI GENRATED POLICIES"]])
                     else:
                         st.success("No mismatched rules found.")
                 else:
@@ -369,12 +369,12 @@ def sequential_mode():
         with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
             st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
 
-            remediation_text = remediation_result
+            remediation_text = remediation_result.get('remedies')
             if remediation_text:
                 st.markdown(f"<div style='white-space: pre-wrap'>{remediation_text}</div>", unsafe_allow_html=True)
             else:
                 st.success("No remediation needed — all rules are compliant.")
-            # st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_remediation_url})", unsafe_allow_html=True)
+            st.markdown(f"[⬇️ Download Remediations in Excel]({download_remediation_url})", unsafe_allow_html=True)
 
         # 5. BRD Generation Agent
         # brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
