@@ -254,25 +254,46 @@ async def download_compliance_rules():
     file_path = "outputs/compliance_rules.xlsx"
     return FileResponse(path=file_path, filename="compliance_rules.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-rem = ""
+remedies = " "
 @app.post("/check-compliance")
 async def check_compliance_api():
     try:
-        global rem
+        global remedies
         requirement_text =rules  # Pass file path to parse_pdf
         response = check_requirement_compliance(requirement_text)
-        rem = response
+        remedies  = response
         return JSONResponse(content={"result": response})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
 @app.post("/generate-remediation")
-async def analyze_compliance_endpoint():
+async def generate_remediation_endpoint():
     try:
-        remedies = analyze_compliance_issues(rem)
-        return remedies
+        global remedies
+        remedies = analyze_compliance_issues(remedies)
+
+        # Save to Excel
+        df = pd.DataFrame(remedies)
+        excel_path = Path("outputs/remediation.xlsx")
+        excel_path.parent.mkdir(parents=True, exist_ok=True)
+        df.to_excel(excel_path, index=False)
+
+        return JSONResponse({
+            "remedies": remedies,
+            "download_url": "/download/remediation"
+        })
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        return JSONResponse(status_code=500, content={"error": str(e)})
+
+@app.get("/download/remediation")
+async def download_remediation_excel():
+    file_path = "outputs/remediation.xlsx"
+    return FileResponse(
+        path=file_path,
+        filename="remediation.xlsx",
+        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+
 
 
 @app.post("/compliance-gap-analysis")
