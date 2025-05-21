@@ -13,8 +13,8 @@ latest_summary = {"content": ""}
 
 def analyze_compliance_issues(raw_text: str) -> list:
     prompt = f"""
-The following text contains compliance issues. Identify mismatches or violations in rules and suggest remedies for each one.
-Return a list of remedies in bullet points. Keep it concise and actionable.
+Act as Compliance Expert whose primary job is to generate remedies based on the identified mismatched or violated compliances. Generate the remedies in brief and to the point.
+Return the remedies in a list in bullet points.
 
 Text:
 {raw_text}

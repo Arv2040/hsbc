@@ -6,7 +6,7 @@ import io
 
 # Set page config with HSBC styling
 st.set_page_config(
-    page_title="BRD Generator & Compliance System",
+    page_title="RemedAI",
     page_icon="📄",
     layout="wide"
 )
@@ -178,11 +178,11 @@ def manual_mode():
 
 # ----- Sequential Mode -----
 def sequential_mode():
-    st.markdown("### BRD & Compliance System - Sequential Mode")
+    st.markdown("### COMPLIANCE AND REMEDIATION SYSTEM")
 
     uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="sequential_upload")
-    prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="sequential_prompt")
-    template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="sequential_template")
+    # prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="sequential_prompt")
+    # template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="sequential_template")
 
     agent_steps = {
         "Ingestion Agent": False,
@@ -201,7 +201,7 @@ def sequential_mode():
             return
 
         file_bytes = uploaded_file.read()
-        template_bytes = template_file.read() if template_file else None
+        # template_bytes = template_file.read() if template_file else None
 
         with st.sidebar:
             st.markdown("## 📝 Agent Progress")
@@ -277,7 +277,8 @@ def sequential_mode():
         update_progress()
 
         rules_text = compliance_rules_result.get("rules_text", "")
-        download_url = f"{BACKEND_URL}/download/compliance-rules"
+        download_rules_url = f"{BACKEND_URL}/download/compliance-rules"
+        download_remediation_url = f"{BACKEND_URL}/download/remediation"
 
         with st.expander("📋 Compliance Rules Generator - Rules generated successfully", expanded=True):
             display_agent_progress(
@@ -286,7 +287,7 @@ def sequential_mode():
                 rules_text,
                 "Compliance rules generated successfully!"
             )
-            st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_url})", unsafe_allow_html=True)
+            st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_rules_url})", unsafe_allow_html=True)
 
         # 5. Compliance Agent
         with st.spinner("Running Compliance Agent..."):
@@ -373,6 +374,7 @@ def sequential_mode():
                 st.markdown(f"<div style='white-space: pre-wrap'>{remediation_text}</div>", unsafe_allow_html=True)
             else:
                 st.success("No remediation needed — all rules are compliant.")
+            # st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_remediation_url})", unsafe_allow_html=True)
 
         # 5. BRD Generation Agent
         # brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
@@ -414,12 +416,13 @@ def rules_matching_mode():
 
 # ----- Main app -----
 def main():
-    st.markdown("<h1 class='header'>BRD Generator & Compliance System</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='header'>COMPLIANCE AND REMIDIATION GENERATOR</h1>", unsafe_allow_html=True)
     st.markdown("---")
 
     mode = st.radio(
         "Select Mode:",
-        ("Sequential Mode"
+        (
+            "Sequential Mode"
         #  , "Manual Mode"
         #  , "Rules Matching"
          ),
