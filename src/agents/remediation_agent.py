@@ -1,10 +1,6 @@
 import os
-import json
-from openai import AzureOpenAI
 from dotenv import load_dotenv
-from agents.compliance_agent import check_requirement_compliance  # Import the function
-
-# Load environment variables
+from openai import AzureOpenAI
 load_dotenv()
 
 client = AzureOpenAI(
@@ -13,46 +9,25 @@ client = AzureOpenAI(
     azure_endpoint=os.getenv("OPENAI_API_BASE_LOCAL")
 )
 
-def generate_remediation(gpt_response_text: str):
-    # Step 1: Get compliance results
-    compliance_results = check_requirement_compliance(gpt_response_text)
+latest_summary = {"content": ""}
 
-    # Step 2: Filter only mismatched rules
-    mismatched_rules = [
-        rule["llm_rule"]
-        for rule in compliance_results
-        if rule.get("status") == "Mismatched"
-    ]
+def analyze_compliance_issues(raw_text: str) -> list:
+    prompt = f"""
+The following text contains compliance issues. Identify mismatches or violations in rules and suggest remedies for each one.
+Return a list of remedies in bullet points. Keep it concise and actionable.
 
-    if not mismatched_rules:
-        return {"message": "All rules matched. No remediation needed."}
-
-    # Step 3: Construct LLM prompt for remediation
-    remediation_prompt = f"""
-You are a Remediation Agent. The following rules were flagged as **non-compliant** by the compliance checker.
-
-For each of the following rules, generate a clear remediation suggestion that would bring it in line with standard compliance expectations.
-
-⚠ Output strictly as a **JSON list** of objects, each with:
-- `"original_rule"`: The rule that was mismatched.
-- `"remediation_advice"`: A concise and actionable remediation.
-
-Mismatched Rules:
-{json.dumps(mismatched_rules, indent=2)}
+Text:
+{raw_text}
 """
-
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
-            {"role": "system", "content": "You are a compliance remediation advisor."},
-            {"role": "user", "content": remediation_prompt}
-        ],
-        temperature=0.3
+            {"role": "system", "content": "You are a compliance assistant that identifies issues and suggests remedies."},
+            {"role": "user", "content": prompt},
+        ]
     )
 
-    try:
-        result = response.choices[0].message.content.strip()
-        return json.loads(result)
-
-    except json.JSONDecodeError:
-        return {"error": "Failed to parse LLM output."}
+    remedies_text = response.choices[0].message.content.strip()
+    remedies_list = [line.lstrip("-• ").strip() for line in remedies_text.split("\n") if line.strip()]
+    
+    return remedies_list

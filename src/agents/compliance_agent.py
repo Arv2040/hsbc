@@ -1,4 +1,3 @@
-
 import pandas as pd
 from openai import AzureOpenAI
 from dotenv import load_dotenv

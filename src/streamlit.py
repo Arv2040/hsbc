@@ -191,7 +191,7 @@ def sequential_mode():
         "Compliance Rules Generator": False,
         "Compliance Agent": False,
         "Remediation Agent": False,
-        "BRD Generation Agent": False,
+        # "BRD Generation Agent": False,
     }
 
     if st.button("Start Process"):
