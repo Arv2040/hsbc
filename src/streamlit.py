@@ -420,7 +420,8 @@ def main():
 
     mode = st.radio(
         "Select Mode:",
-        ("Manual Mode", "Sequential Mode"
+        ("Sequential Mode"
+        #  , "Manual Mode"
         #  , "Rules Matching"
          ),
         horizontal=True,
