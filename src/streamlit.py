@@ -361,15 +361,14 @@ def sequential_mode():
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             remediation_result = call_backend("generate-remediation", files=files)
 
-        if remediation_result is None:
-            return
+        if remediation_result is None:            return
         agent_steps["Remediation Agent"] = True
         update_progress()
 
         with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
             st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
 
-            remediation_text = remediation_result.get("remediation", "")
+            remediation_text = remediation_result
             if remediation_text:
                 st.markdown(f"<div style='white-space: pre-wrap'>{remediation_text}</div>", unsafe_allow_html=True)
             else:

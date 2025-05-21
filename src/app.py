@@ -254,12 +254,14 @@ async def download_compliance_rules():
     file_path = "outputs/compliance_rules.xlsx"
     return FileResponse(path=file_path, filename="compliance_rules.xlsx", media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
-
+rem = ""
 @app.post("/check-compliance")
 async def check_compliance_api():
     try:
+        global rem
         requirement_text =rules  # Pass file path to parse_pdf
         response = check_requirement_compliance(requirement_text)
+        rem = response
         return JSONResponse(content={"result": response})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
@@ -267,7 +269,7 @@ async def check_compliance_api():
 @app.post("/generate-remediation")
 async def analyze_compliance_endpoint():
     try:
-        remedies = analyze_compliance_issues(rules)
+        remedies = analyze_compliance_issues(rem)
         return remedies
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

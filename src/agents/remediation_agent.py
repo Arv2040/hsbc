@@ -28,6 +28,6 @@ Text:
     )
 
     remedies_text = response.choices[0].message.content.strip()
-    remedies_list = [line.lstrip("-• ").strip() for line in remedies_text.split("\n") if line.strip()]
-    
-    return remedies_list
+   
+    return remedies_text
+
