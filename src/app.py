@@ -22,7 +22,7 @@ from agents.governance_agent import gov_agent
 from agents.ingestion import parse_pdf
 from agents.compliance_agent import check_requirement_compliance
 from agents.match_compliance_rules import extract_and_match_vs_excel
-from agents.remediation_agent import generate_remediation
+from agents.remediation_agent import generate_remediation  
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -218,6 +218,7 @@ rules = ""
 @app.post("/generate-compliance-rules")
 async def generate_compliance_rules_endpoint(brd_file: UploadFile = File(...)):
     try:
+        global rules
         # Save uploaded BRD PDF temporarily
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             tmp.write(await brd_file.read())
@@ -262,7 +263,31 @@ async def check_compliance_api():
         return JSONResponse(content={"result": response})
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
+# Request schema
+class RemediationRequest(BaseModel):
+    gpt_response_text: str
 
+# Response schema (optional, can be generalized)
+class RemediationResponse(BaseModel):
+    message: str = None
+    error: str = None
+    remediations: list = None
+
+@app.post("/generate-remediation")
+def generate_remediation_endpoint(request: RemediationRequest):
+    try:
+        result = generate_remediation(request.gpt_response_text)
+
+        # Format response based on result type
+        if isinstance(result, dict) and "error" in result:
+            raise HTTPException(status_code=500, detail=result["error"])
+        if isinstance(result, dict) and "message" in result:
+            return {"message": result["message"]}
+        
+        return {"remediations": result}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 @app.post("/compliance-gap-analysis")
 async def compliance_gap_analysis(requirements_file: UploadFile = File(...)):
     try:
@@ -289,16 +314,6 @@ async def compliance_gap_analysis(requirements_file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-
-@app.post("/generate-remediation")
-async def remediation_api(requirements_file: UploadFile = File(...)):
-    try:
-        content = await requirements_file.read()
-        requirement_text = content.decode("utf-8")
-        remediation_output = generate_remediation(requirement_text)
-        return JSONResponse(content={"remediation": remediation_output})
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 @app.get("/feedback-log")
 async def get_feedback_log():
