@@ -67,6 +67,24 @@ st.markdown("""
         color: #AAAAAA;
         font-size: 0.9em;
     }
+    .remediation-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 15px 0;
+    }
+    .remediation-table th {
+        background-color: #FFD700;
+        color: #000000;
+        padding: 10px;
+        text-align: left;
+    }
+    .remediation-table td {
+        padding: 10px;
+        border-bottom: 1px solid #555;
+    }
+    .remediation-table tr:nth-child(even) {
+        background-color: #333;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -377,6 +395,7 @@ def sequential_mode():
                 return
 
             matched_rules = [item for item in compliance_result if item.get("status") == "Matched"]
+            mismatched_rules = [item for item in compliance_result if item.get("status") == "Mismatched"]
 
             compliance_data = {
                 f"R{i+1}": {
@@ -425,46 +444,62 @@ def sequential_mode():
 
         with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
             st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
-
-            remediation_text = remediation_result.get('remedies')
-            if remediation_text:
-                st.markdown(f"<div style='white-space: pre-wrap'>{remediation_text}</div>", unsafe_allow_html=True)
+            
+            # Get the mismatched rules from compliance check
+            mismatched_rules = [item for item in compliance_result if item.get("status") == "Mismatched"]
+            
+            if mismatched_rules:
+                # Get remediation suggestions
+                remediation_text = remediation_result.get('remedies', '')
+                
+                # Create a DataFrame for the table
+                remediation_data = []
+                
+                # Split remediation text by lines if it's a string
+                if isinstance(remediation_text, str):
+                    remediation_lines = [line.strip() for line in remediation_text.split('\n') if line.strip()]
+                else:
+                    remediation_lines = []
+                
+                # Pair each mismatched rule with its remediation
+                for i, rule in enumerate(mismatched_rules):
+                    remediation = remediation_lines[i] if i < len(remediation_lines) else "No specific recommendation provided"
+                    remediation_data.append({
+                        "Mismatched Policy": rule.get("AI GENRATED POLICIES", ""),
+                        "Remediation Suggestion": remediation
+                    })
+                
+                # Display as a styled table
+                if remediation_data:
+                    st.markdown("""
+                    <table class="remediation-table">
+                        <thead>
+                            <tr>
+                                <th>Mismatched Policy</th>
+                                <th>Remediation Suggestion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    """, unsafe_allow_html=True)
+                    
+                    for item in remediation_data:
+                        st.markdown(f"""
+                            <tr>
+                                <td>{item['Mismatched Policy']}</td>
+                                <td>{item['Remediation Suggestion']}</td>
+                            </tr>
+                        """, unsafe_allow_html=True)
+                    
+                    st.markdown("""
+                        </tbody>
+                    </table>
+                    """, unsafe_allow_html=True)
+                else:
+                    st.info("No remediation suggestions available for the mismatched policies.")
             else:
-                st.success("No remediation needed — all rules are compliant.")
+                st.success("🎉 No mismatched rules found - all policies are compliant!")
+            
             st.markdown(f"[⬇️ Download Remediations in Excel]({download_remediation_url})", unsafe_allow_html=True)
-
-        # 5. BRD Generation Agent
-        # brd_files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-        # if template_bytes:
-        #     brd_files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
-
-       
-
-        # data = {
-        #     "prompt": prompt_text,
-        #     "compliance_result": json.dumps(compliance_data) if compliance_data else None
-        # }
-
-        # data = {k: v for k, v in data.items() if v is not None}
-
-        # with st.spinner("Running BRD Generation Agent..."):
-        #     brd_result = call_backend("generate-brd", files=brd_files, data=data)
-        # if brd_result is None:
-        #     return
-        # agent_steps["BRD Generation Agent"] = True
-        # update_progress()
-
-        # with st.expander("📄 BRD Generation Agent - BRD generated successfully", expanded=True):
-        #     display_agent_progress(
-        #         "BRD Generation Agent",
-        #         "Creating Business Requirements Document",
-        #         brd_result.get("brd_text", ""),
-        #         "BRD generated successfully"
-        #     )
-
-        # pdf_url = f"{BACKEND_URL}/download-brd/"
-        # st.markdown(f"[⬇️ Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
-
 
 # ----- Rules Matching Mode (placeholder) -----
 def rules_matching_mode():
@@ -497,18 +532,6 @@ def main():
         rules_matching_mode()
 
     st.markdown("---")
-    # st.subheader("Feedback")
-    # feedback = st.text_area("Provide feedback on the system:")
-    # if st.button("Submit Feedback"):
-    #     if feedback:
-    #         data = {"text": feedback, "rating": 5}  # Default rating
-    #         result = call_backend("feedback-log", data=data)
-    #         if result:
-    #             st.success("Thank you for your feedback!")
-    #     else:
-    #         st.warning("Please enter feedback before submitting")
 
 if __name__ == "__main__":
     main()
-
- 
