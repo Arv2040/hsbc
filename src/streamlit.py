@@ -178,11 +178,7 @@ def manual_mode():
 
 # ----- Sequential Mode -----
 def sequential_mode():
-    # st.markdown("### COMPLIANCE AND REMEDIATION SYSTEM")
-
     uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="sequential_upload")
-    # prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="sequential_prompt")
-    # template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="sequential_template")
 
     agent_steps = {
         "Ingestion Agent": False,
@@ -191,8 +187,94 @@ def sequential_mode():
         "Compliance Rules Generator": False,
         "Compliance Agent": False,
         "Remediation Agent": False,
-        # "BRD Generation Agent": False,
     }
+
+    total_steps = len(agent_steps)
+    status_placeholder = st.empty()
+
+    def update_progress():
+        completed_steps = sum(agent_steps.values())
+        steps = list(agent_steps.keys())
+
+        bar_html = """
+        <style>
+        .progress-container {{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }}
+        .progress-line {{
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 4px;
+            width: 100%;
+            background-color: #333;
+            z-index: 0;
+        }}
+        .progress-line-fill {{
+            height: 4px;
+            background-color: #00c853;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            z-index: 1;
+            width: {progress_percent}%;
+        }}
+        .checkpoint {{
+            z-index: 2;
+            background-color: #111;
+            border: 3px solid #555;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            font-size: 16px;
+            position: absolute;
+            transform: translateX(-50%);
+        }}
+        .checkpoint.checked {{
+            background-color: #00c853;
+            border: 3px solid #00c853;
+        }}
+        .step-labels {{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #bbb;
+        }}
+        </style>
+        <div class="progress-container">
+            <div class="progress-line"></div>
+            <div class="progress-line-fill"></div>
+            {checkpoints}
+        </div>
+        <div class="step-labels">{labels}</div>
+        """
+
+        checkpoints_html = ""
+        labels_html = ""
+        for i, (step, done) in enumerate(agent_steps.items()):
+            is_checked = "checked" if done else ""
+            checkpoints_html += f"<div class='checkpoint {is_checked}' style='left: {i / (total_steps - 1) * 100}%;'>{'✓' if done else i + 1}</div>"
+            labels_html += f"<div style='width:{100 / total_steps}%; text-align:center;'>{step}</div>"
+
+        progress_percent = int((completed_steps / total_steps) * 100)
+
+        full_html = bar_html.format(
+            progress_percent=progress_percent,
+            checkpoints=checkpoints_html,
+            labels=labels_html
+        )
+
+        status_placeholder.markdown(full_html, unsafe_allow_html=True)
 
     if st.button("Start Process"):
 
@@ -201,22 +283,9 @@ def sequential_mode():
             return
 
         file_bytes = uploaded_file.read()
-        # template_bytes = template_file.read() if template_file else None
-
-        with st.sidebar:
-            st.markdown("## 📝 Agent Progress")
-            progress_placeholder = st.empty()
-
-        def update_progress():
-            progress_html = ""
-            for agent, completed in agent_steps.items():
-                check = "✅" if completed else "🔄"
-                progress_html += f"{check} {agent}<br>"
-            progress_placeholder.markdown(progress_html, unsafe_allow_html=True)
 
         update_progress()
 
-        # 1. Ingestion Agent
         with st.spinner("Running Ingestion Agent..."):
             files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             ingestion_result = call_backend("ingestion", files=files)
@@ -233,7 +302,6 @@ def sequential_mode():
                 "Text extracted successfully"
             )
 
-        # 2. Preprocessing Agent
         with st.spinner("Running Preprocessing Agent..."):
             files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             preprocess_result = call_backend("preprocess", files=files)
@@ -250,7 +318,6 @@ def sequential_mode():
                 "Text preprocessed successfully"
             )
 
-        # 3. Summarization Agent
         with st.spinner("Running Summarization Agent..."):
             files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             summarize_result = call_backend("summarize-content", files=files)
@@ -267,7 +334,6 @@ def sequential_mode():
                 "Content summarized successfully"
             )
 
-        # 4. Compliance Rules Generator Agent
         with st.spinner("Running Compliance Rules Generator Agent..."):
             files = {"brd_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             compliance_rules_result = call_backend("generate-compliance-rules", files=files)
@@ -289,7 +355,6 @@ def sequential_mode():
             )
             st.markdown(f"[⬇️ Download Compliance Rules Excel]({download_rules_url})", unsafe_allow_html=True)
 
-        # 5. Compliance Agent
         with st.spinner("Running Compliance Agent..."):
             files = {
                 "requirements_file": (
@@ -299,7 +364,6 @@ def sequential_mode():
                 )
             }
 
-            # Call backend endpoint that returns {"result": [...]} or {"error": "..."}
             response = call_backend("check-compliance", files=files)
 
             if not response or "result" not in response:
@@ -308,15 +372,12 @@ def sequential_mode():
 
             compliance_result = response["result"]
 
-            # Defensive fallback
             if not isinstance(compliance_result, list):
                 st.error("⚠ Backend returned unexpected format. Expected a list of results.")
                 return
 
-            # Filter matched rules
             matched_rules = [item for item in compliance_result if item.get("status") == "Matched"]
 
-            # Structure data for future use
             compliance_data = {
                 f"R{i+1}": {
                     "AI GENRATED POLICIES": item.get("AI GENRATED POLICIES", ""),
@@ -327,11 +388,9 @@ def sequential_mode():
 
             compliance_data = json.dumps(compliance_data)
 
-            # Update UI state
             agent_steps["Compliance Agent"] = True
             update_progress()
 
-            # Show results
             with st.expander("📋 Compliance Agent - Compliance checked successfully", expanded=True):
                 st.markdown("#### ✅ Validating requirements against standards")
 
@@ -355,14 +414,12 @@ def sequential_mode():
                 else:
                     st.error("⚠ 'status' field not found in the response. Check backend output.")
 
-
-
-        # 6. Remediation Agent
         with st.spinner("Running Remediation Agent..."):
             files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
             remediation_result = call_backend("generate-remediation", files=files)
 
-        if remediation_result is None:            return
+        if remediation_result is None:
+            return
         agent_steps["Remediation Agent"] = True
         update_progress()
 
@@ -416,7 +473,7 @@ def rules_matching_mode():
 
 # ----- Main app -----
 def main():
-    st.markdown("<h1 class='header'>COMPLIANCE AND REMIDIATION GENERATOR</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='header'>COMPLIANCE AND REMEDIATION GENERATOR</h1>", unsafe_allow_html=True)
     st.markdown("---")
 
     mode = st.radio(
