@@ -216,12 +216,12 @@ rules = ""
 
 
 @app.post("/generate-compliance-rules")
-async def generate_compliance_rules_endpoint(brd_file: UploadFile = File(...)):
+async def generate_compliance_rules_endpoint(file: UploadFile = File(...)):
     try:
         global rules
         # Save uploaded BRD PDF temporarily
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-            tmp.write(await brd_file.read())
+            tmp.write(await file.read())
             tmp_path = tmp.name
 
         # Extract text from PDF

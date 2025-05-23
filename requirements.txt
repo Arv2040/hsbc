@@ -22,3 +22,4 @@ streamlit
 openpyxl
 fpdf
 docx
+xlsxwriter
