@@ -3,6 +3,7 @@ import streamlit as st
 import requests
 import json
 import io
+from agents.remedy_table import generate_remediation_suggestions
 
 # Set page config with HSBC styling
 st.set_page_config(
@@ -433,73 +434,65 @@ def sequential_mode():
                 else:
                     st.error("⚠ 'status' field not found in the response. Check backend output.")
 
+        
         with st.spinner("Running Remediation Agent..."):
-            files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            remediation_result = call_backend("generate-remediation", files=files)
+                    files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+                    remediation_result = call_backend("generate-remediation", files=files)
+
+                    remediation_output = None
+                    if mismatched_rules:
+                        remediation_output = generate_remediation_suggestions(mismatched_rules)
+
+                        if remediation_output.get("status") == "success":
+                            remedies_data = remediation_output["remedies"]
+
+                            if len(remedies_data) != len(mismatched_rules):
+                                st.warning(f"Got {len(remedies_data)} remedies for {len(mismatched_rules)} policies. Some may be missing.")
+
+                            policy_remedy_map = {
+                                item["mismatched_policy"]: item["remedy"]
+                                for item in remedies_data
+                            }
 
         if remediation_result is None:
-            return
+                return
         agent_steps["Remediation Agent"] = True
         update_progress()
 
-        with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
-            st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
-            
-            # Get the mismatched rules from compliance check
-            mismatched_rules = [item for item in compliance_result if item.get("status") == "Mismatched"]
-            
-            if mismatched_rules:
-                # Get remediation suggestions
-                remediation_text = remediation_result.get('remedies', '')
-                
-                # Create a DataFrame for the table
-                remediation_data = []
-                
-                # Split remediation text by lines if it's a string
-                if isinstance(remediation_text, str):
-                    remediation_lines = [line.strip() for line in remediation_text.split('\n') if line.strip()]
-                else:
-                    remediation_lines = []
-                
-                # Pair each mismatched rule with its remediation
-                for i, rule in enumerate(mismatched_rules):
-                    remediation = remediation_lines[i] if i < len(remediation_lines) else "No specific recommendation provided"
-                    remediation_data.append({
-                        "Mismatched Policy": rule.get("AI GENRATED POLICIES", ""),
-                        "Remediation Suggestion": remediation
-                    })
-                
-                # Display as a styled table
-                if remediation_data:
-                    st.markdown("""
-                    <table class="remediation-table">
-                        <thead>
-                            <tr>
-                                <th>Mismatched Policy</th>
-                                <th>Remediation Suggestion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                    """, unsafe_allow_html=True)
-                    
-                    for item in remediation_data:
-                        st.markdown(f"""
-                            <tr>
-                                <td>{item['Mismatched Policy']}</td>
-                                <td>{item['Remediation Suggestion']}</td>
-                            </tr>
-                        """, unsafe_allow_html=True)
-                    
-                    st.markdown("""
-                        </tbody>
-                    </table>
-                    """, unsafe_allow_html=True)
-                else:
-                    st.info("No remediation suggestions available for the mismatched policies.")
-            else:
-                st.success("🎉 No mismatched rules found - all policies are compliant!")
-            
-            st.markdown(f"[⬇️ Download Remediations in Excel]({download_remediation_url})", unsafe_allow_html=True)
+        with st.expander("🛠 Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
+                    st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
+
+                    if mismatched_rules:
+                        if remediation_output and remediation_output.get("status") == "success":
+                            # Table headers
+                            col1, col2 = st.columns([1, 2])
+                            col1.markdown("**❌ Mismatched Policies**")
+                            col2.markdown("**🛠 Remediation Suggestions**")
+
+                            # Table rows
+                            for policy in mismatched_rules:
+                                policy_text = policy.get("AI GENRATED POLICIES", "Unknown policy")
+                                remedy = policy_remedy_map.get(policy_text, "No specific recommendation provided")
+
+                                col1, col2 = st.columns([1, 2])
+                                col1.markdown(f"➤ {policy_text}")
+                                col2.markdown(f"✏ {remedy}")
+                        else:
+                            st.error("Failed to generate structured remediation suggestions")
+                    else:
+                        st.success("🎉 No mismatched rules found - all policies are compliant!")
+
+                    st.markdown(f"[⬇ Download Detailed Remediation Report]({download_remediation_url})", unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
 
 # ----- Rules Matching Mode (placeholder) -----
 def rules_matching_mode():
