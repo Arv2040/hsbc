@@ -3,8 +3,8 @@ import streamlit as st
 import requests
 import json
 import io
-from agents.remedy_table import generate_remediation_suggestions
-import xlsxwriter
+from agents.remediation_agent import analyze_compliance_issues
+from agents.new import generate_remediation_suggestions
 
 # Set page config with HSBC styling
 st.set_page_config(
@@ -87,6 +87,34 @@ st.markdown("""
     .remediation-table tr:nth-child(even) {
         background-color: #333;
     }
+    .two-column-remediation {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .remediation-column {
+        flex: 1;
+        background-color: #222;
+        border-radius: 8px;
+        padding: 15px;
+    }
+    .remediation-column-header {
+        color: #FFD700;
+        font-weight: bold;
+        margin-bottom: 15px;
+        font-size: 1.1em;
+    }
+    .remediation-item {
+        padding: 10px;
+        border-bottom: 1px solid #444;
+        margin-bottom: 10px;
+    }
+    .mismatched-policy {
+        color: #FF6B6B;
+    }
+    .remediation-suggestion {
+        color: #A5D6A7;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -127,76 +155,6 @@ def display_agent_progress(agent_name, task, output=None, summary=None):
         st.markdown(f"<div class='agent-summary'>{summary}</div>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
 
-# ----- Manual Mode -----
-def manual_mode():
-    st.markdown("### Manual Mode - Trigger Agents Individually")
-
-    uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="manual_upload")
-    prompt_text = st.text_area("Optional Prompt (for BRD generation)", key="manual_prompt")
-    template_file = st.file_uploader("Optional Template PDF (for BRD generation)", type=["pdf"], key="manual_template")
-
-    if not uploaded_file:
-        st.warning("Please upload a PDF document to proceed.")
-        return
-
-    # Read uploaded file bytes once for repeated requests
-    file_bytes = uploaded_file.read()
-    template_bytes = None
-    if template_file:
-        template_bytes = template_file.read()
-
-    # Run each agent on button press, show results individually
-
-    if st.button("Run Ingestion Agent"):
-        with st.spinner("Running Ingestion Agent..."):
-            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            result = call_backend("ingestion", files=files)
-            if result:
-                display_agent_progress("Ingestion Agent", "Extracting text from PDF", result.get("text", ""), "Text extracted successfully")
-
-    if st.button("Run Preprocessing Agent"):
-        with st.spinner("Running Preprocessing Agent..."):
-            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            result = call_backend("preprocess", files=files)
-            if result:
-                display_agent_progress("Preprocessing Agent", "Cleaning and structuring text", result, "Text preprocessed successfully")
-
-    if st.button("Run Summarization Agent"):
-        with st.spinner("Running Summarization Agent..."):
-            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            result = call_backend("summarize-content", files=files)
-            if result:
-                display_agent_progress("Summarization Agent", "Creating document summary", result.get("summary", ""), "Content summarized successfully")
-
-    if st.button("Run Requirement Generation Agent"):
-        with st.spinner("Running Requirement Generation Agent..."):
-            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            data = {"prompt": prompt_text} if prompt_text else None
-            result = call_backend("generate-requirements", files=files, data=data)
-            if result:
-                display_agent_progress("Requirement Agent", "Generating system requirements", result.get("requirements", []), "Requirements generated successfully")
-
-    if st.button("Run Compliance Agent"):
-        with st.spinner("Running Compliance Agent..."):
-            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            result = call_backend("check-compliance", files=files)
-            if result:
-                display_agent_progress("Compliance Agent", "Validating requirements against standards", result.get("result", {}), "Compliance checked successfully")
-
-    if st.button("Run BRD Generation Agent"):
-        with st.spinner("Running BRD Generation Agent..."):
-            files = {"file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-            if template_bytes:
-                files["template_file"] = (template_file.name, io.BytesIO(template_bytes), template_file.type)
-            data = {"prompt": prompt_text} if prompt_text else None
-            result = call_backend("generate-brd", files=files, data=data)
-            if result:
-                display_agent_progress("BRD Generation Agent", "Creating Business Requirements Document", result.get("brd_text", ""), "BRD generated successfully")
-                # Optional: show download link if backend supports it
-                pdf_url = f"{BACKEND_URL}/download-brd/"
-                st.markdown(f"[Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
-
-# ----- Sequential Mode -----
 def sequential_mode():
     uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="sequential_upload")
 
@@ -223,7 +181,7 @@ def sequential_mode():
             align-items: center;
             justify-content: space-between;
             margin-top: 20px;
-            margin-bottom: 100px;
+            margin-bottom: 20px;
             position: relative;
         }}
         .progress-line {{
@@ -244,24 +202,6 @@ def sequential_mode():
             z-index: 1;
             width: {progress_percent}%;
         }}
-        .progress-step-container {{
-            position: absolute;
-            top: -15px;
-            left: 0.85%;
-            width: 100%;
-            height: 60px;
-            display: flex;
-            justify-content: space-between;
-            z-index: 2;
-            margin-bottom:10%;
-        }}
-        .step {{
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }}
         .checkpoint {{
             z-index: 2;
             background-color: #111;
@@ -269,13 +209,12 @@ def sequential_mode():
             color: white;
             width: 32px;
             height: 32px;
-            margin-bottom: 3%;
             border-radius: 50%;
             text-align: center;
             line-height: 28px;
             font-weight: bold;
             font-size: 16px;
-            position: relative;
+            position: absolute;
             transform: translateX(-50%);
         }}
         .checkpoint.checked {{
@@ -293,56 +232,34 @@ def sequential_mode():
         <div class="progress-container">
             <div class="progress-line"></div>
             <div class="progress-line-fill"></div>
-            <div class="progress-step-container">
-                {steps_html}
-            </div>
+            {checkpoints}
         </div>
+        <div class="step-labels">{labels}</div>
         """
-        steps_html = ""
-        total_steps = len(steps)
+
+        checkpoints_html = ""
+        labels_html = ""
         for i, (step, done) in enumerate(agent_steps.items()):
-            is_checked = "checked" if done else ""            
-            if i == 0:
-                step_style = "align-items: flex-start;"
-            elif i == total_steps - 1:
-                step_style = "align-items: flex-end;"
-            else:
-                step_style = ""
-            checkpoint_html = f"<div class='checkpoint {is_checked}'>{'✓' if done else i + 1}</div>"
-            label_html = f"<div class='step-label'>{step}</div>"
-            steps_html += f"<div class='step' style='{step_style}'>{checkpoint_html}{label_html}</div>"
+            is_checked = "checked" if done else ""
+            checkpoints_html += f"<div class='checkpoint {is_checked}' style='left: {i / (total_steps - 1) * 100}%;'>{'✓' if done else i + 1}</div>"
+            labels_html += f"<div style='width:{100 / total_steps}%; text-align:center;'>{step}</div>"
 
         progress_percent = int((completed_steps / total_steps) * 100)
 
         full_html = bar_html.format(
             progress_percent=progress_percent,
-            steps_html=steps_html
+            checkpoints=checkpoints_html,
+            labels=labels_html
         )
-        # checkpoints_html = ""
-        # labels_html = ""
-        # for i, (step, done) in enumerate(agent_steps.items()):
-        #     is_checked = "checked" if done else ""
-        #     checkpoints_html += f"<div class='checkpoint {is_checked}' style='left: {i / (total_steps - 1) * 100}%;'>{'✓' if done else i + 1}</div>"
-        #     labels_html += f"<div style='width:{100 / total_steps}%; text-align:center;'>{step}</div>"
-
-        # progress_percent = int((completed_steps / total_steps) * 100)
-
-        # full_html = bar_html.format(
-        #     progress_percent=progress_percent,
-        #     checkpoints=checkpoints_html,
-        #     labels=labels_html
-        # )
 
         status_placeholder.markdown(full_html, unsafe_allow_html=True)
 
     if st.button("Start Process"):
-
         if not uploaded_file:
             st.warning("Please upload a PDF file first")
             return
 
         file_bytes = uploaded_file.read()
-
         update_progress()
 
         with st.spinner("Running Ingestion Agent..."):
@@ -474,123 +391,74 @@ def sequential_mode():
                 else:
                     st.error("⚠ 'status' field not found in the response. Check backend output.")
 
-        
         with st.spinner("Running Remediation Agent..."):
-                    files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-                    remediation_result = call_backend("generate-remediation", files=files)
+            files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            remediation_result = call_backend("generate-remediation", files=files)
 
-                    remediation_output = None
-                    if mismatched_rules:
-                        remediation_output = generate_remediation_suggestions(mismatched_rules)
+            remediation_output = None
+            if mismatched_rules:
+                remediation_output = generate_remediation_suggestions(mismatched_rules)
 
-                        if remediation_output.get("status") == "success":
-                            remedies_data = remediation_output["remedies"]
+                if remediation_output.get("status") == "success":
+                    remedies_data = remediation_output["remedies"]
 
-                            if len(remedies_data) != len(mismatched_rules):
-                                st.warning(f"Got {len(remedies_data)} remedies for {len(mismatched_rules)} policies. Some may be missing.")
+                    if len(remedies_data) != len(mismatched_rules):
+                        st.warning(f"Got {len(remedies_data)} remedies for {len(mismatched_rules)} policies. Some may be missing.")
 
-                            policy_remedy_map = {
-                                item["mismatched_policy"]: item["remedy"]
-                                for item in remedies_data
-                            }
-
-                            def generate_excel_download(remedies_data):
-                                output = io.BytesIO()
-                                workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-                                worksheet = workbook.add_worksheet("Remediation Suggestions")
-
-                                # Headers
-                                headers = ['Mismatched Policy', 'Remediation Suggestion']
-                                for col_num, header in enumerate(headers):
-                                    worksheet.write(0, col_num, header)
-
-                                # Write rows
-                                for row_num, item in enumerate(remedies_data, start=1):
-                                    worksheet.write(row_num, 0, item['mismatched_policy'])
-                                    worksheet.write(row_num, 1, item['remedy'])
-
-                                workbook.close()
-                                output.seek(0)
-                                return output
+                    policy_remedy_map = {
+                        item["mismatched_policy"]: item["remedy"]
+                        for item in remedies_data
+                    }
 
         if remediation_result is None:
-                return
+            return
         agent_steps["Remediation Agent"] = True
         update_progress()
 
-        with st.expander("🛠 Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
-                    st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
+        with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
+            st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
 
-                    if mismatched_rules:
-                        if remediation_output and remediation_output.get("status") == "success":
-                            # Table headers
-                            col1, col2 = st.columns([1, 2])
-                            col1.markdown("**❌ Mismatched Policies**")
-                            col2.markdown("**🛠 Remediation Suggestions**")
+            if mismatched_rules:
+                if remediation_output and remediation_output.get("status") == "success":
+                    # Table headers
+                    col1, col2 = st.columns([1, 2])
+                    col1.markdown("**❌ Mismatched Policies**")
+                    col2.markdown("**🛠️ Remediation Suggestions**")
 
-                            # Table rows
-                            for policy in mismatched_rules:
-                                policy_text = policy.get("AI GENRATED POLICIES", "Unknown policy")
-                                remedy = policy_remedy_map.get(policy_text, "No specific recommendation provided")
+                    # Table rows
+                    for policy in mismatched_rules:
+                        policy_text = policy.get("AI GENRATED POLICIES", "Unknown policy")
+                        remedy = policy_remedy_map.get(policy_text, "No specific recommendation provided")
 
-                                col1, col2 = st.columns([1, 2])
-                                col1.markdown(f"➤ {policy_text}")
-                                col2.markdown(f"✏ {remedy}")
-                            
-                            excel_file = generate_excel_download(remedies_data)
-                            st.download_button(
-                                label="⬇ Download Remediation Suggestions as Excel",
-                                data=excel_file,
-                                file_name="remediation_suggestions.xlsx",
-                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            )
-                        else:
-                            st.error("Failed to generate structured remediation suggestions")
-                    else:
-                        st.success("🎉 No mismatched rules found - all policies are compliant!")
+                        col1, col2 = st.columns([1, 2])
+                        col1.markdown(f"➤ {policy_text}")
+                        col2.markdown(f"✏️ {remedy}")
+                else:
+                    st.error("Failed to generate structured remediation suggestions")
+            else:
+                st.success("🎉 No mismatched rules found - all policies are compliant!")
+
+            st.markdown(f"[⬇️ Download Detailed Remediation Report]({download_remediation_url})", unsafe_allow_html=True)
 
 
 
-
-
-
-
-
-
-
-
-
-# ----- Rules Matching Mode (placeholder) -----
-def rules_matching_mode():
-    st.markdown("### Rules Matching Mode (Coming Soon)")
-    st.info("This mode is not implemented yet. Please check back later.")
-
-# ----- Main app -----
 def main():
     st.markdown("<h1 class='header'>COMPLIANCE AND REMEDIATION GENERATOR</h1>", unsafe_allow_html=True)
     st.markdown("---")
 
     mode = st.radio(
         "Select Mode:",
-        (
-            "Sequential Mode"
-        #  , "Manual Mode"
-        #  , "Rules Matching"
-         ),
+        ("Sequential Mode"),
         horizontal=True,
         label_visibility="hidden"
     )
 
     st.markdown("---")
 
-    if mode == "Manual Mode":
-        manual_mode()
-    elif mode == "Sequential Mode":
+    if mode == "Sequential Mode":
         sequential_mode()
-    else:
-        rules_matching_mode()
 
     st.markdown("---")
 
 if __name__ == "__main__":
-    main()
+    main()  

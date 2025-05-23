@@ -4,8 +4,6 @@ import requests
 import json
 import io
 from agents.remedy_table import generate_remediation_suggestions
-import xlsxwriter
-
 # Set page config with HSBC styling
 st.set_page_config(
     page_title="RemedAI",
@@ -87,6 +85,76 @@ st.markdown("""
     .remediation-table tr:nth-child(even) {
         background-color: #333;
     }
+    .progress-wrapper {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            margin: 40px auto;
+        }
+        .progress-line {
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            width: 84%;
+            height: 4px;
+            background-color: #333;
+            z-index: 0;
+            transform: translateY(-50%);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-line-fill {
+            height: 4px;
+            background-color: #00c853;
+            position: absolute;
+            top: 50%;
+            left: 8%;
+            width: {progress_percent}%;
+            max-width: 84%;
+            z-index: 1;
+            transition: width 0.3s ease;
+            transform: translateY(-50%);
+        }
+        .progress-step-container {
+            position: absolute;
+            top: 0;
+            left: 8%;
+            width: 84%;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            z-index: 2;
+        }
+        .step {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+        .checkpoint {
+            background-color: #111;
+            border: 3px solid #555;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 2;
+        }
+        .checkpoint.checked {
+            background-color: #00c853;
+            border: 3px solid #00c853;
+        }
+        .step-label {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 16px;
+            color: #bbb;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -197,6 +265,7 @@ def manual_mode():
                 st.markdown(f"[Download BRD PDF]({pdf_url})", unsafe_allow_html=True)
 
 # ----- Sequential Mode -----
+
 def sequential_mode():
     uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"], key="sequential_upload")
 
@@ -214,46 +283,49 @@ def sequential_mode():
 
     def update_progress():
         completed_steps = sum(agent_steps.values())
-        steps = list(agent_steps.keys())
 
+        # HTML + CSS for aligned checkpoints and labels
         bar_html = """
         <style>
         .progress-container {{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 20px;
-            margin-bottom: 100px;
             position: relative;
+            width: 100%;
+            height: 60px;
+            margin: 40px auto;
         }}
         .progress-line {{
             position: absolute;
-            top: 50%;
-            left: 0;
+            top: 30%;
+            left: 8%;
+            width: 84%;
             height: 4px;
-            width: 100%;
             background-color: #333;
             z-index: 0;
+            transform: translateY(-50%);
+            border-radius: 2px;
+            overflow: hidden;
         }}
         .progress-line-fill {{
             height: 4px;
             background-color: #00c853;
             position: absolute;
-            top: 50%;
-            left: 0;
-            z-index: 1;
+            top: 30%;
+            left: 8%;
             width: {progress_percent}%;
+            max-width: 84%;
+            z-index: 1;
+            transition: width 0.3s ease;
+            transform: translateY(-50%);
         }}
         .progress-step-container {{
             position: absolute;
-            top: -15px;
-            left: 0.85%;
-            width: 100%;
+            top: 0;
+            left: 8%;
+            width: 84%;
             height: 60px;
             display: flex;
             justify-content: space-between;
             z-index: 2;
-            margin-bottom:10%;
         }}
         .step {{
             position: relative;
@@ -263,45 +335,45 @@ def sequential_mode():
             flex: 1;
         }}
         .checkpoint {{
-            z-index: 2;
             background-color: #111;
             border: 3px solid #555;
             color: white;
             width: 32px;
             height: 32px;
-            margin-bottom: 3%;
             border-radius: 50%;
             text-align: center;
             line-height: 28px;
             font-weight: bold;
             font-size: 16px;
-            position: relative;
-            transform: translateX(-50%);
+            z-index: 2;
         }}
         .checkpoint.checked {{
             background-color: #00c853;
             border: 3px solid #00c853;
         }}
-        .step-labels {{
-            display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
-            font-size: 12px;
+        .step-label {{
+            margin-top: 10px;
+            text-align: center;
+            font-size: 16px;
             color: #bbb;
         }}
+        
         </style>
         <div class="progress-container">
-            <div class="progress-line"></div>
-            <div class="progress-line-fill"></div>
+            <div class="progress-line-fill" style="width: {progress_percent}%;"></div>
             <div class="progress-step-container">
                 {steps_html}
             </div>
         </div>
         """
+
+        # Build steps_html dynamically with first and last at extremes
+        steps = list(agent_steps.items())
         steps_html = ""
         total_steps = len(steps)
-        for i, (step, done) in enumerate(agent_steps.items()):
-            is_checked = "checked" if done else ""            
+        for i, (step, done) in enumerate(steps):
+            is_checked = "checked" if done else ""
+            # For first and last step, align at extremes
             if i == 0:
                 step_style = "align-items: flex-start;"
             elif i == total_steps - 1:
@@ -312,26 +384,12 @@ def sequential_mode():
             label_html = f"<div class='step-label'>{step}</div>"
             steps_html += f"<div class='step' style='{step_style}'>{checkpoint_html}{label_html}</div>"
 
-        progress_percent = int((completed_steps / total_steps) * 100)
+        progress_percent = int((completed_steps / total_steps)* 100)
 
         full_html = bar_html.format(
             progress_percent=progress_percent,
             steps_html=steps_html
         )
-        # checkpoints_html = ""
-        # labels_html = ""
-        # for i, (step, done) in enumerate(agent_steps.items()):
-        #     is_checked = "checked" if done else ""
-        #     checkpoints_html += f"<div class='checkpoint {is_checked}' style='left: {i / (total_steps - 1) * 100}%;'>{'✓' if done else i + 1}</div>"
-        #     labels_html += f"<div style='width:{100 / total_steps}%; text-align:center;'>{step}</div>"
-
-        # progress_percent = int((completed_steps / total_steps) * 100)
-
-        # full_html = bar_html.format(
-        #     progress_percent=progress_percent,
-        #     checkpoints=checkpoints_html,
-        #     labels=labels_html
-        # )
 
         status_placeholder.markdown(full_html, unsafe_allow_html=True)
 
@@ -440,7 +498,7 @@ def sequential_mode():
 
             compliance_data = {
                 f"R{i+1}": {
-                    "AI GENRATED POLICIES": item.get("AI GENRATED POLICIES", ""),
+                    "AI GENERATED POLICIES": item.get("AI GENERATED POLICIES", ""),
                     "COMPANY POLICIES": item.get("COMPANY POLICIES", "")
                 }
                 for i, item in enumerate(matched_rules)
@@ -462,104 +520,69 @@ def sequential_mode():
 
                     st.markdown("### ✅ Matched Policy Rules")
                     if not matched_df.empty:
-                        st.table(matched_df[["AI GENRATED POLICIES", "COMPANY POLICIES"]])
+                        st.table(matched_df[["AI GENERATED POLICIES", "COMPANY POLICIES"]])
                     else:
                         st.info("No matched rules found.")
 
                     st.markdown("### ❌ Mismatched Policy Rules")
                     if not mismatched_df.empty:
-                        st.table(mismatched_df[["AI GENRATED POLICIES"]])
+                        st.table(mismatched_df[["AI GENERATED POLICIES"]])
                     else:
                         st.success("No mismatched rules found.")
                 else:
                     st.error("⚠ 'status' field not found in the response. Check backend output.")
 
-        
         with st.spinner("Running Remediation Agent..."):
-                    files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
-                    remediation_result = call_backend("generate-remediation", files=files)
+            files = {"requirements_file": (uploaded_file.name, io.BytesIO(file_bytes), uploaded_file.type)}
+            remediation_result = call_backend("generate-remediation", files=files)
 
-                    remediation_output = None
-                    if mismatched_rules:
-                        remediation_output = generate_remediation_suggestions(mismatched_rules)
+            remediation_output = None
+            if mismatched_rules:
+                remediation_output = generate_remediation_suggestions(mismatched_rules)
 
-                        if remediation_output.get("status") == "success":
-                            remedies_data = remediation_output["remedies"]
+                if remediation_output.get("status") == "success":
+                    remedies_data = remediation_output["remedies"]
 
-                            if len(remedies_data) != len(mismatched_rules):
-                                st.warning(f"Got {len(remedies_data)} remedies for {len(mismatched_rules)} policies. Some may be missing.")
+                    if len(remedies_data) != len(mismatched_rules):
+                        st.warning(f"Got {len(remedies_data)} remedies for {len(mismatched_rules)} policies. Some may be missing.")
 
-                            policy_remedy_map = {
-                                item["mismatched_policy"]: item["remedy"]
-                                for item in remedies_data
-                            }
-
-                            def generate_excel_download(remedies_data):
-                                output = io.BytesIO()
-                                workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-                                worksheet = workbook.add_worksheet("Remediation Suggestions")
-
-                                # Headers
-                                headers = ['Mismatched Policy', 'Remediation Suggestion']
-                                for col_num, header in enumerate(headers):
-                                    worksheet.write(0, col_num, header)
-
-                                # Write rows
-                                for row_num, item in enumerate(remedies_data, start=1):
-                                    worksheet.write(row_num, 0, item['mismatched_policy'])
-                                    worksheet.write(row_num, 1, item['remedy'])
-
-                                workbook.close()
-                                output.seek(0)
-                                return output
+                    policy_remedy_map = {
+                        item["mismatched_policy"]: item["remedy"]
+                        for item in remedies_data
+                    }
 
         if remediation_result is None:
-                return
+            return
         agent_steps["Remediation Agent"] = True
         update_progress()
 
-        with st.expander("🛠 Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
-                    st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
+        with st.expander("🛠️ Remediation Agent - Suggestions generated for mismatched rules", expanded=True):
+            st.markdown("#### 🧾 Remediation Guidance for Mismatched Policies")
 
-                    if mismatched_rules:
-                        if remediation_output and remediation_output.get("status") == "success":
-                            # Table headers
-                            col1, col2 = st.columns([1, 2])
-                            col1.markdown("**❌ Mismatched Policies**")
-                            col2.markdown("**🛠 Remediation Suggestions**")
+            if mismatched_rules:
+                if remediation_output and remediation_output.get("status") == "success":
+                    # Table headers
+                    col1, col2 = st.columns([1, 2])
+                    col1.markdown("**❌ Mismatched Policies**")
+                    col2.markdown("**🛠️ Remediation Suggestions**")
 
-                            # Table rows
-                            for policy in mismatched_rules:
-                                policy_text = policy.get("AI GENRATED POLICIES", "Unknown policy")
-                                remedy = policy_remedy_map.get(policy_text, "No specific recommendation provided")
+                    # Table rows
+                    for policy in mismatched_rules:
+                        policy_text = policy.get("AI GENRATED POLICIES", "Unknown policy")
+                        remedy = policy_remedy_map.get(policy_text, "No specific recommendation provided")
 
-                                col1, col2 = st.columns([1, 2])
-                                col1.markdown(f"➤ {policy_text}")
-                                col2.markdown(f"✏ {remedy}")
-                            
-                            excel_file = generate_excel_download(remedies_data)
-                            st.download_button(
-                                label="⬇ Download Remediation Suggestions as Excel",
-                                data=excel_file,
-                                file_name="remediation_suggestions.xlsx",
-                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            )
-                        else:
-                            st.error("Failed to generate structured remediation suggestions")
-                    else:
-                        st.success("🎉 No mismatched rules found - all policies are compliant!")
+                        col1, col2 = st.columns([1, 2])
+                        col1.markdown(f"➤ {policy_text}")
+                        col2.markdown(f"✏️ {remedy}")
+                else:
+                    st.error("Failed to generate structured remediation suggestions")
+            else:
+                st.success("🎉 No mismatched rules found - all policies are compliant!")
+
+            st.markdown(f"[⬇️ Download Detailed Remediation Report]({download_remediation_url})", unsafe_allow_html=True)
 
 
-
-
-
-
-
-
-
-
-
-
+                    
 # ----- Rules Matching Mode (placeholder) -----
 def rules_matching_mode():
     st.markdown("### Rules Matching Mode (Coming Soon)")
