@@ -286,16 +286,6 @@ async def generate_remediation_endpoint():
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
 
-@app.get("/download/remediation")
-async def download_remediation_excel():
-    file_path = "outputs/remediation.xlsx"
-    return FileResponse(
-        path=file_path,
-        filename="remediation.xlsx",
-        media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
-
-
 
 @app.post("/compliance-gap-analysis")
 async def compliance_gap_analysis(requirements_file: UploadFile = File(...)):

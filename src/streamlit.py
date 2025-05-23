@@ -4,6 +4,7 @@ import requests
 import json
 import io
 from agents.remedy_table import generate_remediation_suggestions
+import xlsxwriter
 
 # Set page config with HSBC styling
 st.set_page_config(
@@ -454,6 +455,25 @@ def sequential_mode():
                                 for item in remedies_data
                             }
 
+                            def generate_excel_download(remedies_data):
+                                output = io.BytesIO()
+                                workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+                                worksheet = workbook.add_worksheet("Remediation Suggestions")
+
+                                # Headers
+                                headers = ['Mismatched Policy', 'Remediation Suggestion']
+                                for col_num, header in enumerate(headers):
+                                    worksheet.write(0, col_num, header)
+
+                                # Write rows
+                                for row_num, item in enumerate(remedies_data, start=1):
+                                    worksheet.write(row_num, 0, item['mismatched_policy'])
+                                    worksheet.write(row_num, 1, item['remedy'])
+
+                                workbook.close()
+                                output.seek(0)
+                                return output
+
         if remediation_result is None:
                 return
         agent_steps["Remediation Agent"] = True
@@ -477,12 +497,19 @@ def sequential_mode():
                                 col1, col2 = st.columns([1, 2])
                                 col1.markdown(f"➤ {policy_text}")
                                 col2.markdown(f"✏ {remedy}")
+                            
+                            excel_file = generate_excel_download(remedies_data)
+                            st.download_button(
+                                label="⬇ Download Remediation Suggestions as Excel",
+                                data=excel_file,
+                                file_name="remediation_suggestions.xlsx",
+                                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            )
                         else:
                             st.error("Failed to generate structured remediation suggestions")
                     else:
                         st.success("🎉 No mismatched rules found - all policies are compliant!")
 
-                    st.markdown(f"[⬇ Download Detailed Remediation Report]({download_remediation_url})", unsafe_allow_html=True)
 
 
 
