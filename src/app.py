@@ -68,14 +68,16 @@ class MatchRequest(BaseModel):
 
 
 # Endpoint 1: Ingestion Agent
-
+p = ""
 @app.post("/ingestion")
 async def parse(file: UploadFile = File(...)):
     try:
+        global p
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             shutil.copyfileobj(file.file, tmp)
             tmp_path = tmp.name
         text = parse_pdf(tmp_path)
+        p = text
         os.remove(tmp_path)
         return {"text":text}
     except Exception as e:
@@ -145,6 +147,7 @@ def download_brd_pdf():
 async def preprocess_file(file: UploadFile = File(...)) -> Dict:
     try:
         # Save the uploaded PDF to a temporary file
+        global p
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             shutil.copyfileobj(file.file, tmp)
             tmp_path = tmp.name
@@ -153,8 +156,8 @@ async def preprocess_file(file: UploadFile = File(...)) -> Dict:
         text = parse_pdf(tmp_path)
         
         # Preprocess the extracted text
-        processed_output = preprocess_text(text)
-        
+        processed_output = preprocess_text(p)
+        p = processed_output
         # Clean up the temporary file
         os.remove(tmp_path)
         
@@ -174,6 +177,7 @@ async def preprocess_file(file: UploadFile = File(...)) -> Dict:
 @app.post("/summarize-content")
 async def summarize_endpoint(file: UploadFile = File(...)):
     try:
+        global p
         # Save the uploaded file to a temporary file
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
             shutil.copyfileobj(file.file, tmp)
@@ -183,7 +187,8 @@ async def summarize_endpoint(file: UploadFile = File(...)):
         text = parse_pdf(tmp_path)
         
         # Summarize the extracted text
-        summary = summarize_content(text)
+        summary = summarize_content(p)
+        p = summary
         
         # Clean up the temporary file
         os.remove(tmp_path)
@@ -228,7 +233,7 @@ async def generate_compliance_rules_endpoint(file: UploadFile = File(...)):
         brd_text = parse_pdf(tmp_path)
 
         # Generate compliance rules using LLM
-        rules = generate_compliance_rules_llm(brd_text)
+        rules = generate_compliance_rules_llm(p)
 
         # Convert rules_text to list
         rules_list = [line.strip() for line in rules.split('\n') if line.strip()]
