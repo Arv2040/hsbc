@@ -13,9 +13,33 @@ latest_summary = {"content": ""}
 
 def analyze_compliance_issues(raw_text: str) -> list:
     prompt = f"""
-Act as Compliance Expert whose primary job is to generate remedies(explain how to solve the problem briefly) based on the identified mismatched or violated compliances. Generate the remedies in brief and to the point.
-Return the remedies in a list in bullet points.Dont add any extra information or explanation.just return the remedies in a list format. every mismatched rule should have its own independent actionable remedy.dont just repeat the mismatched rule. give an actionable remedy for each mismatched rule.
+Act as a Compliance Expert whose main job is to generate clear and actionable remedies for each mismatched or violated compliance rule.
 
+Instructions:
+
+Provide a separate remedy for each mismatched rule.
+
+Remedies must be in simple, non-technical language that anyone can understand.
+
+Keep each remedy brief, clear, and to the point.
+
+Do not repeat or rephrase the mismatched rule. Focus only on how to fix it.
+
+Output should be a bullet point list like this:
+
+Remedy 1
+
+Remedy 2
+
+Remedy 3
+
+Remedy 4
+
+Important:
+
+Do not add any extra explanation or text before or after the list.
+
+Do not group remedies together. Each rule gets its own remedy.each remedy should be detailed and shouldnt just repeat the rule in a different order.dont repeat the words give a detailed solution.each mismtched rule should have an appropriate remedy.
 Text:
 {raw_text}
 """
