@@ -22,12 +22,25 @@ client = openai.AzureOpenAI(
 
 def generate_compliance_rules_llm(brd_text: str) -> str:
     prompt = f"""
-You are a compliance analyst. Review the provided text and generate detailed and specific NFR compliance rules based on it. Each rule should be precise, measurable where possible. Format each rule as a numbered list.
+You are an expert compliance analyst specializing in deriving Non-Functional Requirement (NFR) compliance rules from business requirement documents (BRDs).
+
+**Your task:**  
+Thoroughly analyze the provided BRD content and extract **clear, specific, and measurable NFR compliance rules**. The rules must be:
+
+- **Actionable**: Capable of being implemented and enforced.
+- **Testable**: Where applicable, include metrics, thresholds, or criteria (e.g., "response time must be < 2 seconds").
+- **Categorized**: Tag each rule under a category such as **Performance**, **Scalability**, **Security**, **Usability**, **Maintainability**, **Availability**, **Compliance**, etc.
+
+**Format the output** as a numbered list like:
+1. [Category] - [Rule]
+   - Justification (optional): [Explain why this rule is important or how it connects to the BRD]
+
 BRD Content:
 \"\"\"
 {brd_text}
 \"\"\"
 """
+
 
     
     response = client.chat.completions.create(

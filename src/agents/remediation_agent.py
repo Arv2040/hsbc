@@ -13,36 +13,27 @@ latest_summary = {"content": ""}
 
 def analyze_compliance_issues(raw_text: str) -> list:
     prompt = f"""
-Act as a Compliance Expert whose main job is to generate clear and actionable remedies for each mismatched or violated compliance rule.
+You are a senior compliance expert responsible for identifying and resolving mismatched or violated compliance rules in business requirement documents (BRDs).
+
+Your task is to provide a clear, practical, and effective **remedy** for **each** mismatched compliance rule listed below.
 
 Instructions:
 
-Provide a separate remedy for each mismatched rule.
+- Each compliance mismatch **must have a unique remedy**. **Do not skip any**. Do not write "No specific recommendation provided".
+- Each remedy must be **detailed**, **realistic**, and **immediately implementable**.
+- Use **simple, non-technical language** that any business stakeholder can understand.
+- Focus only on **how to fix** the compliance issue — **do not repeat or rephrase** the rule itself.
+- Each remedy should be written as a **separate bullet point**.
+- **Do not include any numbering (e.g., Remedy 1, Remedy 2)** — just bullet points.
+- Do not include any introductory or concluding text in the output.
 
-Remedies must be in simple, non-technical language that anyone can understand.
-
-Keep each remedy brief, clear, and to the point.
-
-Do not repeat or rephrase the mismatched rule. Focus only on how to fix it.
-
-Output should be a bullet point list like this:
-
-Remedy 1
-
-Remedy 2
-
-Remedy 3
-
-Remedy 4
-
-Important:
-
-Do not add any extra explanation or text before or after the list.
-
-Do not group remedies together. Each rule gets its own remedy.each remedy should be detailed and shouldnt just repeat the rule in a different order.dont repeat the words give a detailed solution.each mismtched rule should have an appropriate remedy.
 Text:
+\"\"\"
 {raw_text}
+\"\"\"
 """
+
+
     response = client.chat.completions.create(
         model="gpt-4",
         messages=[
